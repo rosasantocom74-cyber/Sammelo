@@ -54,7 +54,7 @@ input[type=range]:focus-visible{outline:0}
 .np-seek{display:flex;gap:8px;align-items:center;color:var(--m);font-size:12px;margin:0 0 16px}
 .np-ctl{display:flex;gap:10px;align-items:center;justify-content:center;margin:0 0 18px}
 .np-ctl .play{width:48px;height:48px}
-@media(min-width:801px){.np-ctl,.np-seek{display:none}}
+@media(min-width:801px){.np-ctl{display:none}}
 nav{grid-row:1;background:var(--bg);border-radius:10px;padding:14px 8px;display:flex;flex-direction:column;gap:2px}
 .brand{display:flex;align-items:center;gap:10px;padding:6px 14px 18px;font-size:20px;font-weight:800}
 .brand i{width:34px;height:34px;border-radius:50%;background:var(--g);color:#14102a;display:grid;place-items:center}
@@ -267,6 +267,14 @@ dialog::backdrop{background:var(--scrim)}dialog h3{margin-bottom:12px}
 #np.vinyl .disc.spin{animation-play-state:running}
 #np.vinyl .disc img{width:38%;height:auto;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 6px #0009}
 .calm #np.vinyl .disc{animation:none}
+
+.wf{position:relative;flex:1;height:34px;min-width:0;touch-action:none}
+.wf.lg{height:72px}
+.wf canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.wf input[type=range]{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;z-index:2;cursor:pointer}
+.wf-tip{position:absolute;top:-28px;transform:translateX(-50%);background:var(--inv);color:var(--invt);font:700 11px/1 "Plus Jakarta Sans",system-ui,sans-serif;font-style:normal;padding:5px 8px;border-radius:7px;pointer-events:none;opacity:0;transition:opacity .12s;z-index:3;white-space:nowrap}
+.wf:hover .wf-tip,.wf.touch .wf-tip{opacity:1}
+.np-seek{gap:12px;margin:8px 0 18px}.np-seek span{min-width:38px}.np-seek span:first-child{text-align:right}
 @media(max-width:800px){
  body{overflow:auto}
  #np{inset:0;z-index:8;border-radius:0;grid-template-columns:1fr;padding:12px 22px calc(env(safe-area-inset-bottom) + 28px);gap:8px}
@@ -314,7 +322,7 @@ if(!cfg){try{cfg=JSON.parse(localStorage.getItem('cfg')||'null')}catch(e){}}
 let sb,me,prof={},songs=[],favs=new Set(),lists=[],view='home',curList=null,coll=null,libTab='songs',recent=[],meta={},profTab='resumen',stats={sec:0,plays:{},days:{}},q='',queue=[],qi=-1,shuffle=false,rep=0,loadedFor=null,shellOn=false,pick=null,tt,sortBy='new';
 try{sortBy=localStorage.getItem('sort')||'new'}catch(e){}
 const audio=new Audio(),urlCache={};
-let prefs={accent:'#9b8cff',lyr:false,shuf:false,calm:false,theme:'dark',resume:true,vinyl:false},deferred=null;
+let prefs={accent:'#9b8cff',lyr:false,shuf:false,calm:false,theme:'dark',resume:true,vinyl:false,auto:true,wave:true},deferred=null;
 audio.preload='auto';
 try{const v=parseFloat(localStorage.getItem('vol'));if(v>=0&&v<=1)audio.volume=v}catch(e){}
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
@@ -389,15 +397,15 @@ function shell(){
  <main id="main"></main>
  <div class="player"><div class="now"><img class="cov" id="cv" alt=""><div class="t"><b id="nt">Elige una canción</b><span id="na"></span></div><button class="ib" id="lk" aria-label="Favorito" aria-pressed="false">${I.heart}</button></div>
  <div class="ctr"><div class="btns"><button class="ib" id="sh" aria-label="Aleatorio" aria-pressed="false">${I.shuf}</button><button class="ib" id="pv" aria-label="Anterior">${I.prev}</button><button class="play" id="pp" aria-label="Reproducir">${I.play}</button><button class="ib" id="nx" aria-label="Siguiente">${I.next}</button><button class="ib" id="rp" aria-label="Repetir" data-m="0">${I.rep}</button></div>
- <div class="seek"><span id="cur">0:00</span><input id="sk" type="range" min="0" max="1000" value="0" aria-label="Posición"><span id="dur">0:00</span></div></div>
- <div class="vol"><button class="ib" id="tqb" aria-label="Ver cola">${I.list}</button><button class="ib" id="vm" aria-label="Silenciar">${I.vol}</button><input id="vl" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volumen"><button class="ib" id="xp" aria-label="Abrir reproductor">${I.expand}</button></div><i class="mprog"><b></b></i></div></div><section id="np" aria-label="Reproduciendo" hidden><div><button class="ib" id="npc" aria-label="Cerrar" style="transform:rotate(-90deg)">${I.back}</button><div class="disc" id="disc"><img id="dc" alt=""></div></div><div><h2 id="nt2"></h2><p class="mut" id="na2"></p><div class="info"><span id="i1"></span><span id="i2"></span></div><div class="np-seek"><span id="cur2">0:00</span><input id="sk2" type="range" min="0" max="1000" value="0" aria-label="Posición"><span id="dur2">0:00</span></div><div class="np-ctl"><button class="ib" id="sh2" aria-label="Aleatorio" aria-pressed="false">${I.shuf}</button><button class="ib" id="pv2" aria-label="Anterior">${I.prev}</button><button class="play" id="pp2" aria-label="Reproducir o pausar">${I.play}</button><button class="ib" id="nx2" aria-label="Siguiente">${I.next}</button><button class="ib" id="rp2" aria-label="Repetir" data-m="0">${I.rep}</button></div><button class="btn ghost" id="lyb" style="margin-bottom:14px">Ver letra</button><div class="tools"><button class="chip" id="tq" aria-pressed="true">${I.list}<span>Cola</span></button><button class="chip" id="ts" aria-pressed="false">${I.timer}<span>Temporizador</span></button><button class="chip" id="tv" aria-pressed="false">${I.fast}<span>1×</span></button><button class="chip" id="tsh">${I.share}<span>Compartir</span></button></div><div id="qsec"></div><div id="lysec" hidden><h3>Letra</h3><div class="lyr" id="ly"></div><div class="adj" id="adj" hidden>Sincronía<button data-o="-0.5">Retrasar letra</button><button data-o="0.5">Adelantar letra</button><span id="ov"></span></div><div id="le"></div></div></div></section><dialog id="dlg"></dialog>`;
+ <div class="seek"><span id="cur">0:00</span><div class="wf" id="wf1"><canvas></canvas><input id="sk" type="range" min="0" max="1000" value="0" aria-label="Posición"><i class="wf-tip"></i></div><span id="dur">0:00</span></div></div>
+ <div class="vol"><button class="ib" id="tqb" aria-label="Ver cola">${I.list}</button><button class="ib" id="vm" aria-label="Silenciar">${I.vol}</button><input id="vl" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volumen"><button class="ib" id="xp" aria-label="Abrir reproductor">${I.expand}</button></div><i class="mprog"><b></b></i></div></div><section id="np" aria-label="Reproduciendo" hidden><div><button class="ib" id="npc" aria-label="Cerrar" style="transform:rotate(-90deg)">${I.back}</button><div class="disc" id="disc"><img id="dc" alt=""></div></div><div><h2 id="nt2"></h2><p class="mut" id="na2"></p><div class="info"><span id="i1"></span><span id="i2"></span></div><div class="np-seek"><span id="cur2">0:00</span><div class="wf lg" id="wf2"><canvas></canvas><input id="sk2" type="range" min="0" max="1000" value="0" aria-label="Posición"><i class="wf-tip"></i></div><span id="dur2">0:00</span></div><div class="np-ctl"><button class="ib" id="sh2" aria-label="Aleatorio" aria-pressed="false">${I.shuf}</button><button class="ib" id="pv2" aria-label="Anterior">${I.prev}</button><button class="play" id="pp2" aria-label="Reproducir o pausar">${I.play}</button><button class="ib" id="nx2" aria-label="Siguiente">${I.next}</button><button class="ib" id="rp2" aria-label="Repetir" data-m="0">${I.rep}</button></div><button class="btn ghost" id="lyb" style="margin-bottom:14px">Ver letra</button><div class="tools"><button class="chip" id="tq" aria-pressed="true">${I.list}<span>Cola</span></button><button class="chip" id="ts" aria-pressed="false">${I.timer}<span>Temporizador</span></button><button class="chip" id="tv" aria-pressed="false">${I.fast}<span>1×</span></button><button class="chip" id="tsh">${I.share}<span>Compartir</span></button></div><div id="qsec"></div><div id="lysec" hidden><h3>Letra</h3><div class="lyr" id="ly"></div><div class="adj" id="adj" hidden>Sincronía<button data-o="-0.5">Retrasar letra</button><button data-o="0.5">Adelantar letra</button><span id="ov"></span></div><div id="le"></div></div></div></section><dialog id="dlg"></dialog>`;
  $('nav').onclick=e=>{const b=e.target.closest('button');if(b&&b.id==='thb'){toggleTheme();return}if(b){view=b.dataset.v;curList=null;coll=null;$('#np').hidden=true;render();go()}};
  $('.now').onclick=openNp;
  $('#lyb').onclick=()=>{lyShow=!lyShow;lyUI()};
  $('#tq').onclick=e=>{const q=$('#qsec');q.hidden=!q.hidden;e.currentTarget.setAttribute('aria-pressed',!q.hidden);qRender()};
  $('#ts').onclick=sleepMenu;$('#tv').onclick=cycleSpeed;$('#tsh').onclick=()=>shareSong(queue[qi]);
- $('#qsec').onclick=e=>{const r=e.target.closest('[data-qr]');if(r){e.stopPropagation();queue=[...queue];queue.splice(+r.dataset.qr,1);qRender();return}
-  if(e.target.closest('[data-qc]')){queue=queue.slice(0,qi+1);qRender();return}
+ $('#qsec').onclick=e=>{const r=e.target.closest('[data-qr]');if(r){e.stopPropagation();nextPick=-1;queue=[...queue];queue.splice(+r.dataset.qr,1);qRender();return}
+  if(e.target.closest('[data-qc]')){nextPick=-1;queue=queue.slice(0,qi+1);qRender();return}
   const m=e.target.closest('[data-qi]');if(m)play(queue,+m.dataset.qi)};
  $('#lk').onclick=e=>{e.stopPropagation();if(queue[qi])toggleFav(queue[qi].id)};
  $('#npc').onclick=()=>$('#np').hidden=true;
@@ -420,7 +428,7 @@ function shell(){
  $('#sh2').onclick=$('#sh').onclick;$('#rp2').onclick=$('#rp').onclick;
  $('#vm').onclick=toggleMute;$('#xp').onclick=openNp;
  $('#tqb').onclick=openNp;
- muteUI();$$('input[type=range]').forEach(fillR);
+ muteUI();$$('input[type=range]').forEach(fillR);wfBind();wfKick();
  const ms=navigator.mediaSession;
  if(ms){ms.setActionHandler('play',()=>audio.play());ms.setActionHandler('pause',()=>audio.pause());ms.setActionHandler('previoustrack',()=>step(-1));ms.setActionHandler('nexttrack',()=>step(1));
   try{ms.setActionHandler('seekto',d=>{if(d.seekTime!=null)audio.currentTime=d.seekTime})}catch(x){}}}
@@ -436,7 +444,7 @@ document.addEventListener('keydown',e=>{
  else if((e.key==='f'||e.key==='F')&&queue[qi])toggleFav(queue[qi].id);
  else if(e.key==='/'){e.preventDefault();view='lib';libTab='songs';coll=null;curList=null;render();const x=$('#q');if(x)x.focus()}
  else if(e.key==='?')shortcutsHelp()});
-audio.ontimeupdate=()=>{lyTick();const d=audio.duration;if(!$('#sk'))return;const c=fmt(audio.currentTime),du=fmt(d),v=d?audio.currentTime/d*1000:0;
+audio.ontimeupdate=()=>{lyTick();wfKick();warmNext();const d=audio.duration;if(!$('#sk'))return;const c=fmt(audio.currentTime),du=fmt(d),v=d?audio.currentTime/d*1000:0;
  $('#cur').textContent=c;$('#dur').textContent=du;$('#cur2').textContent=c;$('#dur2').textContent=du;
  if(d){$('#sk').value=v;$('#sk2').value=v;fillR($('#sk'));fillR($('#sk2'));const pl=$('.player');if(pl)pl.style.setProperty('--mp',v/10+'%')}};
 audio.ondurationchange=()=>{try{const ms=navigator.mediaSession,d=audio.duration;if(ms&&ms.setPositionState&&isFinite(d))ms.setPositionState({duration:d,position:audio.currentTime,playbackRate:1})}catch(e){}};
@@ -449,19 +457,29 @@ audio.onplay=audio.onpause=()=>{document.body.classList.toggle('playing',!audio.
 audio.onended=()=>{if(sleepEnd){sleepEnd=false;sleepUI();toast('Temporizador: música en pausa.');return}rep===2?(audio.currentTime=0,audio.play()):step(1)};
 
 async function play(list,i,at){
- queue=list;qi=i;const s=list[i];if(!s)return;pushRecent(s.id);upd();
- try{const u=await signed(s);if(queue[qi]!==s)return;audio.src=u;if(at>1)audio.addEventListener('loadedmetadata',()=>{audio.currentTime=at},{once:true});await audio.play();
-  const nx=list[i+1];if(nx&&!shuffle)signed(nx).catch(()=>{})}
+ const s=list[i];if(!s)return;
+ if(list!==queue)heard.clear();
+ queue=list;qi=i;heard.add(s.id);pushRecent(s.id);nextPick=-1;warmId=null;upd();
+ try{
+  const c=urlCache[s.id];let u=c&&c.t>Date.now()?c.u:null;
+  if(!u)u=await signed(s);
+  if(queue[qi]!==s)return;
+  audio.src=u;
+  if(at>1)audio.addEventListener('loadedmetadata',()=>{audio.currentTime=at},{once:true});
+  await audio.play();
+  nextPick=pickNext();const nx=queue[nextPick];if(nx)signed(nx).catch(()=>{})}
  catch(e){if(e&&e.name==='AbortError')return;toast('No se pudo reproducir esta canción.')}}
 function step(d){
  if(!queue.length)return;
- let n=shuffle&&queue.length>1?Math.floor(Math.random()*queue.length):qi+d;
- if(n>=queue.length){if(rep===1)n=0;else{audio.pause();return}}
- if(n<0)n=0;play(queue,n)}
+ let n;
+ if(d>0){n=nextPick>=0&&queue[nextPick]?nextPick:pickNext();if(n<0||!queue[n]){audio.pause();return}}
+ else n=Math.max(0,qi-1);
+ play(queue,n)}
 function upd(){
  const s=queue[qi];if(!s)return;
  $('#nt').textContent=s.title;$('#na').textContent=s.artist||'';const cv=$('#cv');if(s.thumbnail_url)cv.src=s.thumbnail_url;else cv.removeAttribute('src');
  $$('#main li').forEach(li=>li.classList.toggle('on',li.dataset.id===s.id));
+ if(wfFor!==s.id)loadWave(s);
  {const pl=$('.player');if(pl){const h=hue(s.title+artistOf(s));pl.style.setProperty('--tint',curTheme()==='light'?`hsl(${h} 70% 93%)`:`hsl(${h} 38% 17%)`)}}
  const lk=$('#lk');if(lk){const f=favs.has(s.id);lk.setAttribute('aria-pressed',f);lk.innerHTML=f?I.heartF:I.heart}
  if(navigator.mediaSession)navigator.mediaSession.metadata=new MediaMetadata({title:s.title,artist:s.artist||'',artwork:s.thumbnail_url?[{src:s.thumbnail_url}]:[]});npRender()}
@@ -623,7 +641,7 @@ function loadPrefs(){try{Object.assign(prefs,JSON.parse(localStorage.getItem('pf
 function savePrefs(){try{localStorage.setItem('pf',JSON.stringify(prefs))}catch(e){}applyPrefs()}
 function curTheme(){const t=prefs.theme||'dark';return t==='auto'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):t}
 function applyPrefs(){const r=document.documentElement,th=curTheme();r.style.setProperty('--g',prefs.accent||'#9b8cff');r.dataset.theme=th;document.body.classList.toggle('calm',!!prefs.calm);
- const m=document.querySelector('meta[name=theme-color]');if(m)m.content=th==='light'?'#ffffff':'#000000';const b=$('#thb');if(b)b.innerHTML=th==='light'?I.moon:I.sun;const n=$('#np');if(n)n.classList.toggle('vinyl',!!prefs.vinyl);if(shellOn&&qi>=0)upd()}
+ const m=document.querySelector('meta[name=theme-color]');if(m)m.content=th==='light'?'#ffffff':'#000000';const b=$('#thb');if(b)b.innerHTML=th==='light'?I.moon:I.sun;wfCol=null;wfKick();const n=$('#np');if(n)n.classList.toggle('vinyl',!!prefs.vinyl);if(shellOn&&qi>=0)upd()}
 try{matchMedia('(prefers-color-scheme: light)').addEventListener('change',()=>{if((prefs.theme||'dark')==='auto')applyPrefs()})}catch(e){}
 function toggleTheme(){prefs.theme=curTheme()==='light'?'dark':'light';savePrefs();if(view==='acc'&&!coll)render()}
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;if(view==='acc'&&profTab==='ajustes'&&!coll)render()});
@@ -738,7 +756,7 @@ function pfSeg(){const last=me.last_sign_in_at?new Date(me.last_sign_in_at).toLo
 function pfAjustes(){
  const sw=(id,t,d,on)=>`<label class="sw"><span>${t}<br><small class="hint">${d}</small></span><input type="checkbox" id="${id}" ${on?'checked':''}></label>`;
  return `<div class="form"><h4>Apariencia</h4><div class="themes">${[['dark','Oscuro'],['light','Claro'],['auto','Automático']].map(t=>`<button class="th" data-a="theme" data-id="${t[0]}" aria-pressed="${(prefs.theme||'dark')===t[0]}"><i class="th-${t[0]}"></i>${t[1]}</button>`).join('')}</div><p class="hint">«Automático» sigue el modo de tu dispositivo.</p></div><div class="form"><h4>Color de la app</h4><div class="swatches">${COLORS.map(c=>`<button class="swatch" style="background:${c[0]}" data-a="accent" data-id="${c[0]}" aria-label="${c[1]}" aria-pressed="${prefs.accent===c[0]}"></button>`).join('')}</div><p class="hint">Cambia el color de botones, banner y detalles en toda la app.</p></div>
- <div class="form"><h4>Reproducción</h4>${sw('t-lyr','Mostrar la letra al abrir una canción','Se abre directamente en la letra sincronizada.',prefs.lyr)}${sw('t-shuf','Empezar en modo aleatorio','El botón de aleatorio inicia activado.',prefs.shuf)}${sw('t-calm','Reducir animaciones','Detiene el giro del disco y el ecualizador.',prefs.calm)}${sw('t-vinyl','Portada tipo vinilo','Muestra un disco girando en vez de la portada cuadrada.',prefs.vinyl)}${sw('t-resume','Continuar donde lo dejaste','Al volver, retoma la última canción y su posición.',prefs.resume!==false)}</div>
+ <div class="form"><h4>Reproducción</h4>${sw('t-lyr','Mostrar la letra al abrir una canción','Se abre directamente en la letra sincronizada.',prefs.lyr)}${sw('t-shuf','Empezar en modo aleatorio','El botón de aleatorio inicia activado.',prefs.shuf)}${sw('t-calm','Reducir animaciones','Detiene el giro del disco y el ecualizador.',prefs.calm)}${sw('t-auto','Reproducción automática','Al terminar la cola, sigue sola con más música tuya.',prefs.auto!==false)}${sw('t-wave','Onda real de cada canción','Analiza el audio para dibujar su onda verdadera (usa algo más de datos).',prefs.wave!==false)}${sw('t-vinyl','Portada tipo vinilo','Muestra un disco girando en vez de la portada cuadrada.',prefs.vinyl)}${sw('t-resume','Continuar donde lo dejaste','Al volver, retoma la última canción y su posición.',prefs.resume!==false)}</div>
  <div class="form"><h4>Tus datos</h4><button class="btn ghost" data-a="export">Exportar mis datos</button><button class="btn ghost" data-a="clrhist">Borrar historial y estadísticas</button><button class="btn ghost" data-a="clrlyr">Borrar caché de letras</button><button class="btn ghost" data-a="reload">Recargar biblioteca</button></div>
  <div class="form"><h4>Aplicación</h4>${deferred?'<button class="btn" data-a="install">Instalar Sammelo</button>':'<p class="hint">Para instalarla en el celular: en Chrome usa «Añadir a pantalla de inicio»; en iPhone, Compartir → «Añadir a pantalla de inicio».</p>'}${prof.role==='admin'?'<a class="btn ghost" href="http://127.0.0.1:8000/probar" target="_blank" rel="noopener">Abrir panel de descargas</a>':''}<button class="btn ghost" data-a="keys">Atajos de teclado</button><p class="hint">Sammelo · versión 2.1</p></div>`}
 function profileHTML(){
@@ -755,7 +773,7 @@ function profBind(){
  on('#avf','onchange',async e=>{const f=e.target.files[0];if(!f)return;
   try{const d=await avatarFrom(f);try{localStorage.setItem('av:'+me.id,d)}catch(x){return toast('No se pudo guardar la foto.')}refreshAv();toast('Foto actualizada.');syncAvatar(d)}catch(x){toast('No se pudo leer esa imagen.')}});
  on('#pw1','oninput',e=>meter(e.target.value));
- ['lyr','shuf','calm','resume','vinyl'].forEach(k=>on('#t-'+k,'onchange',e=>{prefs[k]=e.target.checked;savePrefs();toast('Preferencia guardada.')}));
+ ['lyr','shuf','calm','resume','vinyl','auto','wave'].forEach(k=>on('#t-'+k,'onchange',e=>{prefs[k]=e.target.checked;savePrefs();toast('Preferencia guardada.')}));
  on('#pf-bio','oninput',e=>{$('#bc').textContent=e.target.value.length+'/160'})}
 
 /* ====== GOOGLE ====== */
@@ -774,8 +792,8 @@ let resumeAt=0,pbN=0,sleepT=null,sleepEnd=false,sleepAt=0,spdI=0;const SPD=[1,1.
 function qRender(){const q=$('#qsec');if(!q||q.hidden)return;
  const up=queue.slice(qi+1,qi+31);
  q.innerHTML=`<h3 style="margin:6px 0">A continuación${queue.length-qi-1>0?' · '+(queue.length-qi-1):''}</h3>`+(up.length?up.map((x,i)=>`<div class="mini" tabindex="0" role="button" data-qi="${qi+1+i}">${cover([x],x.title,'single')}<div class="t"><b>${esc(x.title)}</b><span>${esc(artistOf(x))}</span></div><button class="ib rm" data-qr="${qi+1+i}" aria-label="Quitar de la cola">${I.minus}</button></div>`).join('')+'<button class="lnk" data-qc style="margin-top:8px">Vaciar cola</button>':'<p class="mut">No hay más canciones en la cola.</p>')}
-function qNext(x){if(!x)return;if(qi<0){play([x],0);return}queue=[...queue];queue.splice(qi+1,0,x);toast('Se reproducirá a continuación.');qRender()}
-function qAdd(x){if(!x)return;if(qi<0){play([x],0);return}queue=[...queue,x];toast('Añadida a la cola.');qRender()}
+function qNext(x){if(!x)return;if(qi<0){play([x],0);return}nextPick=-1;queue=[...queue];queue.splice(qi+1,0,x);toast('Se reproducirá a continuación.');qRender()}
+function qAdd(x){if(!x)return;if(qi<0){play([x],0);return}nextPick=-1;queue=[...queue,x];toast('Añadida a la cola.');qRender()}
 function sleepMenu(){const d=$('#dlg');
  d.innerHTML=`<h3>Temporizador de sueño</h3>${[15,30,45,60].map(m=>`<button class="row" data-m="${m}">${m} minutos</button>`).join('')}<button class="row" data-m="end">Al terminar esta canción</button>${(sleepT||sleepEnd)?'<button class="row" data-m="off">Desactivar</button>':''}<button class="btn ghost" style="margin-top:12px;width:100%" data-x>Cerrar</button>`;
  d.onclick=e=>{if(e.target.closest('[data-x]'))return d.close();const r=e.target.closest('[data-m]');if(!r)return;setSleep(r.dataset.m);d.close()};
@@ -812,11 +830,121 @@ function restorePb(){if(prefs.resume===false)return;
 
 /* ====== REPRODUCTOR ====== */
 const fillR=el=>{if(!el)return;const mn=+el.min||0,mx=+el.max||100;el.style.setProperty('--p',((el.value-mn)/(mx-mn)*100)+'%')};
-document.addEventListener('input',e=>{if(e.target&&e.target.type==='range')fillR(e.target)});
-function syncModes(){['#sh','#sh2'].forEach(k=>{const b=$(k);if(b)b.setAttribute('aria-pressed',String(shuffle))});['#rp','#rp2'].forEach(k=>{const b=$(k);if(b)b.dataset.m=rep})}
+document.addEventListener('input',e=>{if(e.target&&e.target.type==='range'){fillR(e.target);wfKick()}});
+function syncModes(){nextPick=-1;['#sh','#sh2'].forEach(k=>{const b=$(k);if(b)b.setAttribute('aria-pressed',String(shuffle))});['#rp','#rp2'].forEach(k=>{const b=$(k);if(b)b.dataset.m=rep})}
 function muteUI(){const b=$('#vm');if(b)b.innerHTML=(audio.muted||audio.volume===0)?I.mute:I.vol}
 function toggleMute(){audio.muted=!audio.muted;muteUI();toast(audio.muted?'Silenciado':'Sonido activado')}
-function openNp(){if(qi>=0){lyShow=!!prefs.lyr;lyUI();$('#np').hidden=false}}
+function openNp(){if(qi>=0){lyShow=!!prefs.lyr;lyUI();$('#np').hidden=false;wfKick()}}
+
+/* ====== REPRODUCCIÓN CONTINUA ====== */
+const heard=new Set(),warm=new Audio();warm.preload='auto';
+let nextPick=-1,warmId=null;
+function extendQueue(){
+ if(prefs.auto===false||!songs.length)return false;
+ const cur=queue[qi],ids=new Set(queue.map(x=>x.id)),seed=Date.now()%99991;
+ const free=songs.filter(x=>!ids.has(x.id)),same=cur?free.filter(x=>artistOf(x)===artistOf(cur)):[];
+ let more=[...seeded(same,seed),...seeded(free.filter(x=>!same.includes(x)),seed+7)].slice(0,25);
+ if(!more.length)more=seeded(songs.filter(x=>!cur||x.id!==cur.id),seed+13).slice(0,25);
+ if(!more.length)return false;
+ queue=[...queue,...more];return true}
+function pickNext(){
+ if(!queue.length)return -1;
+ if(shuffle&&queue.length>1){
+  const free=()=>queue.map((x,i)=>i).filter(i=>i!==qi&&!heard.has(queue[i].id));
+  let c=free();
+  if(!c.length){if(extendQueue())c=free();if(!c.length){heard.clear();heard.add(queue[qi].id);c=free()}}
+  return c.length?c[Math.floor(Math.random()*c.length)]:-1}
+ if(qi+1<queue.length)return qi+1;
+ if(rep===1)return 0;
+ return extendQueue()?qi+1:-1}
+function warmNext(){
+ const d=audio.duration;if(!d||audio.currentTime/d<.55)return;
+ if(navigator.connection&&navigator.connection.saveData)return;
+ if(nextPick<0||!queue[nextPick])nextPick=pickNext();
+ const nx=queue[nextPick];if(!nx||warmId===nx.id)return;warmId=nx.id;
+ signed(nx).then(u=>{warm.src=u;warm.load()}).catch(()=>{})}
+
+/* ====== ONDA SONORA ====== */
+const WFN=120;
+let wfP=new Float32Array(WFN).fill(.18),wfT=new Float32Array(WFN).fill(.18),wfRaf=0,wfCol=null,wfHov={on:false},wfFor=null,wfCtx=null;
+const wfFail=new Set();
+function pseudoPeaks(id){
+ let h=2166136261;for(const c of String(id)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}
+ const r=()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return((h>>>0)%10000)/10000};
+ const a=r()*6,b=r()*6,c=r()*6,o=new Float32Array(WFN);
+ for(let i=0;i<WFN;i++){const x=i/WFN;
+  let v=.46+.22*Math.sin(x*17+a)+.15*Math.sin(x*46+b)+.1*Math.sin(x*93+c)+(r()-.5)*.38;
+  v*=Math.min(1,.4+x*6)*Math.min(1,.4+(1-x)*5);
+  o[i]=Math.max(.1,Math.min(1,v))}
+ return o}
+function peaksFrom(ab){
+ const ch=ab.getChannelData(0),n=ch.length,bs=Math.max(1,Math.floor(n/WFN)),o=new Float32Array(WFN),st=Math.max(1,Math.floor(bs/400));
+ for(let i=0;i<WFN;i++){let sum=0,c=0;for(let j=i*bs;j<(i+1)*bs&&j<n;j+=st){const v=ch[j];sum+=v*v;c++}o[i]=c?Math.sqrt(sum/c):0}
+ const ref=[...o].sort((x,y)=>x-y)[Math.floor(WFN*.95)]||1;
+ for(let i=0;i<WFN;i++)o[i]=Math.max(.08,Math.min(1,o[i]/ref*.92));
+ return o}
+function setWave(a){wfT=a;wfKick()}
+async function loadWave(s){
+ wfFor=s.id;setWave(pseudoPeaks(s.id));
+ let c=null;try{c=JSON.parse(localStorage.getItem('wf:'+s.id)||'null')}catch(e){}
+ if(c&&c.length===WFN){setWave(Float32Array.from(c,x=>x/100));return}
+ if(prefs.wave===false||wfFail.has(s.id)||(navigator.connection&&navigator.connection.saveData))return;
+ await new Promise(r=>setTimeout(r,2500));
+ if(wfFor!==s.id)return;
+ const lim=(window.matchMedia&&matchMedia('(pointer:coarse)').matches)?9e6:16e6;
+ try{
+  const u=await signed(s),r=await fetch(u);if(!r.ok)throw 0;
+  if((+r.headers.get('content-length')||0)>lim)throw 0;
+  const ab=await r.arrayBuffer();if(ab.byteLength>lim||wfFor!==s.id)throw 0;
+  if(!wfCtx)wfCtx=new(window.OfflineAudioContext||window.webkitOfflineAudioContext)(1,1,22050);
+  const pk=peaksFrom(await wfCtx.decodeAudioData(ab));
+  try{localStorage.setItem('wf:'+s.id,JSON.stringify([...pk].map(x=>Math.round(x*100))))}catch(e){}
+  if(wfFor===s.id)setWave(pk)}
+ catch(e){wfFail.add(s.id)}}
+function wfColors(){
+ if(wfCol)return wfCol;
+ const cs=getComputedStyle(document.documentElement),v=k=>cs.getPropertyValue(k).trim();
+ return wfCol={on:v('--gt')||'#9b8cff',off:v('--m')||'#b3b3b3',head:v('--t')||'#fff'}}
+const curFrac=()=>{const d=audio.duration;if(d&&isFinite(d))return audio.currentTime/d;const x=queue[qi];return x&&x.duration_seconds&&resumeAt?resumeAt/x.duration_seconds:0};
+function drawWf(wf,fr,t){
+ if(!wf)return;
+ const cv=wf.firstElementChild,w=wf.clientWidth,h=wf.clientHeight;if(!w||!h)return;
+ const dpr=Math.min(2,window.devicePixelRatio||1),W=Math.round(w*dpr),H=Math.round(h*dpr);
+ if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H}
+ const g=cv.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);
+ const C=wfColors(),big=wf.classList.contains('lg'),bw=big?4:3,gap=big?3:2,n=Math.max(10,Math.floor((w+gap)/(bw+gap))),live=!audio.paused,mid=h/2;
+ const hv=(wfHov.on&&wfHov.el===wf)?wfHov.f:-1;
+ for(let i=0;i<n;i++){
+  const x=i*(bw+gap),pos=(i+.5)/n,a=Math.floor(i/n*WFN),b=Math.max(a+1,Math.floor((i+1)/n*WFN));
+  let v=0;for(let k=a;k<b&&k<WFN;k++)if(wfP[k]>v)v=wfP[k];
+  const dist=Math.abs(pos-fr)*n;if(live&&dist<8)v*=1+.28*(1-dist/8)*(.5+.5*Math.sin(t*10-i*.8));
+  const bh=Math.max(bw,Math.min(h,v*h*.94)),y=mid-bh/2;
+  if(pos<=fr){g.globalAlpha=1;g.fillStyle=C.on}
+  else if(hv>=0&&pos<=hv){g.globalAlpha=.6;g.fillStyle=C.on}
+  else{g.globalAlpha=.34;g.fillStyle=C.off}
+  if(g.roundRect){g.beginPath();g.roundRect(x,y,bw,bh,bw/2);g.fill()}else g.fillRect(x,y,bw,bh)}
+ g.globalAlpha=1;
+ if(fr>0&&fr<1){g.save();g.shadowColor=C.on;g.shadowBlur=10;g.fillStyle=C.head;g.fillRect(Math.round(fr*w)-1,3,2,h-6);g.restore()}
+ if(hv>=0){g.globalAlpha=.55;g.fillStyle=C.head;g.fillRect(Math.round(hv*w),0,1,h);g.globalAlpha=1}}
+function wfLoop(){
+ wfRaf=0;let moving=false;
+ for(let i=0;i<WFN;i++){const d=wfT[i]-wfP[i];if(Math.abs(d)>.003){wfP[i]+=d*.14;moving=true}else wfP[i]=wfT[i]}
+ const fr=curFrac(),t=performance.now()/1000,np=$('#np');
+ drawWf($('#wf1'),fr,t);if(np&&!np.hidden)drawWf($('#wf2'),fr,t);
+ if((!audio.paused&&!document.hidden)||moving||wfHov.on)wfKick()}
+function wfKick(){if(!wfRaf)wfRaf=requestAnimationFrame(wfLoop)}
+function wfBind(){
+ $$('.wf').forEach(wf=>{
+  const tip=wf.querySelector('.wf-tip');
+  const move=e=>{const r=wf.getBoundingClientRect(),f=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+   wfHov={on:true,el:wf,f};tip.textContent=fmt(f*(audio.duration||0));tip.style.left=Math.max(24,Math.min(r.width-24,f*r.width))+'px';wfKick()};
+  wf.addEventListener('pointermove',move);
+  wf.addEventListener('pointerdown',e=>{wf.classList.add('touch');move(e)});
+  wf.addEventListener('pointerup',()=>wf.classList.remove('touch'));
+  wf.addEventListener('pointerleave',()=>{wfHov={on:false};wf.classList.remove('touch');wfKick()})});
+ ['play','pause','seeked','loadedmetadata'].forEach(ev=>audio.addEventListener(ev,wfKick));
+ addEventListener('resize',wfKick);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)wfKick()})}
 
 async function onMain(e){
  const b=e.target.closest('[data-a]');
