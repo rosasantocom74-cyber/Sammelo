@@ -1,5 +1,6 @@
-const C = 'sammelo-v8';
+const C = 'sammelo-v9';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const CDN = ['cdn.jsdelivr.net', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -26,7 +27,21 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Solo archivos propios (iconos, manifest). Supabase, audio y letras siempre van a la red.
+  // Librería de Supabase y fuentes: se guardan la primera vez para que la app abra sin internet.
+  if (CDN.includes(u.hostname)) {
+    e.respondWith(
+      caches.open(C).then(async c => {
+        const hit = await c.match(u.href);
+        const net = fetch(u.href, { mode: 'cors', credentials: 'omit' })
+          .then(res => { if (res.ok) c.put(u.href, res.clone()); return res; })
+          .catch(() => hit);
+        return hit || net;
+      })
+    );
+    return;
+  }
+
+  // Archivos propios (iconos, manifest). Supabase, audio y letras siempre van a la red.
   if (u.origin === location.origin && /\.(png|webmanifest|js)$/.test(u.pathname) && !u.pathname.endsWith('sw.js')) {
     e.respondWith(
       caches.match(r).then(hit => {
