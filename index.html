@@ -696,13 +696,19 @@ const tone=x=>`linear-gradient(135deg,hsl(${hue(x)} 50% 38%),hsl(${(hue(x)+40)%3
 const ini=x=>String(x||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
 const artistOf=s=>String(s.artist||'').replace(/\s*-\s*Topic$/i,'').trim()||'Artista desconocido';
 /* ---- Artista principal: agrupa variantes (mayúsculas, feat., comas, &, x...) en UN solo artista ---- */
-const ARTISTAS_COMPLETOS=['Wisin & Yandel','Zion & Lennox','Jowell & Randy','Alexis & Fido','Jesse & Joy','Calle 13','Tyler, The Creator','Earth, Wind & Fire','Simon & Garfunkel'];  // nombres que NO se parten; agrega aquí los tuyos
+const ARTISTAS_COMPLETOS=['Wisin & Yandel','Wisin y Yandel','Zion & Lennox','Zion y Lennox','Jowell & Randy','Jowell y Randy','Alexis & Fido','Alexis y Fido','Chino & Nacho','Chino y Nacho','Jesse & Joy','Jesse y Joy','Calle 13','Tyler, The Creator','Earth, Wind & Fire','Simon & Garfunkel'];  // nombres que NO se parten; agrega aquí los tuyos
 const _nk=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const _full=ARTISTAS_COMPLETOS.map(n=>[_nk(n),n]);
+const _EMO=/[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]/u;
 function mainArtist(raw){
- const a=artistOf({artist:raw}).replace(/\s*VEVO$/i,'').replace(/\s*[\(\[].*$/,'').trim()||'Artista desconocido',k=_nk(a);
+ let a=artistOf({artist:raw}).replace(/\s*VEVO$/i,'');
+ a=a.replace(/^[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}\s\u200d\ufe0f]+/u,'');           // emojis al inicio
+ a=a.split(_EMO)[0].replace(/[\u200d\ufe0f]/g,'');                                            // corta en el primer emoji
+ a=a.replace(/\s*[\(\[\{].*$/,'').trim();                                                     // (feat. ...) [...]
+ if(!a)return 'Artista desconocido';
+ const k=_nk(a);
  for(const [fk,fn] of _full){if(k===fk||k.startsWith(fk+' '))return fn}
- return a.split(/\s*(?:,|&|;|\/|\+|\s+x\s+|\s+(?:feat\.?|ft\.?|featuring|vs\.?)\s+)\s*/i)[0].trim()||a}
+ return a.split(/\s*(?:,|&|;|\/|\\|\+|\||·|•|×|\s[-–—]\s|\s+(?:x|feat\.?|ft\.?|featuring|con|y|and|vs\.?|with)\s+)\s*/i)[0].trim()||a}
 const artKey=s=>_nk(mainArtist(s.artist))||'artista desconocido';
 const albumOf=s=>String(s.album||s.album_name||'').trim();
 const thumbs=items=>[...new Set(items.map(s=>s.thumbnail_url).filter(Boolean))];
@@ -894,7 +900,7 @@ function pfAjustes(){
  return `<div class="form"><h4>Apariencia</h4><div class="themes">${[['dark','Oscuro'],['light','Claro'],['auto','Automático']].map(t=>`<button class="th" data-a="theme" data-id="${t[0]}" aria-pressed="${(prefs.theme||'dark')===t[0]}"><i class="th-${t[0]}"></i>${t[1]}</button>`).join('')}</div><p class="hint">«Automático» sigue el modo de tu dispositivo.</p></div><div class="form"><h4>Color de la app</h4><div class="swatches">${COLORS.map(c=>`<button class="swatch" style="background:${c[0]}" data-a="accent" data-id="${c[0]}" aria-label="${c[1]}" aria-pressed="${prefs.accent===c[0]}"></button>`).join('')}</div><p class="hint">Cambia el color de botones, banner y detalles en toda la app.</p></div>
  <div class="form"><h4>Reproducción</h4>${sw('t-lyr','Mostrar la letra al abrir una canción','Se abre directamente en la letra sincronizada.',prefs.lyr)}${sw('t-shuf','Empezar en modo aleatorio','El botón de aleatorio inicia activado.',prefs.shuf)}${sw('t-calm','Reducir animaciones','Detiene el giro del disco, el ecualizador y el pulso de la onda.',prefs.calm)}${sw('t-auto','Reproducción automática','Al terminar la cola, sigue sola con más música tuya.',prefs.auto!==false)}${sw('t-wave','Onda real de cada canción','Analiza el audio para dibujar su onda verdadera (usa algo más de datos).',prefs.wave!==false)}${sw('t-vinyl','Portada tipo vinilo','Muestra un disco girando en vez de la portada cuadrada.',prefs.vinyl)}${sw('t-resume','Continuar donde lo dejaste','Al volver, retoma la última canción y su posición.',prefs.resume!==false)}</div>
  ${pfPriv()}<div class="form"><h4>Tus datos</h4><button class="btn ghost" data-a="export">Exportar mis datos</button><button class="btn ghost" data-a="clrhist">Borrar historial y estadísticas</button><button class="btn ghost" data-a="clrlyr">Borrar caché de letras</button><button class="btn ghost" data-a="reload">Recargar biblioteca</button></div>
- <div class="form"><h4>Aplicación</h4>${deferred?'<button class="btn" data-a="install">Instalar Sammelo</button>':'<p class="hint">Para instalarla en el celular: en Chrome usa «Añadir a pantalla de inicio»; en iPhone, Compartir → «Añadir a pantalla de inicio».</p>'}${prof.role==='admin'?'<a class="btn ghost" href="http://127.0.0.1:8000/probar" target="_blank" rel="noopener">Abrir panel de descargas</a>':''}<button class="btn ghost" data-a="keys">Atajos de teclado</button><p class="hint">Sammelo · versión 2.3</p></div>`}
+ <div class="form"><h4>Aplicación</h4>${deferred?'<button class="btn" data-a="install">Instalar Sammelo</button>':'<p class="hint">Para instalarla en el celular: en Chrome usa «Añadir a pantalla de inicio»; en iPhone, Compartir → «Añadir a pantalla de inicio».</p>'}${prof.role==='admin'?'<a class="btn ghost" href="http://127.0.0.1:8000/probar" target="_blank" rel="noopener">Abrir panel de descargas</a>':''}<button class="btn ghost" data-a="keys">Atajos de teclado</button><p class="hint">Sammelo · versión 2.4</p></div>`}
 function profileHTML(){
  const handle='@'+String(me.email).split('@')[0].toLowerCase().replace(/[^a-z0-9._]/g,''),adm=prof.role==='admin',st=streak();
  const since=me.created_at?new Date(me.created_at).toLocaleDateString('es',{month:'long',year:'numeric'}):'';
