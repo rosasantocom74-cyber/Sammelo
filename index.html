@@ -597,7 +597,7 @@ const artistBase=s=>{
  const low=raw.toLowerCase(),ex=ARTISTAS_COMPLETOS.find(n=>low.startsWith(n.toLowerCase()));
  if(ex)return ex;
  // Se queda solo con el artista principal (el primero) y descarta los featuring
- const main=raw.split(/\s*(?:,|;|\bfeat\.?|\bft\.?|\bfeaturing\b|\bcon\b|\bwith\b|\s&\s|\sx\s|\sy\s|\sand\s)\s*/i)[0].trim();
+ const main=raw.split(/\s*(?:,|;|\||[❌✖✕✗×]|\bfeat\.?|\bft\.?|\bfeaturing\b|\bcon\b|\bwith\b|\s&\s|\sx\s|\sy\s|\sand\s)\s*/i)[0].trim();
  return main||raw};
 // Une variantes del mismo artista (mayúsculas, tildes): "BAD BUNNY" = "Bad Bunny", "Eladio Carrion" = "Eladio Carrión"
 const artKey=n=>n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
