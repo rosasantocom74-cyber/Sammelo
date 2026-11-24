@@ -295,6 +295,76 @@ dialog::backdrop{background:var(--scrim)}dialog h3{margin-bottom:12px}
  #toast{bottom:calc(var(--pl) + var(--nvt) + 30px)}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important}.disc{animation:none}}
+/* ===== Tanda 2: publicidad, panel de administración, usuarios en vivo ===== */
+.ad{margin:12px 24px 0;min-height:56px;padding:18px 8px 8px;border-radius:12px;background:var(--hv2);position:relative;text-align:center}
+.ad[hidden]{display:none}
+.ad-l{position:absolute;left:12px;top:4px;font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:var(--m);font-weight:700}
+.ad ins{display:block;max-width:100%}
+#adlib{margin:18px 24px 24px}
+#view{min-width:0}
+.adm-note{padding:6px 24px 12px;color:var(--m);font-size:13px;max-width:760px}
+.adm-note.err{color:#ff7d8a}
+.stt{display:inline-flex;gap:6px;align-items:center;font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px;background:var(--hv2);white-space:nowrap}
+.stt svg{width:13px;height:13px}
+.stt.l{background:var(--g);color:#14102a}
+.stt.a i{width:8px;height:8px;border-radius:50%;background:#4ade80}
+.stt.c i{width:8px;height:8px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--m)}
+.live-n{display:flex;align-items:center;gap:8px}
+.pulse{width:10px;height:10px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 0 #4ade8066;animation:pls 2s infinite;flex:none}
+@keyframes pls{70%{box-shadow:0 0 0 8px #4ade8000}100%{box-shadow:0 0 0 0 #4ade8000}}
+.calm .pulse{animation:none}
+.stats4 .st .live-n{font-size:12px;color:var(--m)}
+.st.hero b{font-size:40px;line-height:1.1}
+.stats4.g3{grid-template-columns:repeat(3,1fr)}
+.card2 h4 small{font-weight:600;color:var(--m);font-size:12px;margin-left:6px}
+.hbl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 12px;align-items:center;margin-top:12px}
+.hbl .nm{display:flex;gap:8px;align-items:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hbl .nm em{font-style:normal;color:var(--m);font-size:12px}
+.hbl b{font-variant-numeric:tabular-nums;font-size:13px}
+.hbl .tr{grid-column:1/-1;height:6px;border-radius:0 4px 4px 0;background:var(--bar);overflow:hidden;margin-bottom:6px}
+.hbl .tr i{display:block;height:100%;border-radius:0 4px 4px 0;background:var(--g)}
+.rk{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--hv);font-size:11px;font-weight:800;color:var(--m);flex:none}
+.cc{display:inline-grid;place-items:center;min-width:28px;height:20px;padding:0 4px;border-radius:5px;background:var(--hv);font-size:10px;font-weight:800;letter-spacing:.4px;color:var(--m);flex:none}
+.wmap,.wleg{--w0:color-mix(in srgb,var(--t) 9%,var(--p));--w1:color-mix(in srgb,var(--g) 30%,var(--p));--w2:color-mix(in srgb,var(--g) 48%,var(--p));--w3:color-mix(in srgb,var(--g) 66%,var(--p));--w4:color-mix(in srgb,var(--g) 84%,var(--p));--w5:var(--g)}
+.wmap{width:100%;height:auto;display:block;border-radius:10px;background:var(--hv2)}
+.wmap path{stroke:var(--bg);stroke-width:.5;vector-effect:non-scaling-stroke}
+.wmap circle{stroke:var(--bg);stroke-width:1.2}
+.wmap .c0{fill:var(--w0)}.wmap .c1{fill:var(--w1)}.wmap .c2{fill:var(--w2)}.wmap .c3{fill:var(--w3)}.wmap .c4{fill:var(--w4)}.wmap .c5{fill:var(--w5)}
+.wmap [data-n]:not([data-n="0"]){cursor:pointer}
+.wleg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--m);margin-top:8px}
+.wleg i{width:26px;height:10px;border-radius:3px}
+.wleg .c1{background:var(--w1)}.wleg .c2{background:var(--w2)}.wleg .c3{background:var(--w3)}.wleg .c4{background:var(--w4)}.wleg .c5{background:var(--w5)}
+#mtip{position:fixed;z-index:20;pointer-events:none;background:var(--dlg);color:var(--t);padding:6px 10px;border-radius:8px;font-size:12px;font-weight:700;box-shadow:0 6px 20px #0006;display:none}
+.ut{display:grid;gap:2px;margin-top:8px}
+.ur{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.2fr) minmax(0,1fr) minmax(0,1.1fr) minmax(0,1fr);gap:10px;align-items:center;padding:9px 8px;border-radius:8px}
+.ur:not(.h):hover{background:var(--hv2)}
+.ur.h{color:var(--m);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.ur>*{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ur .cn{display:flex;gap:8px;align-items:center}
+.arow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:12px;background:var(--p);margin:0 24px 8px}
+.arow .ai{min-width:0;flex:1 1 260px;overflow-wrap:anywhere}
+.arow .acts{display:flex;gap:6px;flex-wrap:wrap}
+.sbtn{padding:7px 14px;border-radius:999px;border:1px solid var(--line);font-weight:700;font-size:12px;color:var(--t)}
+.sbtn:hover{background:var(--hv)}
+.sbtn.danger{border-color:#ff7d8a;color:#ff7d8a}
+.tl{margin:0 0 0 18px;display:grid;gap:4px}
+.admf{padding:6px 24px 18px;display:grid;gap:12px;max-width:640px}
+.admf label{display:grid;gap:6px;font-weight:600}
+.admf .sw{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--hv);cursor:pointer;font-weight:600}
+.admf .sw input[type=checkbox]{appearance:none;-webkit-appearance:none;width:46px;height:26px;border-radius:999px;background:#8a8a9a;padding:0;border:0;position:relative;flex:none;cursor:pointer;transition:background .2s}
+.admf .sw input[type=checkbox]::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s}
+.admf .sw input[type=checkbox]:checked{background:var(--g)}
+.admf .sw input[type=checkbox]:checked::after{transform:translateX(20px)}
+.admf textarea{width:100%;min-height:100px;background:var(--fld);color:var(--t);border:1px solid transparent;border-radius:14px;padding:12px 16px;font:inherit;resize:vertical}
+.admf textarea:focus{border-color:var(--t);outline:0}
+.gate-box{max-width:420px}
+@media(max-width:800px){
+ .ad{margin:10px 12px 0}#adtop{margin-top:calc(10px + var(--sat))}#adlib{margin:14px 12px 20px}
+ .ur{grid-template-columns:1fr 1fr;row-gap:4px}.ur.h{display:none}
+ .stats4.g3{grid-template-columns:repeat(2,1fr)}
+ .arow{margin:0 12px 8px}.adm-note,.admf{padding-left:16px;padding-right:16px}
+ .st.hero b{font-size:34px}
+}
 </style>
 </head>
 <body>
@@ -357,7 +427,7 @@ function setup(){
   if(!key.startsWith('sb_publishable_')&&!key.startsWith('eyJ'))return say('Usa la clave pública, no la secreta.');
   localStorage.setItem('cfg',JSON.stringify({url,key}));location.reload()}}
 function login(){
- unsubRealtime();lastPath='';shellOn=false;audio.pause();queue=[];qi=-1;curList=null;coll=null;view='home';recent=[];meta={};profTab='resumen';stats={sec:0,plays:{},days:{}};
+ unsubRealtime();t2Reset();lastPath='';shellOn=false;audio.pause();queue=[];qi=-1;curList=null;coll=null;view='home';recent=[];meta={};profTab='resumen';stats={sec:0,plays:{},days:{}};
  $('#root').innerHTML=`<div class="auth"><img class="logo" src="icon-512.png" alt="Logo de Sammelo" onerror="this.style.display='none'"><h1>Sammelo</h1><p class="mut">Inicia sesión o crea tu cuenta.</p><button class="gbtn" id="gg">${GICON}<span>Continuar con Google</span></button><div class="or"><span>o con tu correo</span></div><label>Correo<input id="em" type="email" autocomplete="email"></label><label>Contraseña<input id="pw" type="password" autocomplete="current-password"></label><p id="msg" class="msg"></p><button class="btn" id="in">Entrar</button><button class="btn ghost" id="up">Crear cuenta</button><button class="lnk" id="rs">¿Olvidaste tu contraseña?</button></div>`;
  const v=()=>[$('#em').value.trim(),$('#pw').value];
  $('#gg').onclick=()=>googleIn();
@@ -379,19 +449,26 @@ async function init(s){
  me=s.user;loadedFor=me.id;load()}
 
 async function load(){
- const[p,s,f,l]=await Promise.all([
-  sb.from('profiles').select('role,blocked,display_name').eq('id',me.id).maybeSingle(),
+ const p=await sb.from('profiles').select('*').eq('id',me.id).maybeSingle();
+ if(p.data?.blocked){alert('Tu cuenta está bloqueada.');return sb.auth.signOut()}
+ prof=p.data||{};
+ if(prof.role!=='admin'&&(prof.approved===false||(!p.data&&!p.error))){
+  const ok=await claimInvite();
+  if(ok===true){const r=await sb.from('profiles').select('*').eq('id',me.id).maybeSingle();if(r.data)prof=r.data}
+  else if(ok===false)return gateScreen()}
+ const[s,f,l]=await Promise.all([
   fetchAll(()=>sb.from('songs').select('*').order('created_at',{ascending:false}).order('id')),
   fetchAll(()=>sb.from('favorites').select('song_id').order('song_id')),
   sb.from('playlists').select('id,name').order('created_at')]);
- if(p.data?.blocked){alert('Tu cuenta está bloqueada.');return sb.auth.signOut()}
- prof=p.data||{};
  songs=(s.data||[]).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')));
  favs=new Set((f.data||[]).map(x=>x.song_id));lists=l.data||[];
  try{recent=JSON.parse(localStorage.getItem('rc:'+me.id)||'[]')}catch(e){recent=[]}
  meta=me.user_metadata||{};if(meta.accent){prefs.accent=meta.accent;applyPrefs()}loadStats();
  shell();render();if(qi<0)restorePb();
  routeFromHash();setTimeout(migrateLS,2000);subRealtime();
+ loadTele();
+ loadAds().then(()=>{adsApply();clearInterval(T2.adT);T2.adT=setInterval(()=>{if(document.visibilityState==='visible')refreshAds()},600000)});
+ if(T2.tele==='y')hbStart();else if(T2.tele===null)setTimeout(askTele,1500);
  if(s.error)toast('No se pudieron cargar las canciones.')}
 async function signed(s){
  const c=urlCache[s.id];if(c&&c.t>Date.now())return c.u;
@@ -400,8 +477,8 @@ async function signed(s){
 
 function shell(){
  if(shellOn)return;shellOn=true;
- $('#root').innerHTML=`<div class="app"><nav aria-label="Principal"><div class="brand"><img src="icon-192.png" alt="" onerror="this.style.display='none'">Sammelo</div>${TABS.map(t=>`<button data-v="${t[0]}">${t[2]}<span>${t[1]}</span></button>`).join('')}<div class="sp"></div><button id="thb" aria-label="Cambiar entre modo claro y oscuro">${I.sun}</button></nav>
- <main id="main"></main>
+ $('#root').innerHTML=`<div class="app"><nav aria-label="Principal"><div class="brand"><img src="icon-192.png" alt="" onerror="this.style.display='none'">Sammelo</div>${tabs().map(t=>`<button data-v="${t[0]}">${t[2]}<span>${t[1]}</span></button>`).join('')}<div class="sp"></div><button id="thb" aria-label="Cambiar entre modo claro y oscuro">${I.sun}</button></nav>
+ <main id="main"><div class="ad" id="adtop" hidden></div><div id="view"></div><div class="ad" id="adlib" hidden></div></main>
  <div class="player"><div class="now"><img class="cov" id="cv" alt=""><div class="t"><b id="nt">Elige una canción</b><span id="na"></span></div><button class="ib" id="lk" aria-label="Favorito" aria-pressed="false">${I.heart}</button></div>
  <div class="ctr"><div class="btns"><button class="ib" id="sh" aria-label="Aleatorio" aria-pressed="false">${I.shuf}</button><button class="ib" id="pv" aria-label="Anterior">${I.prev}</button><button class="play" id="pp" aria-label="Reproducir">${I.play}</button><button class="ib" id="nx" aria-label="Siguiente">${I.next}</button><button class="ib" id="rp" aria-label="Repetir" data-m="0">${I.rep}</button></div>
  <div class="seek"><span id="cur">0:00</span><div class="wf" id="wf1"><canvas></canvas><input id="sk" type="range" min="0" max="1000" value="0" aria-label="Posición"><i class="wf-tip"></i></div><span id="dur">0:00</span></div></div>
@@ -419,7 +496,7 @@ function shell(){
  $('#ly').onclick=e=>{const p=e.target.closest('.ll');if(p&&lyLines[+p.dataset.i])audio.currentTime=Math.max(0,lyLines[+p.dataset.i].t-lyOff)};
  $('#adj').onclick=e=>{const b=e.target.closest('[data-o]');if(!b)return;lyOff=Math.round((lyOff+ +b.dataset.o)*10)/10;try{localStorage.setItem('lo:'+lyFor,lyOff)}catch(x){}$('#ov').textContent=(lyOff>0?'+':'')+lyOff.toFixed(1)+' s';lyOn=-1;lyTick()};
  applyPrefs();
- $('#main').onclick=onMain;
+ $('#main').onclick=onMain;admWire();
  $('#main').onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('tile')){e.preventDefault();e.target.click()}};
  $('#pp').onclick=()=>{if(qi<0){if(songs.length)play(songs,0);return}if(!audio.getAttribute('src')){const a=resumeAt;resumeAt=0;return play(queue,qi,a)}audio.paused?audio.play():audio.pause()};
  $('#nx').onclick=()=>step(1);
@@ -455,13 +532,8 @@ audio.ontimeupdate=()=>{lyTick();wfKick();warmNext();if(audio.currentTime>0&&que
  $('#cur').textContent=c;$('#dur').textContent=du;$('#cur2').textContent=c;$('#dur2').textContent=du;
  if(d){$('#sk').value=v;$('#sk2').value=v;fillR($('#sk'));fillR($('#sk2'));const pl=$('.player');if(pl)pl.style.setProperty('--mp',v/10+'%')}};
 audio.ondurationchange=()=>{try{const ms=navigator.mediaSession,d=audio.duration;if(ms&&ms.setPositionState&&isFinite(d))ms.setPositionState({duration:d,position:audio.currentTime,playbackRate:1})}catch(e){}};
-let errN=0,retryId=null,goodT=0,goodTid=null,trans=false;
-// Panel fijo: mantiene la sesión multimedia en 'playing' mientras se cambia de canción
-function msState(){try{const ms=navigator.mediaSession;if(ms)ms.playbackState=(!audio.paused||trans)?'playing':'paused'}catch(e){}}
-function msMeta(){try{const ms=navigator.mediaSession,s=queue[qi];if(!ms||!s)return;
- ms.metadata=new MediaMetadata({title:s.title,artist:s.artist||'',album:'Sammelo',artwork:s.thumbnail_url?[{src:s.thumbnail_url,sizes:'512x512'},{src:s.thumbnail_url,sizes:'256x256'},{src:s.thumbnail_url,sizes:'128x128'}]:[]});
- const d=audio.duration;if(ms.setPositionState&&isFinite(d)&&d>0)ms.setPositionState({duration:d,position:Math.min(audio.currentTime||0,d),playbackRate:audio.playbackRate||1})}catch(e){}}
-audio.onplaying=()=>{errN=0;retryId=null;trans=false;msMeta();msState()};
+let errN=0,retryId=null,goodT=0,goodTid=null;
+audio.onplaying=()=>{errN=0;retryId=null};
 audio.onerror=async()=>{if(!audio.getAttribute('src'))return;
  const s=queue[qi];
  if(!navigator.onLine){toast('Sin conexión: no se puede reproducir ahora.');return}
@@ -473,13 +545,13 @@ audio.onerror=async()=>{if(!audio.getAttribute('src'))return;
  errN++;
  if(queue.length>1&&errN<3){toast('No se pudo reproducir. Pasando a la siguiente…');setTimeout(()=>step(1),800)}
  else toast('No se pudo reproducir esta canción.')};
-audio.onplay=audio.onpause=()=>{document.body.classList.toggle('playing',!audio.paused);const h=audio.paused?I.play:I.pause;['#pp','#pp2'].forEach(k=>{const b=$(k);if(b)b.innerHTML=h});const d=$('#disc');if(d)d.classList.toggle('spin',!audio.paused);msState()};
-audio.onended=()=>{if(sleepEnd){sleepEnd=false;trans=false;msState();sleepUI();toast('Temporizador: música en pausa.');return}trans=true;msState();rep===2?(audio.currentTime=0,audio.play()):step(1)};
+audio.onplay=audio.onpause=()=>{document.body.classList.toggle('playing',!audio.paused);const h=audio.paused?I.play:I.pause;['#pp','#pp2'].forEach(k=>{const b=$(k);if(b)b.innerHTML=h});const d=$('#disc');if(d)d.classList.toggle('spin',!audio.paused);if(navigator.mediaSession)navigator.mediaSession.playbackState=audio.paused?'paused':'playing'};
+audio.onended=()=>{if(sleepEnd){sleepEnd=false;sleepUI();toast('Temporizador: música en pausa.');return}rep===2?(audio.currentTime=0,audio.play()):step(1)};
 
 async function play(list,i,at){
  const s=list[i];if(!s)return;
  if(list!==queue)heard.clear();
- queue=list;qi=i;heard.add(s.id);pushRecent(s.id);nextPick=-1;warmId=null;trans=true;upd();msState();
+ queue=list;qi=i;heard.add(s.id);pushRecent(s.id);nextPick=-1;warmId=null;upd();
  try{
   const c=urlCache[s.id];let u=c&&c.t>Date.now()?c.u:null;
   if(!u)u=await signed(s);
@@ -488,11 +560,11 @@ async function play(list,i,at){
   if(at>1)audio.addEventListener('loadedmetadata',()=>{audio.currentTime=at},{once:true});
   await audio.play();
   nextPick=pickNext();const nx=queue[nextPick];if(nx)signed(nx).catch(()=>{})}
- catch(e){if(e&&e.name==='AbortError')return;trans=false;msState();toast('No se pudo reproducir esta canción.')}}
+ catch(e){if(e&&e.name==='AbortError')return;toast('No se pudo reproducir esta canción.')}}
 function step(d){
  if(!queue.length)return;
  let n;
- if(d>0){n=nextPick>=0&&queue[nextPick]?nextPick:pickNext();if(n<0||!queue[n]){trans=false;audio.pause();msState();return}}
+ if(d>0){n=nextPick>=0&&queue[nextPick]?nextPick:pickNext();if(n<0||!queue[n]){audio.pause();return}}
  else n=Math.max(0,qi-1);
  play(queue,n)}
 function upd(){
@@ -502,7 +574,7 @@ function upd(){
  if(wfFor!==s.id)loadWave(s);
  {const pl=$('.player');if(pl){const h=hue(s.title+artistOf(s));pl.style.setProperty('--tint',curTheme()==='light'?`hsl(${h} 70% 93%)`:`hsl(${h} 38% 17%)`)}}
  const lk=$('#lk');if(lk){const f=favs.has(s.id);lk.setAttribute('aria-pressed',f);lk.innerHTML=f?I.heartF:I.heart}
- msMeta();npRender()}
+ if(navigator.mediaSession)navigator.mediaSession.metadata=new MediaMetadata({title:s.title,artist:s.artist||'',artwork:s.thumbnail_url?[{src:s.thumbnail_url}]:[]});npRender()}
 
 function npRender(){
  const s=queue[qi];if(!s||!$('#np'))return;
@@ -569,8 +641,9 @@ const srt=l=>{const a=[...l],c=(x,y)=>String(x||'').localeCompare(String(y||''),
 const filt=l=>{const t=norm(q.trim());return srt(t?l.filter(s=>norm(s.title+' '+s.artist).includes(t)):l)};
 const playBar=l=>l.length?`<div class="bar"><button class="big" data-a="playall" aria-label="Reproducir todo">${I.play}</button></div>`:'';
 function render(){
+ if(view==='admin'&&!isAdm())view='home';if(view!=='admin'||coll)admStop();
  $$('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===view?'page':'false'));
- const m=$('#main');
+ const m=$('#view');
  if(coll)collPage(m);
  else if(view==='home'){m.innerHTML=homeHTML();const hq=$('#hq');if(hq)hq.onkeydown=e=>{if(e.key==='Enter'){q=hq.value;libTab='songs';view='lib';render();go()}}}
  else if(view==='lib'){
@@ -581,30 +654,16 @@ function render(){
  else if(view==='fav'){const l=songs.filter(s=>favs.has(s.id));m.innerHTML=`<div class="hd"><h2>Favoritos</h2></div>${playBar(l)}${rows(l)}`}
  else if(view==='pl'&&curList){m.innerHTML=`<div class="hd"><h2>${esc(curList.name)}</h2></div><div class="bar"><button class="ib" data-a="back" aria-label="Volver">${I.back}</button>${curList.items.length?`<button class="big" data-a="playall" aria-label="Reproducir lista">${I.play}</button>`:''}<button class="btn ghost" data-a="ren">Renombrar</button><button class="btn ghost" data-a="del">Eliminar lista</button></div>${rows(curList.items)}`}
  else if(view==='pl'){m.innerHTML=`<div class="hd"><h2>Tus listas</h2></div><div class="pad"><input id="pn" placeholder="Nombre de la lista"><button class="btn" data-a="new">Crear lista</button></div>${lists.length?`<div class="grid">${lists.map(l=>`<button class="card" data-a="open" data-id="${l.id}"><div class="cv">${I.list}</div><b>${esc(l.name)}</b></button>`).join('')}</div>`:'<p class="mut mt">Todavía no tienes listas.</p>'}`}
+ else if(view==='admin'){m.innerHTML=adminHTML();admBind()}
  else{m.innerHTML=profileHTML();profBind()}
- upd();syncUrl()}
+ upd();syncUrl();adsApply()}
 
 const reg={},hl={};
 const go=()=>{const m=$('#main');if(m)m.scrollTop=0;scrollTo(0,0)};
 const hue=x=>{let h=0;for(const c of String(x))h=(h*31+c.charCodeAt(0))%360;return h};
 const tone=x=>`linear-gradient(135deg,hsl(${hue(x)} 50% 38%),hsl(${(hue(x)+40)%360} 55% 22%))`;
 const ini=x=>String(x||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
-// Artistas que SÍ llevan "&", "y", coma o "x" en su nombre y no se deben cortar. Añade aquí los que necesites.
-const ARTISTAS_COMPLETOS=['Wisin & Yandel','Zion & Lennox','Simon & Garfunkel','Earth, Wind & Fire','Tyler, The Creator','Calle 13','Los Del Rio','Hall & Oates','Florence + The Machine'];
-const artistBase=s=>{
- const raw=String(s.artist||'').replace(/\s*-\s*Topic$/i,'').trim();
- if(!raw)return 'Artista desconocido';
- const low=raw.toLowerCase(),ex=ARTISTAS_COMPLETOS.find(n=>low.startsWith(n.toLowerCase()));
- if(ex)return ex;
- // Se queda solo con el artista principal (el primero) y descarta los featuring
- const main=raw.split(/\s*(?:,|;|\||\+|[•·(\[]|\p{Extended_Pictographic}|[✖✕✗×]|\s[-–—]\s|\bvs\.?\s|\bfeat\.?|\bft\.?|\bfeaturing\b|\bcon\b|\bwith\b|\s&\s|\sx\s|\sy\s|\sand\s)\s*/iu)[0].trim();
- return main||raw};
-// Une variantes del mismo artista (mayúsculas, tildes): "BAD BUNNY" = "Bad Bunny", "Eladio Carrion" = "Eladio Carrión"
-const artKey=n=>n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
-let artCanon=new Map(),artN=-1;
-const artScore=n=>(n===n.toUpperCase()?0:2)+(n.normalize('NFD')!==n?1:0);
-function artBuild(){artCanon=new Map();songs.forEach(x=>{const n=artistBase(x),k=artKey(n),c=artCanon.get(k);if(!c||artScore(n)>artScore(c))artCanon.set(k,n)});artN=songs.length}
-const artistOf=s=>{const n=artistBase(s);if(artN!==songs.length)artBuild();return artCanon.get(artKey(n))||n};
+const artistOf=s=>String(s.artist||'').replace(/\s*-\s*Topic$/i,'').trim()||'Artista desconocido';
 const albumOf=s=>String(s.album||s.album_name||'').trim();
 const thumbs=items=>[...new Set(items.map(s=>s.thumbnail_url).filter(Boolean))];
 const im=u=>`<img src="${esc(u)}" alt="" loading="lazy">`;
@@ -787,12 +846,12 @@ function pfSeg(){const last=me.last_sign_in_at?new Date(me.last_sign_in_at).toLo
  <p class="msg" id="m-pw"></p><button class="btn" data-a="pwsave">${pw?'Actualizar contraseña':'Crear contraseña'}</button></div>
  ${g&&!pw?`<div class="form"><h4>Correo electrónico</h4><p class="hint">Tu correo (${esc(me.email)}) lo gestiona tu cuenta de Google.</p></div>`:`<div class="form"><h4>Correo electrónico</h4><label>Correo<input id="em2" type="email" value="${esc(me.email)}" autocomplete="email"></label><p class="msg" id="m-em"></p><button class="btn ghost" data-a="emsave">Cambiar correo</button></div>`}
  <div class="form"><h4>Sesiones</h4><div class="sess"><span class="dot"></span><div><b>Esta sesión · ${esc(deviceInfo())}</b><div class="mut">Iniciada el ${esc(last)}${g&&!pw?' · con Google':''}</div></div></div>
- <button class="btn ghost" data-a="others">Cerrar las demás sesiones</button><button class="btn ghost danger" data-a="outall">Cerrar sesión en todos los dispositivos</button><button class="btn" data-a="out">Cerrar sesión</button></div><p class="mut" style="text-align:center;font-size:12px;margin:14px 0">Versión v11</p>`}
+ <button class="btn ghost" data-a="others">Cerrar las demás sesiones</button><button class="btn ghost danger" data-a="outall">Cerrar sesión en todos los dispositivos</button><button class="btn" data-a="out">Cerrar sesión</button></div>`}
 function pfAjustes(){
  const sw=(id,t,d,on)=>`<label class="sw"><span>${t}<br><small class="hint">${d}</small></span><input type="checkbox" id="${id}" ${on?'checked':''}></label>`;
  return `<div class="form"><h4>Apariencia</h4><div class="themes">${[['dark','Oscuro'],['light','Claro'],['auto','Automático']].map(t=>`<button class="th" data-a="theme" data-id="${t[0]}" aria-pressed="${(prefs.theme||'dark')===t[0]}"><i class="th-${t[0]}"></i>${t[1]}</button>`).join('')}</div><p class="hint">«Automático» sigue el modo de tu dispositivo.</p></div><div class="form"><h4>Color de la app</h4><div class="swatches">${COLORS.map(c=>`<button class="swatch" style="background:${c[0]}" data-a="accent" data-id="${c[0]}" aria-label="${c[1]}" aria-pressed="${prefs.accent===c[0]}"></button>`).join('')}</div><p class="hint">Cambia el color de botones, banner y detalles en toda la app.</p></div>
  <div class="form"><h4>Reproducción</h4>${sw('t-lyr','Mostrar la letra al abrir una canción','Se abre directamente en la letra sincronizada.',prefs.lyr)}${sw('t-shuf','Empezar en modo aleatorio','El botón de aleatorio inicia activado.',prefs.shuf)}${sw('t-calm','Reducir animaciones','Detiene el giro del disco, el ecualizador y el pulso de la onda.',prefs.calm)}${sw('t-auto','Reproducción automática','Al terminar la cola, sigue sola con más música tuya.',prefs.auto!==false)}${sw('t-wave','Onda real de cada canción','Analiza el audio para dibujar su onda verdadera (usa algo más de datos).',prefs.wave!==false)}${sw('t-vinyl','Portada tipo vinilo','Muestra un disco girando en vez de la portada cuadrada.',prefs.vinyl)}${sw('t-resume','Continuar donde lo dejaste','Al volver, retoma la última canción y su posición.',prefs.resume!==false)}</div>
- <div class="form"><h4>Tus datos</h4><button class="btn ghost" data-a="export">Exportar mis datos</button><button class="btn ghost" data-a="clrhist">Borrar historial y estadísticas</button><button class="btn ghost" data-a="clrlyr">Borrar caché de letras</button><button class="btn ghost" data-a="reload">Recargar biblioteca</button></div>
+ ${pfPriv()}<div class="form"><h4>Tus datos</h4><button class="btn ghost" data-a="export">Exportar mis datos</button><button class="btn ghost" data-a="clrhist">Borrar historial y estadísticas</button><button class="btn ghost" data-a="clrlyr">Borrar caché de letras</button><button class="btn ghost" data-a="reload">Recargar biblioteca</button></div>
  <div class="form"><h4>Aplicación</h4>${deferred?'<button class="btn" data-a="install">Instalar Sammelo</button>':'<p class="hint">Para instalarla en el celular: en Chrome usa «Añadir a pantalla de inicio»; en iPhone, Compartir → «Añadir a pantalla de inicio».</p>'}${prof.role==='admin'?'<a class="btn ghost" href="http://127.0.0.1:8000/probar" target="_blank" rel="noopener">Abrir panel de descargas</a>':''}<button class="btn ghost" data-a="keys">Atajos de teclado</button><p class="hint">Sammelo · versión 2.1</p></div>`}
 function profileHTML(){
  const handle='@'+String(me.email).split('@')[0].toLowerCase().replace(/[^a-z0-9._]/g,''),adm=prof.role==='admin',st=streak();
@@ -808,7 +867,8 @@ function profBind(){
  on('#avf','onchange',async e=>{const f=e.target.files[0];if(!f)return;
   try{const d=await avatarFrom(f);try{localStorage.setItem('av:'+me.id,d)}catch(x){return toast('No se pudo guardar la foto.')}refreshAv();toast('Foto actualizada.');syncAvatar(d)}catch(x){toast('No se pudo leer esa imagen.')}});
  on('#pw1','oninput',e=>meter(e.target.value));
- ['lyr','shuf','calm','resume','vinyl','auto','wave'].forEach(k=>on('#t-'+k,'onchange',e=>{prefs[k]=e.target.checked;savePrefs();toast('Preferencia guardada.')}));
+ ['lyr','shuf','calm','resume','vinyl','auto','wave','npa'].forEach(k=>on('#t-'+k,'onchange',e=>{prefs[k]=e.target.checked;savePrefs();toast('Preferencia guardada.')}));
+ on('#t-tele','onchange',e=>{setTele(e.target.checked?'y':'n');toast(e.target.checked?'Estadísticas activadas.':'Estadísticas desactivadas.')});
  on('#pf-bio','oninput',e=>{$('#bc').textContent=e.target.value.length+'/160'})}
 
 /* ====== GOOGLE ====== */
@@ -1020,6 +1080,7 @@ function pathNow(){
  const e=encodeURIComponent;
  if(coll)return(coll.kind==='artist'?'artista/':coll.kind==='album'?'album/':'mix/')+e(coll.id);
  if(view==='home')return 'inicio';
+ if(view==='admin')return 'admin/'+adm.tab;
  if(view==='lib')return libTab==='artists'?'biblioteca/artistas':libTab==='albums'?'biblioteca/albumes':'biblioteca';
  if(view==='fav')return 'favoritos';
  if(view==='pl')return curList?'listas/'+e(curList.id):'listas';
@@ -1047,6 +1108,7 @@ async function applyPath(p){
   else if(a==='biblioteca'){view='lib';libTab=b==='artistas'?'artists':b==='albumes'?'albums':'songs'}
   else if(a==='favoritos')view='fav';
   else if(a==='listas'){view='pl';if(b&&lists.find(l=>l.id===b))await openList(b)}
+  else if(a==='admin'&&isAdm()){view='admin';adm.tab=ADM_TABS.some(t=>t[0]===b)?b:'live'}
   else if(a==='perfil'){view='acc';profTab=['editar','seg','ajustes'].includes(b)?b:'resumen'}
   else view='home';
   render();go();lastPath=pathNow()}
@@ -1114,14 +1176,14 @@ async function onMain(e){
   if(a==='pwsave')return savePass();
   if(a==='emsave')return saveEmail();
   if(a==='others')return closeOthers();
-  if(a==='outall'){if(!confirm('¿Cerrar sesión en todos tus dispositivos, incluido este?'))return;return sb.auth.signOut({scope:'global'})}
+  if(a==='outall'){if(!confirm('¿Cerrar sesión en todos tus dispositivos, incluido este?'))return;return signOutApp('global')}
   if(a==='accent'){prefs.accent=id;savePrefs();sb.auth.updateUser({data:{accent:id}}).then(r=>{if(r.data&&r.data.user){me=r.data.user;meta=me.user_metadata||{}}});return render()}
   if(a==='eye'){$$('.pwf').forEach(x=>x.type=x.type==='password'?'text':'password');return}
   if(a==='export')return exportData();
   if(a==='clrhist')return clearHist();
   if(a==='clrlyr')return clearLyr();
   if(a==='install'&&deferred){deferred.prompt();deferred=null;return render()}
-  if(a==='out')return sb.auth.signOut()}
+  if(a==='out')return signOutApp()}
  const li=e.target.closest('li[data-i]');if(li)play(shown,+li.dataset.i)}
 
 async function toggleFav(id){
@@ -1157,6 +1219,303 @@ function openPick(id){
   const{error}=await sb.from('playlist_songs').insert({playlist_id:r.dataset.l,song_id:pick,position:pos});
   d.close();toast(error?'No se pudo añadir (¿ya está en la lista?).':'Añadida a la lista.')};
  d.showModal()}
+
+/* ====== TANDA 2 · INVITACIÓN · PRESENCIA · PANEL ADMIN · PUBLICIDAD ====== */
+I.shield=P('M12 2 4 5v6c0 5.500 3.400 10.700 8 12 4.600-1.300 8-6.500 8-12V5l-8-3zm0 2.100 6 2.200V11c0 4.300-2.500 8.400-6 9.800C8.500 19.400 6 15.300 6 11V6.300l6-2.200z');
+const T2={tele:null,on:false,act:true,lastHb:0,country:null,tok:null,ads:null,adS:0,hbT:null,hbD:null,adT:null,adAt:0};
+const adm={tab:'live',live:null,stats:null,users:null,invites:null,off:0,uq:'',metric:'visitors',all:false,err:'',t:null,ch:null,rt:null,lastStats:0,busy:false};
+const ADM_TABS=[['live','Usuarios en vivo'],['stats','Estadísticas'],['users','Usuarios'],['inv','Invitaciones'],['ads','Publicidad']];
+const ADS_DEF={top:false,library:false,webview:false,client:'',slot_top:'',slot_library:''};
+const DEV={android:'Android',iphone:'iPhone',tablet:'Tableta',desktop:'Computadora',other:'Otro'};
+const isAdm=()=>!!prof&&prof.role==='admin';
+const tabs=()=>isAdm()?[...TABS,['admin','Admin',I.shield]]:TABS;
+const num=n=>(n|0).toLocaleString('es');
+
+/* ---------- Acceso por invitación ---------- */
+async function claimInvite(){
+ try{const{data,error}=await sb.rpc('claim_invite');return error?null:data===true}catch(e){return null}}
+function gateScreen(){
+ shellOn=false;
+ $('#root').innerHTML=`<div class="auth gate-box"><img class="logo" src="icon-512.png" alt="Logo de Sammelo" onerror="this.style.display='none'"><h1>Acceso por invitación</h1><p class="mut">Sammelo es privada. Tu cuenta <b>${esc(me.email||'')}</b> todavía no tiene invitación.</p><p class="mut">Pídele al administrador que invite ese mismo correo y luego pulsa «Comprobar de nuevo».</p><p id="msg" class="msg" role="status"></p><button class="btn" id="gr">Comprobar de nuevo</button><button class="btn ghost" id="go2" style="margin-top:10px">Cerrar sesión</button></div>`;
+ $('#gr').onclick=async()=>{say('Comprobando…',1);if(await claimInvite()===true){loadedFor=null;const{data}=await sb.auth.getSession();init(data.session)}else say('Aún no hay una invitación para este correo.')};
+ $('#go2').onclick=()=>sb.auth.signOut()}
+
+/* ---------- Dispositivo y país aproximado (nunca se guarda la IP) ---------- */
+function deviceKind(){const u=navigator.userAgent||'';
+ if(/iPhone|iPod/i.test(u))return'iphone';
+ if(/iPad/i.test(u)||(/Macintosh/i.test(u)&&navigator.maxTouchPoints>1))return'tablet';
+ if(/Android/i.test(u))return/Mobile/i.test(u)?'android':'tablet';
+ return u?'desktop':'other'}
+const TZC={'America/Bogota':'CO','America/Mexico_City':'MX','America/Cancun':'MX','America/Monterrey':'MX','America/Tijuana':'MX','America/Merida':'MX','America/Lima':'PE','America/Santiago':'CL','America/Argentina/Buenos_Aires':'AR','America/Buenos_Aires':'AR','America/Argentina/Cordoba':'AR','America/Caracas':'VE','America/Guayaquil':'EC','America/La_Paz':'BO','America/Asuncion':'PY','America/Montevideo':'UY','America/Panama':'PA','America/Costa_Rica':'CR','America/Guatemala':'GT','America/El_Salvador':'SV','America/Tegucigalpa':'HN','America/Managua':'NI','America/Havana':'CU','America/Santo_Domingo':'DO','America/Puerto_Rico':'PR','America/Jamaica':'JM','America/Sao_Paulo':'BR','America/Manaus':'BR','America/Bahia':'BR','America/Fortaleza':'BR','America/Recife':'BR','America/New_York':'US','America/Chicago':'US','America/Denver':'US','America/Los_Angeles':'US','America/Phoenix':'US','America/Anchorage':'US','Pacific/Honolulu':'US','America/Detroit':'US','America/Toronto':'CA','America/Vancouver':'CA','America/Edmonton':'CA','America/Winnipeg':'CA','America/Halifax':'CA','Europe/Madrid':'ES','Atlantic/Canary':'ES','Europe/London':'GB','Europe/Dublin':'IE','Europe/Lisbon':'PT','Europe/Paris':'FR','Europe/Berlin':'DE','Europe/Rome':'IT','Europe/Amsterdam':'NL','Europe/Brussels':'BE','Europe/Zurich':'CH','Europe/Vienna':'AT','Europe/Stockholm':'SE','Europe/Oslo':'NO','Europe/Copenhagen':'DK','Europe/Helsinki':'FI','Europe/Warsaw':'PL','Europe/Prague':'CZ','Europe/Budapest':'HU','Europe/Bucharest':'RO','Europe/Athens':'GR','Europe/Istanbul':'TR','Europe/Kiev':'UA','Europe/Kyiv':'UA','Europe/Moscow':'RU','Asia/Tokyo':'JP','Asia/Seoul':'KR','Asia/Shanghai':'CN','Asia/Hong_Kong':'HK','Asia/Taipei':'TW','Asia/Singapore':'SG','Asia/Kuala_Lumpur':'MY','Asia/Bangkok':'TH','Asia/Ho_Chi_Minh':'VN','Asia/Jakarta':'ID','Asia/Manila':'PH','Asia/Kolkata':'IN','Asia/Calcutta':'IN','Asia/Karachi':'PK','Asia/Dhaka':'BD','Asia/Dubai':'AE','Asia/Riyadh':'SA','Asia/Tehran':'IR','Asia/Jerusalem':'IL','Africa/Cairo':'EG','Africa/Lagos':'NG','Africa/Johannesburg':'ZA','Africa/Nairobi':'KE','Africa/Casablanca':'MA','Africa/Algiers':'DZ','Australia/Sydney':'AU','Australia/Melbourne':'AU','Australia/Perth':'AU','Australia/Brisbane':'AU','Pacific/Auckland':'NZ'};
+async function getCountry(){
+ if(T2.country)return T2.country;
+ try{const c=sessionStorage.getItem('cc');if(/^[A-Z]{2}$/.test(c||'')){T2.country=c;return c}}catch(e){}
+ let cc=null;
+ try{const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),3500);
+  const r=await fetch('https://www.cloudflare.com/cdn-cgi/trace',{cache:'no-store',signal:ctl.signal});clearTimeout(t);
+  const m=/^loc=([A-Z]{2})$/m.exec(await r.text());if(m&&m[1]!=='XX'&&m[1]!=='T1')cc=m[1]}catch(e){}
+ if(!cc){try{cc=TZC[Intl.DateTimeFormat().resolvedOptions().timeZone]||null}catch(e){}}
+ cc=cc||'XX';T2.country=cc;try{sessionStorage.setItem('cc',cc)}catch(e){}return cc}
+
+/* ---------- Consentimiento de estadísticas ---------- */
+function loadTele(){let v=meta.tele;if(!v){try{v=localStorage.getItem('tele:'+me.id)}catch(e){}}T2.tele=v==='y'||v==='n'?v:null}
+function setTele(v){
+ const was=T2.tele;T2.tele=v;try{localStorage.setItem('tele:'+me.id,v)}catch(e){}
+ sb.auth.updateUser({data:{tele:v}}).then(r=>{if(r.data&&r.data.user){me=r.data.user;meta=me.user_metadata||{}}}).catch(()=>{});
+ if(v==='y')hbStart();else{if(was==='y')sb.rpc('go_offline').then(()=>{},()=>{});hbStop()}}
+function askTele(){
+ if(T2.tele!==null||!shellOn||$('#tdlg'))return;
+ const d=document.createElement('dialog');d.id='tdlg';
+ d.innerHTML=`<h3>Estadísticas de uso</h3><p class="mut" style="margin-bottom:10px">Para mejorar Sammelo, el administrador puede ver:</p><ul class="tl"><li>tu nombre de usuario y si estás conectado, navegando o escuchando;</li><li>tu país <b>aproximado</b> (solo 2 letras) y el tipo de dispositivo;</li><li>qué canciones escuchas.</li></ul><p class="hint" style="margin:10px 0 14px">No guardamos ni mostramos tu dirección IP, tu contraseña ni tu ubicación exacta. Para estimar el país, tu navegador consulta un servicio de Cloudflare, que ve tu IP como cualquier sitio web. Puedes cambiarlo cuando quieras en Perfil → Ajustes. Más detalles en la <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</p><div style="display:grid;gap:8px"><button class="btn" data-t="y">Aceptar</button><button class="btn ghost" data-t="n">Ahora no</button></div>`;
+ d.onclick=e=>{const b=e.target.closest('[data-t]');if(!b)return;setTele(b.dataset.t);d.close()};
+ d.onclose=()=>d.remove();document.body.appendChild(d);d.showModal()}
+
+/* ---------- Presencia: latido cada ~25 s + desconexión al cerrar ---------- */
+async function hb(){
+ if(!sb||!me||!shellOn||!T2.on||T2.tele!=='y')return;
+ T2.lastHb=Date.now();const act=T2.act;T2.act=false;
+ const cc=await getCountry();
+ try{
+  const{error}=await sb.rpc('heartbeat',{p_state:(!audio.paused&&audio.getAttribute('src'))?'listening':'browsing',p_active:act,p_country:cc,p_device:deviceKind()});
+  if(error&&/PGRST202|Could not find|does not exist/i.test(error.code+' '+error.message))hbStop();
+  sb.auth.getSession().then(({data})=>{T2.tok=data.session?data.session.access_token:null}).catch(()=>{})
+ }catch(e){}}
+function hbSoon(){clearTimeout(T2.hbD);T2.hbD=setTimeout(hb,1500)}
+function hbStart(){
+ hbStop();T2.on=true;T2.act=true;hb();
+ T2.hbT=setInterval(()=>{if(document.visibilityState==='visible'||!audio.paused)hb()},25000)}
+function hbStop(){T2.on=false;clearInterval(T2.hbT);clearTimeout(T2.hbD);T2.hbT=null}
+async function goOff(){if(T2.tele==='y'&&sb&&me){try{await sb.rpc('go_offline')}catch(e){}}}
+async function signOutApp(scope){await goOff();hbStop();return sb.auth.signOut(scope?{scope}:undefined)}
+function t2Reset(){
+ hbStop();admStop();T2.tele=null;T2.tok=null;
+ adm.live=adm.stats=adm.users=adm.invites=null;adm.err='';adm.tab='live';adm.uq='';adm.all=false}
+['pointerdown','keydown','touchstart','wheel','scroll'].forEach(ev=>addEventListener(ev,()=>{T2.act=true},{passive:true,capture:true}));
+audio.addEventListener('play',hbSoon);audio.addEventListener('pause',hbSoon);
+document.addEventListener('visibilitychange',()=>{
+ if(document.visibilityState!=='visible')return;
+ hb();if(T2.ads!==null&&Date.now()-T2.adAt>300000)refreshAds()});
+addEventListener('pagehide',()=>{
+ if(!T2.on||!T2.tok||!cfg)return;
+ try{fetch(cfg.url+'/rest/v1/rpc/go_offline',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json',apikey:cfg.key,Authorization:'Bearer '+T2.tok},body:'{}'})}catch(e){}});
+addEventListener('pageshow',e=>{if(e.persisted)hb()});
+
+/* ---------- Reproducciones: se cuentan tras 20 s de escucha real ---------- */
+let lp={id:null,sec:0,done:false,t:0};
+audio.addEventListener('timeupdate',()=>{
+ const s=queue[qi];if(!s||!me)return;
+ const t=audio.currentTime;
+ if(lp.id!==s.id){lp={id:s.id,sec:0,done:false,t};return}
+ const d=t-lp.t;lp.t=t;
+ if(t<1.5&&lp.sec>15){lp.sec=0;lp.done=false}
+ if(!audio.paused&&d>0&&d<2){lp.sec+=d;
+  if(!lp.done&&lp.sec>=20){lp.done=true;if(T2.tele==='y'&&T2.on)sb.rpc('log_play',{p_song:String(s.id),p_country:T2.country||'XX'}).then(()=>{},()=>{})}}
+ if(T2.on&&Date.now()-T2.lastHb>25000)hb()});
+audio.addEventListener('ended',()=>{lp.sec=0;lp.done=false});
+
+/* ---------- Publicidad de Google (AdSense) ---------- */
+const ADC=/^ca-pub-\d{10,20}$/;
+const isWV=()=>/;\s*wv\)/.test(navigator.userAgent||'');
+async function loadAds(){
+ try{const{data,error}=await sb.from('app_settings').select('value').eq('key','ads').maybeSingle();
+  T2.ads=!error&&data&&data.value?{...ADS_DEF,...data.value}:{...ADS_DEF}}catch(e){T2.ads={...ADS_DEF}}
+ T2.adAt=Date.now()}
+async function refreshAds(){await loadAds();adsApply()}
+function adsElig(k){
+ const a=T2.ads;
+ if(!a||!a[k]||!ADC.test(a.client||'')||!/^\d{6,20}$/.test(a['slot_'+k]||''))return false;
+ if(!/^https?:$/.test(location.protocol)||/^(localhost|127\.|\[::1\])/.test(location.hostname))return false;
+ if(isWV()&&!a.webview)return false;
+ return true}
+function adScript(){
+ if(T2.adS)return;T2.adS=1;
+ const s=document.createElement('script');s.async=true;s.crossOrigin='anonymous';
+ s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client='+T2.ads.client;
+ s.onerror=()=>{$$('.ad').forEach(e=>{e.dataset.f='x';e.hidden=true})};
+ document.head.appendChild(s)}
+function adFill(el,key){
+ const a=T2.ads;el.dataset.f='1';
+ el.innerHTML=`<span class="ad-l">Publicidad</span><ins class="adsbygoogle" style="display:block" data-ad-client="${a.client}" data-ad-slot="${a['slot_'+key]}" data-ad-format="${key==='top'?'horizontal':'auto'}" data-full-width-responsive="${key==='top'?'false':'true'}"></ins>`;
+ const ins=el.querySelector('ins'),off=()=>{el.dataset.f='x';el.hidden=true};
+ new MutationObserver((m,o)=>{const st=ins.getAttribute('data-ad-status');if(st==='unfilled'){off();o.disconnect()}else if(st==='filled')o.disconnect()}).observe(ins,{attributes:true,attributeFilter:['data-ad-status']});
+ setTimeout(()=>{if(el.dataset.f==='1'&&!ins.querySelector('iframe')&&!ins.getAttribute('data-ad-status'))off()},12000);
+ adScript();
+ try{window.adsbygoogle=window.adsbygoogle||[];if(prefs.npa)window.adsbygoogle.requestNonPersonalizedAds=1;window.adsbygoogle.push({})}catch(e){off()}}
+function adsApply(){
+ if(!shellOn)return;
+ const okView=!!coll||['home','lib','fav','pl'].includes(view);   // nunca en Perfil ni Admin
+ [['top','top',okView],['lib','library',okView&&view==='lib'&&!coll]].forEach(([id,key,vis])=>{
+  const el=$('#ad'+id);if(!el)return;
+  if(!adsElig(key)){if(el.dataset.f){el.innerHTML='';delete el.dataset.f}el.hidden=true;return}
+  if(el.dataset.f==='x'){el.hidden=true;return}
+  el.hidden=!vis;
+  if(vis&&!el.dataset.f)adFill(el,key)})}
+
+/* ---------- Panel de administración ---------- */
+const cn=(()=>{let dn=null;try{dn=new Intl.DisplayNames(['es'],{type:'region'})}catch(e){}
+ return cc=>{if(!cc||cc==='XX')return'Desconocido';try{return dn?dn.of(cc)||cc:cc}catch(e){return cc}}})();
+const ccb=cc=>`<span class="cc">${esc(cc&&cc!=='XX'?cc:'—')}</span>`;
+const devN=d=>DEV[d]||DEV.other;
+function ago(ts){const s=Math.max(0,(Date.now()+adm.off-Date.parse(ts))/1000);
+ if(!isFinite(s))return'—';if(s<12)return'ahora';if(s<60)return'hace '+Math.round(s)+' s';
+ if(s<3600)return'hace '+Math.round(s/60)+' min';if(s<86400)return'hace '+Math.round(s/3600)+' h';return'hace '+Math.round(s/86400)+' d'}
+function bars(list,label){
+ if(!list.length)return'<p class="hint" style="margin-top:10px">Sin datos todavía.</p>';
+ const mx=Math.max(1,...list.map(x=>x.n));
+ return`<div class="hbl">${list.map(x=>`<span class="nm">${label(x)}</span><b>${num(x.n)}</b><span class="tr"><i style="width:${Math.max(2,x.n/mx*100)}%"></i></span>`).join('')}</div>`}
+function loadMap(){
+ if(window.WORLD_MAP||loadMap.p)return;loadMap.p=1;
+ const s=document.createElement('script');s.src='mapa-mundial.js';
+ s.onload=()=>{if(view==='admin')admPaint(true)};s.onerror=()=>{loadMap.p=2;if(view==='admin')admPaint(true)};
+ document.head.appendChild(s)}
+function mapSVG(counts,unit){
+ const W=window.WORLD_MAP;
+ if(!W){loadMap();return loadMap.p===2?'<p class="hint">No se pudo cargar el mapa (falta mapa-mundial.js).</p>':'<p class="hint">Cargando mapa…</p>'}
+ const mx=Math.max(1,...Object.values(counts)),bin=n=>!n?0:Math.min(5,1+Math.floor(Math.sqrt(n/mx)*4.999));
+ let p='',d='';
+ for(const cc in W.c){const n=counts[cc]||0;p+=`<path class="c${bin(n)}" d="${W.c[cc].d}" data-cc="${cc}" data-n="${n}"/>`}
+ for(const cc in W.p){const n=counts[cc]||0;if(!n)continue;d+=`<circle class="c${bin(n)}" cx="${W.p[cc][0]}" cy="${W.p[cc][1]}" r="4.5" data-cc="${cc}" data-n="${n}"/>`}
+ return`<svg class="wmap" viewBox="0 0 ${W.w} ${W.h}" role="img" aria-label="Mapa mundial: ${esc(unit)} por país">${p}${d}</svg><div class="wleg"><span>1</span><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i><span>${num(mx)} ${esc(unit)}</span><span style="margin-left:auto">Sin datos: gris</span></div>`}
+const cnt=(l,k='country')=>{const o={};(l||[]).forEach(x=>{o[x[k]]=x.n});return o};
+
+function adminHTML(){
+ return`<div class="hd"><h2>Administración</h2></div><div class="chips" role="group" aria-label="Secciones del panel">${ADM_TABS.map(c=>`<button class="chip" data-ad="tab" data-id="${c[0]}" aria-pressed="${adm.tab===c[0]}">${c[1]}</button>`).join('')}</div><div id="adm">${admBody()}</div>`}
+function admBody(){
+ const e=adm.err?`<p class="adm-note err" role="alert">${esc(adm.err)}</p>`:'';
+ return e+({live:admLive,stats:admStats,users:admUsers,inv:admInv,ads:admAds}[adm.tab]||admLive)()}
+
+function admLive(){
+ const d=adm.live,s=adm.stats;
+ if(!d)return adm.err?'':'<p class="adm-note">Cargando…</p>';
+ const tiles=`<div class="stats4"><div class="st hero"><span class="live-n"><i class="pulse"></i>Conectados ahora</span><b>${num(d.connected)}</b></div><div class="st"><span>Activos (últimos 2 min)</span><b>${num(d.active)}</b></div><div class="st"><span>Escuchando música</span><b>${num(d.listening)}</b></div><div class="st"><span>Navegando sin música</span><b>${num(d.browsing)}</b></div></div>
+ <p class="adm-note">Conectado = app abierta (latido en los últimos 70 s). Activo = tocó o escribió en los últimos 2 min. Escuchando = reproduciendo audio. Se actualiza solo.</p>`;
+ const visits=`<div class="card2"><h4>Entradas<small>usuarios distintos</small></h4><div class="stats4 g3" style="padding:12px 0 0">${s?[['Hoy',s.today],['7 días',s.week],['30 días',s.month]].map(x=>`<div class="st"><b>${num(x[1])}</b><span>${x[0]}</span></div>`).join(''):'<p class="hint">Cargando…</p>'}</div></div>`;
+ const users=(d.users||[]).map(u=>`<div class="ur"><b>${esc(u.name||'—')}</b><span class="cn">${ccb(u.country)}<span>${esc(cn(u.country))}</span></span><span>${esc(devN(u.device))}</span><span>${u.state==='listening'?`<span class="stt l">${I.vol}Escuchando</span>`:u.active?'<span class="stt a"><i></i>Activo</span>':'<span class="stt c"><i></i>Inactivo</span>'}</span><span class="hint">${esc(ago(u.last_active))}</span></div>`).join('');
+ return tiles+`<div class="cards">
+ <div class="card2 wide"><h4>Países conectados ahora</h4>${mapSVG(cnt(d.by_country),'conectados')}</div>
+ <div class="card2"><h4>Por país</h4>${bars((d.by_country||[]).slice(0,12).map(x=>({n:x.n,c:x.country})),x=>ccb(x.c)+'<span>'+esc(cn(x.c))+'</span>')}</div>
+ <div class="card2"><h4>Dispositivos</h4>${bars((d.by_device||[]).map(x=>({n:x.n,c:x.device})),x=>'<span>'+esc(devN(x.c))+'</span>')}</div>
+ ${visits}
+ <div class="card2 wide"><h4>Usuarios conectados<small>${num(d.connected)}${(d.users||[]).length<d.connected?' · se muestran '+(d.users||[]).length:''}</small></h4>${users?`<div class="ut"><div class="ur h"><span>Usuario</span><span>País</span><span>Dispositivo</span><span>Estado</span><span>Última actividad</span></div>${users}</div>`:'<p class="hint" style="margin-top:10px">Nadie conectado en este momento.</p>'}</div></div>`}
+
+function admStats(){
+ const s=adm.stats;if(!s)return adm.err?'':'<p class="adm-note">Cargando…</p>';
+ const m=adm.metric==='plays',list=m?s.plays_by_country:s.visitors_by_country,top=s.top_songs||[],shown=adm.all?top:top.slice(0,25);
+ const t=x=>[[ 'Entradas hoy',s.today],['Entradas 7 días',s.week],['Entradas 30 días',s.month],['Reproducciones',s.plays_total],['Reprod. hoy',s.plays_today],['Usuarios (pendientes: '+num(s.pending)+')',s.users_total]].map(y=>`<div class="st"><b>${num(y[1])}</b><span>${y[0]}</span></div>`).join('');
+ return`<div class="stats4 g3">${t()}</div><p class="adm-note">Una reproducción cuenta tras 20 s de escucha. Solo se registran usuarios que aceptaron compartir estadísticas.</p><div class="cards">
+ <div class="card2 wide"><h4>Mapa por país</h4><div class="chips" style="padding:8px 0" role="group">${[['visitors','Visitantes (30 días)'],['plays','Reproducciones']].map(c=>`<button class="chip" data-ad="metric" data-id="${c[0]}" aria-pressed="${adm.metric===c[0]}">${c[1]}</button>`).join('')}</div>${mapSVG(cnt(list),m?'reproducciones':'visitantes')}</div>
+ <div class="card2"><h4>Países<small>${m?'reproducciones':'visitantes'}</small></h4>${bars((list||[]).slice(0,15),x=>ccb(x.country)+'<span>'+esc(cn(x.country))+'</span>')}</div>
+ <div class="card2"><h4>Canciones más escuchadas<small>${top.length} con reproducciones</small></h4>${bars(shown.map((x,i)=>({n:x.plays,t:x.title,a:x.artist,i,id:x.song_id})),x=>`<span class="rk">${x.i+1}</span><span>${esc(x.t||'(canción eliminada)')}${x.a?` <em>${esc(x.a)}</em>`:''}</span>`)}${top.length>25?`<button class="sbtn" data-ad="allsongs" style="margin-top:8px">${adm.all?'Ver solo las 25 primeras':'Ver todas ('+top.length+')'}</button>`:''}</div></div>`}
+
+function admUserList(){
+ const t=adm.uq.toLowerCase(),u=(adm.users||[]).filter(x=>!t||String(x.email||'').toLowerCase().includes(t)||String(x.name||'').toLowerCase().includes(t));
+ return u.map(x=>{const self=x.id===me.id,b=(k,l,c)=>`<button class="sbtn ${c||''}" data-ad="uset" data-id="${esc(x.id)}" data-k="${k}">${l}</button>`;
+  return`<div class="arow"><div class="ai"><b>${esc(x.name||String(x.email||'').split('@')[0])}</b> ${x.role==='admin'?'<span class="badge a">Admin</span>':''} ${x.blocked?'<span class="badge">Bloqueado</span>':x.approved?'<span class="badge">Con acceso</span>':'<span class="badge">Pendiente</span>'}<br><small class="hint">${esc(x.email||'')} · ${x.last_sign_in?'último acceso '+esc(new Date(x.last_sign_in).toLocaleString('es')):'sin accesos'}</small></div>${self?'<small class="hint">(tú)</small>':`<div class="acts">${x.approved&&!x.blocked?b('unapprove','Quitar acceso'):b('approve','Dar acceso')}${b(x.blocked?'unblock':'block',x.blocked?'Desbloquear':'Bloquear','danger')}${b(x.role==='admin'?'demote':'promote',x.role==='admin'?'Quitar admin':'Hacer admin')}</div>`}</div>`}).join('')||'<p class="adm-note">Sin resultados.</p>'}
+function admUsers(){
+ if(!adm.users)return adm.err?'':'<p class="adm-note">Cargando…</p>';
+ return`<div class="admf" style="padding-bottom:6px"><input id="uq" type="search" placeholder="Buscar por nombre o correo" value="${esc(adm.uq)}" autocomplete="off"><p class="hint">${num(adm.users.length)} cuentas. «Quitar acceso» o «Bloquear» dejan al usuario fuera de la biblioteca.</p></div><div id="ulist">${admUserList()}</div>`}
+
+function admInv(){
+ const l=adm.invites;
+ return`<div class="admf"><label>Correos a invitar<textarea id="inv-t" placeholder="amigo@correo.com, otra@correo.com" autocapitalize="off"></textarea><span class="hint">Uno por línea o separados por coma. Si el correo ya tiene cuenta, recibe acceso al instante; si no, entrará al registrarse (con Google o con correo) usando ese mismo correo.</span></label><button class="btn" data-ad="invsend">Invitar</button><button class="btn ghost" data-ad="copylink">Copiar enlace de la app</button></div>
+ <div class="sec-h"><h3>Invitaciones</h3></div>${!l?'<p class="adm-note">Cargando…</p>':l.length?l.map(i=>`<div class="arow"><div class="ai"><b>${esc(i.email)}</b><br><small class="hint">${i.used_at?'Usada el '+esc(new Date(i.used_at).toLocaleDateString('es')):'Pendiente'} · creada ${esc(new Date(i.created_at).toLocaleDateString('es'))}</small></div><button class="sbtn danger" data-ad="invdel" data-id="${esc(i.email)}">Eliminar</button></div>`).join(''):'<p class="adm-note">Aún no hay invitaciones.</p>'}<p class="adm-note">Eliminar una invitación no quita el acceso a quien ya entró: para eso usa la pestaña Usuarios.</p>`}
+
+function admAds(){
+ const a={...ADS_DEF,...(T2.ads||{})},sw=(id,t,d,on)=>`<label class="sw"><span>${t}<br><small class="hint">${d}</small></span><input type="checkbox" id="${id}" ${on?'checked':''}></label>`;
+ return`<div class="admf"><p class="hint">Anuncios de Google AdSense. Todo empieza apagado. La música nunca se detiene ni se interrumpe: los anuncios son recuadros fijos dentro de la página, sin ventanas emergentes, sin sonido y sin superponerse al reproductor ni a los menús.</p>
+ ${sw('ad-top','Banner superior','Un recuadro discreto «Publicidad» al inicio de Inicio, Biblioteca, Favoritos y Listas.',a.top)}
+ ${sw('ad-lib','Bloque en la Biblioteca','Un recuadro al final de la lista de canciones de la Biblioteca.',a.library)}
+ ${sw('ad-wv','Mostrar también dentro de la app Android (WebView)','Déjalo apagado hasta confirmar que tu cuenta de Google lo permite para tu app.',a.webview)}
+ <label>ID de editor de AdSense<input id="ad-cl" value="${esc(a.client)}" placeholder="ca-pub-1234567890123456" autocapitalize="off" autocomplete="off"></label>
+ <label>ID del bloque · banner superior<input id="ad-st" value="${esc(a.slot_top)}" placeholder="1234567890" inputmode="numeric" autocomplete="off"></label>
+ <label>ID del bloque · biblioteca<input id="ad-sl" value="${esc(a.slot_library)}" placeholder="1234567890" inputmode="numeric" autocomplete="off"></label>
+ <p id="ad-msg" class="hint" role="status"></p><button class="btn" data-ad="adsave">Guardar</button>
+ <p class="hint">Estado en este dispositivo: banner ${adsElig('top')?'<b>visible</b>':'oculto'} · biblioteca ${adsElig('library')?'<b>visible</b>':'oculta'}. Los anuncios no se piden desde localhost ni desde un archivo local.</p></div>`}
+
+function admPaint(force){
+ const r=$('#adm');if(!r||view!=='admin')return;
+ const f=document.activeElement;
+ if(!force&&f&&r.contains(f)&&/^(INPUT|TEXTAREA|SELECT)$/.test(f.tagName)){const l=$('#ulist');if(l&&adm.tab==='users')l.innerHTML=admUserList();return}
+ if(!force&&adm.tab==='ads')return;
+ r.innerHTML=admBody()}
+async function admRpc(name,args){
+ const{data,error}=await sb.rpc(name,args||{});
+ if(error){const m=(error.code||'')+' '+(error.message||'');
+  adm.err=/42501|No autorizado/.test(m)?'No autorizado: solo el administrador puede ver este panel.':/PGRST202|Could not find|does not exist/i.test(m)?'Falta instalar la base de datos de la tanda 2: ejecuta el PASO 1 de supabase-tanda2.sql.':'No se pudo cargar: '+(error.message||'error');return null}
+ adm.err='';return data}
+async function admLoad(){
+ if(view!=='admin'||adm.busy)return;adm.busy=true;const t=adm.tab;
+ try{
+  if(t==='live'){const d=await admRpc('admin_live');if(d){adm.live=d;adm.off=Date.parse(d.now)-Date.now();
+    if(Date.now()-adm.lastStats>30000){const s=await admRpc('admin_stats');if(s){adm.stats=s;adm.lastStats=Date.now()}}}}
+  else if(t==='stats'){const s=await admRpc('admin_stats');if(s){adm.stats=s;adm.lastStats=Date.now()}}
+  else if(t==='users'){const u=await admRpc('admin_users');if(u)adm.users=u}
+  else if(t==='inv'){const r=await sb.from('invites').select('*').order('created_at',{ascending:false});
+   if(r.error)adm.err=/does not exist|PGRST205/.test(r.error.message||r.error.code||'')?'Falta instalar la base de datos de la tanda 2 (PASO 1).':'No se pudo cargar: '+r.error.message;else{adm.invites=r.data||[];adm.err=''}}
+ }catch(e){adm.err='No se pudo cargar. Revisa tu conexión.'}
+ adm.busy=false;if(view==='admin'&&adm.tab===t)admPaint(t!=='ads')}
+function admStart(){
+ admStop();
+ adm.t=setInterval(()=>{if(document.visibilityState==='visible'&&adm.tab==='live')admLoad()},5000);
+ try{if(sb.channel)adm.ch=sb.channel('adm-presence').on('postgres_changes',{event:'*',schema:'public',table:'presence'},()=>{clearTimeout(adm.rt);adm.rt=setTimeout(()=>{if(adm.tab==='live')admLoad()},1500)}).subscribe()}catch(e){adm.ch=null}
+ admLoad()}
+function admStop(){clearInterval(adm.t);adm.t=null;clearTimeout(adm.rt);if(adm.ch){try{sb.removeChannel(adm.ch)}catch(e){}adm.ch=null}}
+function admBind(){admStart()}
+function tip(e){
+ const t=e.target&&e.target.closest?e.target.closest('[data-cc]'):null;let el=$('#mtip');
+ if(!t||t.dataset.n==='0'){if(el)el.style.display='none';return}
+ if(!el){el=document.createElement('div');el.id='mtip';document.body.appendChild(el)}
+ el.textContent=cn(t.dataset.cc)+': '+num(t.dataset.n);el.style.display='block';
+ el.style.left=Math.min(innerWidth-170,e.clientX+12)+'px';el.style.top=(e.clientY+14)+'px'}
+function admWire(){
+ const v=$('#view');if(!v)return;
+ v.addEventListener('click',admClick);
+ v.addEventListener('input',e=>{if(view==='admin'&&e.target.id==='uq'){adm.uq=e.target.value;const l=$('#ulist');if(l)l.innerHTML=admUserList()}});
+ v.addEventListener('mousemove',tip);v.addEventListener('mouseleave',tip);v.addEventListener('click',tip)}
+async function admClick(e){
+ if(view!=='admin')return;
+ const b=e.target.closest('[data-ad]');if(!b)return;
+ const a=b.dataset.ad,id=b.dataset.id;
+ if(a==='tab'){adm.tab=id;adm.err='';$$('#view .chips [data-ad=tab]').forEach(c=>c.setAttribute('aria-pressed',c.dataset.id===id));syncUrl();admPaint(true);return admLoad()}
+ if(a==='metric'){adm.metric=id;return admPaint(true)}
+ if(a==='allsongs'){adm.all=!adm.all;return admPaint(true)}
+ if(a==='copylink'){try{await navigator.clipboard.writeText(location.origin+location.pathname);toast('Enlace copiado.')}catch(x){toast(location.origin+location.pathname)}return}
+ if(a==='invsend'){
+  const raw=($('#inv-t').value||'').split(/[\s,;]+/).map(x=>x.trim().toLowerCase()).filter(Boolean),ok=raw.filter(x=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x));
+  if(!ok.length)return toast('Escribe al menos un correo válido.');
+  const{data,error}=await sb.rpc('admin_invite',{p_emails:ok});
+  if(error)return toast('No se pudo invitar: '+error.message);
+  $('#inv-t').value='';toast(num(data)+(data===1?' invitación registrada.':' invitaciones registradas.')+(raw.length>ok.length?' Se ignoraron correos no válidos.':''));return admLoad()}
+ if(a==='invdel'){
+  if(!confirm('¿Eliminar la invitación de '+id+'?'))return;
+  const{error}=await sb.from('invites').delete().eq('email',id);
+  if(error)return toast('No se pudo eliminar.');toast('Invitación eliminada.');return admLoad()}
+ if(a==='uset'){
+  const u=(adm.users||[]).find(x=>x.id===id);if(!u)return;
+  const k=b.dataset.k,n={approved:!!u.approved,blocked:!!u.blocked,role:u.role==='admin'?'admin':'user'},nm=u.email||u.name||'';
+  const msg={unapprove:'¿Quitarle el acceso a '+nm+'?',block:'¿Bloquear a '+nm+'?',promote:'¿Hacer administrador a '+nm+'? Podrá ver todas las estadísticas y usuarios.',demote:'¿Quitar el rol de administrador a '+nm+'?'}[k];
+  if(msg&&!confirm(msg))return;
+  if(k==='approve'){n.approved=true;n.blocked=false}else if(k==='unapprove')n.approved=false;else if(k==='block')n.blocked=true;else if(k==='unblock')n.blocked=false;else if(k==='promote'){n.role='admin';n.approved=true}else if(k==='demote')n.role='user';
+  const r=await admRpc('admin_set_user',{p_id:id,p_approved:n.approved,p_blocked:n.blocked,p_role:n.role});
+  if(adm.err){toast(adm.err);adm.err='';return}
+  toast('Cambios guardados.');return admLoad()}
+ if(a==='adsave'){
+  const v={top:$('#ad-top').checked,library:$('#ad-lib').checked,webview:$('#ad-wv').checked,client:$('#ad-cl').value.trim(),slot_top:$('#ad-st').value.trim(),slot_library:$('#ad-sl').value.trim()},m=$('#ad-msg');
+  if(v.client&&!ADC.test(v.client))return m.textContent='El ID de editor debe verse como ca-pub-1234567890123456.';
+  if((v.top||v.library)&&!v.client)return m.textContent='Para activar anuncios escribe tu ID de editor.';
+  if(v.top&&!/^\d{6,20}$/.test(v.slot_top))return m.textContent='Falta el ID numérico del bloque del banner superior.';
+  if(v.library&&!/^\d{6,20}$/.test(v.slot_library))return m.textContent='Falta el ID numérico del bloque de la biblioteca.';
+  if(v.slot_top&&!/^\d{6,20}$/.test(v.slot_top)||v.slot_library&&!/^\d{6,20}$/.test(v.slot_library))return m.textContent='Los IDs de bloque son solo números.';
+  m.textContent='Guardando…';
+  const{error}=await sb.from('app_settings').upsert({key:'ads',value:v,updated_at:new Date().toISOString()});
+  if(error)return m.textContent='No se pudo guardar: '+error.message;
+  T2.ads={...ADS_DEF,...v};T2.adAt=Date.now();$$('.ad').forEach(el=>{el.innerHTML='';delete el.dataset.f;el.hidden=true});
+  toast('Publicidad guardada.');admPaint(true);return adsApply()}}
+
+/* ---------- Privacidad en Ajustes ---------- */
+function pfPriv(){
+ const ads=T2.ads&&(T2.ads.top||T2.ads.library);
+ return`<div class="form"><h4>Privacidad${ads?' y anuncios':''}</h4><label class="sw"><span>Compartir estadísticas de uso<br><small class="hint">País aproximado (2 letras), tipo de dispositivo, si estás escuchando y qué canciones. Nunca tu IP ni tu contraseña.</small></span><input type="checkbox" id="t-tele" ${T2.tele==='y'?'checked':''}></label>${ads?`<label class="sw"><span>Anuncios no personalizados<br><small class="hint">Pide a Google anuncios que no usen tu historial. Surte efecto al recargar.</small></span><input type="checkbox" id="t-npa" ${prefs.npa?'checked':''}></label>`:''}<a class="lnk" href="privacidad.html" target="_blank" rel="noopener">Política de privacidad</a></div>`}
 
 loadPrefs();boot();
 </script>

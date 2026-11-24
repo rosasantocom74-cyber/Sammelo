@@ -1,5 +1,5 @@
-const C = 'sammelo-v11';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const C = 'sammelo-v10';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './privacidad.html'];
 const CDN = ['cdn.jsdelivr.net', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
 self.addEventListener('install', e => {
@@ -23,7 +23,7 @@ self.addEventListener('fetch', e => {
 
   // Páginas: red primero, y si no hay internet, la copia guardada.
   if (r.mode === 'navigate') {
-    e.respondWith(fetch(r, { cache: 'no-store' }).catch(() => caches.match('./index.html')));
+    e.respondWith(fetch(r).catch(() => caches.match('./index.html')));
     return;
   }
 
