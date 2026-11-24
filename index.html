@@ -597,7 +597,7 @@ const artistBase=s=>{
  const low=raw.toLowerCase(),ex=ARTISTAS_COMPLETOS.find(n=>low.startsWith(n.toLowerCase()));
  if(ex)return ex;
  // Se queda solo con el artista principal (el primero) y descarta los featuring
- const main=raw.split(/\s*(?:,|;|\||[❌✖✕✗×]|\bfeat\.?|\bft\.?|\bfeaturing\b|\bcon\b|\bwith\b|\s&\s|\sx\s|\sy\s|\sand\s)\s*/i)[0].trim();
+ const main=raw.split(/\s*(?:,|;|\||\+|[•·(\[]|\p{Extended_Pictographic}|[✖✕✗×]|\s[-–—]\s|\bvs\.?\s|\bfeat\.?|\bft\.?|\bfeaturing\b|\bcon\b|\bwith\b|\s&\s|\sx\s|\sy\s|\sand\s)\s*/iu)[0].trim();
  return main||raw};
 // Une variantes del mismo artista (mayúsculas, tildes): "BAD BUNNY" = "Bad Bunny", "Eladio Carrion" = "Eladio Carrión"
 const artKey=n=>n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
@@ -787,7 +787,7 @@ function pfSeg(){const last=me.last_sign_in_at?new Date(me.last_sign_in_at).toLo
  <p class="msg" id="m-pw"></p><button class="btn" data-a="pwsave">${pw?'Actualizar contraseña':'Crear contraseña'}</button></div>
  ${g&&!pw?`<div class="form"><h4>Correo electrónico</h4><p class="hint">Tu correo (${esc(me.email)}) lo gestiona tu cuenta de Google.</p></div>`:`<div class="form"><h4>Correo electrónico</h4><label>Correo<input id="em2" type="email" value="${esc(me.email)}" autocomplete="email"></label><p class="msg" id="m-em"></p><button class="btn ghost" data-a="emsave">Cambiar correo</button></div>`}
  <div class="form"><h4>Sesiones</h4><div class="sess"><span class="dot"></span><div><b>Esta sesión · ${esc(deviceInfo())}</b><div class="mut">Iniciada el ${esc(last)}${g&&!pw?' · con Google':''}</div></div></div>
- <button class="btn ghost" data-a="others">Cerrar las demás sesiones</button><button class="btn ghost danger" data-a="outall">Cerrar sesión en todos los dispositivos</button><button class="btn" data-a="out">Cerrar sesión</button></div>`}
+ <button class="btn ghost" data-a="others">Cerrar las demás sesiones</button><button class="btn ghost danger" data-a="outall">Cerrar sesión en todos los dispositivos</button><button class="btn" data-a="out">Cerrar sesión</button></div><p class="mut" style="text-align:center;font-size:12px;margin:14px 0">Versión v11</p>`}
 function pfAjustes(){
  const sw=(id,t,d,on)=>`<label class="sw"><span>${t}<br><small class="hint">${d}</small></span><input type="checkbox" id="${id}" ${on?'checked':''}></label>`;
  return `<div class="form"><h4>Apariencia</h4><div class="themes">${[['dark','Oscuro'],['light','Claro'],['auto','Automático']].map(t=>`<button class="th" data-a="theme" data-id="${t[0]}" aria-pressed="${(prefs.theme||'dark')===t[0]}"><i class="th-${t[0]}"></i>${t[1]}</button>`).join('')}</div><p class="hint">«Automático» sigue el modo de tu dispositivo.</p></div><div class="form"><h4>Color de la app</h4><div class="swatches">${COLORS.map(c=>`<button class="swatch" style="background:${c[0]}" data-a="accent" data-id="${c[0]}" aria-label="${c[1]}" aria-pressed="${prefs.accent===c[0]}"></button>`).join('')}</div><p class="hint">Cambia el color de botones, banner y detalles en toda la app.</p></div>
