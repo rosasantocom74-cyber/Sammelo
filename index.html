@@ -357,7 +357,7 @@ function setup(){
   if(!key.startsWith('sb_publishable_')&&!key.startsWith('eyJ'))return say('Usa la clave pública, no la secreta.');
   localStorage.setItem('cfg',JSON.stringify({url,key}));location.reload()}}
 function login(){
- lastPath='';shellOn=false;audio.pause();queue=[];qi=-1;curList=null;coll=null;view='home';recent=[];meta={};profTab='resumen';stats={sec:0,plays:{},days:{}};
+ unsubRealtime();lastPath='';shellOn=false;audio.pause();queue=[];qi=-1;curList=null;coll=null;view='home';recent=[];meta={};profTab='resumen';stats={sec:0,plays:{},days:{}};
  $('#root').innerHTML=`<div class="auth"><img class="logo" src="icon-512.png" alt="Logo de Sammelo" onerror="this.style.display='none'"><h1>Sammelo</h1><p class="mut">Inicia sesión o crea tu cuenta.</p><button class="gbtn" id="gg">${GICON}<span>Continuar con Google</span></button><div class="or"><span>o con tu correo</span></div><label>Correo<input id="em" type="email" autocomplete="email"></label><label>Contraseña<input id="pw" type="password" autocomplete="current-password"></label><p id="msg" class="msg"></p><button class="btn" id="in">Entrar</button><button class="btn ghost" id="up">Crear cuenta</button><button class="lnk" id="rs">¿Olvidaste tu contraseña?</button></div>`;
  const v=()=>[$('#em').value.trim(),$('#pw').value];
  $('#gg').onclick=()=>googleIn();
@@ -391,7 +391,7 @@ async function load(){
  try{recent=JSON.parse(localStorage.getItem('rc:'+me.id)||'[]')}catch(e){recent=[]}
  meta=me.user_metadata||{};if(meta.accent){prefs.accent=meta.accent;applyPrefs()}loadStats();
  shell();render();if(qi<0)restorePb();
- routeFromHash();setTimeout(migrateLS,2000);
+ routeFromHash();setTimeout(migrateLS,2000);subRealtime();
  if(s.error)toast('No se pudieron cargar las canciones.')}
 async function signed(s){
  const c=urlCache[s.id];if(c&&c.t>Date.now())return c.u;
@@ -1040,6 +1040,29 @@ addEventListener('offline',()=>toast('Sin conexión: la música necesita interne
 addEventListener('online',()=>toast('Conexión restablecida.'));
 const wfRM=window.matchMedia?matchMedia('(prefers-reduced-motion: reduce)'):{matches:false};
 const wfCalm=()=>wfRM.matches||!!prefs.calm;
+
+/* ====== ACTUALIZACIÓN EN VIVO ====== */
+let rtCh=null,rtT=null,rtNew=0,rtNT=null;
+const byNew=(a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||''));
+function subRealtime(){
+ if(rtCh||!sb||!sb.channel)return;
+ try{rtCh=sb.channel('sammelo-songs').on('postgres_changes',{event:'*',schema:'public',table:'songs'},onSongChange).subscribe()}catch(e){rtCh=null}}
+function unsubRealtime(){try{if(rtCh&&sb)sb.removeChannel(rtCh)}catch(e){}rtCh=null}
+function onSongChange(p){
+ const n=p.new&&p.new.id?p.new:null,o=p.old&&p.old.id?p.old:null;
+ if(p.eventType==='INSERT'&&n){
+  if(songs.some(x=>x.id===n.id))return;
+  songs=[n,...songs].sort(byNew);rtNew++;clearTimeout(rtNT);
+  rtNT=setTimeout(()=>{toast(rtNew===1?'Nueva canción: '+n.title:rtNew+' canciones nuevas en tu biblioteca');rtNew=0},1200)}
+ else if(p.eventType==='UPDATE'&&n){
+  const i=songs.findIndex(x=>x.id===n.id);
+  if(i>=0){Object.assign(songs[i],n);delete urlCache[n.id]}else songs=[n,...songs].sort(byNew)}
+ else if(p.eventType==='DELETE'&&o){songs=songs.filter(x=>x.id!==o.id);favs.delete(o.id)}
+ else return;
+ clearTimeout(rtT);rtT=setTimeout(()=>{
+  const a=document.activeElement;
+  if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&$('#main')&&$('#main').contains(a))return;
+  if(shellOn&&(view==='home'||view==='lib'||view==='fav')&&!coll)render()},600)}
 
 async function onMain(e){
  const b=e.target.closest('[data-a]');
