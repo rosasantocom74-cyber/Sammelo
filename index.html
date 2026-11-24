@@ -455,8 +455,13 @@ audio.ontimeupdate=()=>{lyTick();wfKick();warmNext();if(audio.currentTime>0&&que
  $('#cur').textContent=c;$('#dur').textContent=du;$('#cur2').textContent=c;$('#dur2').textContent=du;
  if(d){$('#sk').value=v;$('#sk2').value=v;fillR($('#sk'));fillR($('#sk2'));const pl=$('.player');if(pl)pl.style.setProperty('--mp',v/10+'%')}};
 audio.ondurationchange=()=>{try{const ms=navigator.mediaSession,d=audio.duration;if(ms&&ms.setPositionState&&isFinite(d))ms.setPositionState({duration:d,position:audio.currentTime,playbackRate:1})}catch(e){}};
-let errN=0,retryId=null,goodT=0,goodTid=null;
-audio.onplaying=()=>{errN=0;retryId=null};
+let errN=0,retryId=null,goodT=0,goodTid=null,trans=false;
+// Panel fijo: mantiene la sesión multimedia en 'playing' mientras se cambia de canción
+function msState(){try{const ms=navigator.mediaSession;if(ms)ms.playbackState=(!audio.paused||trans)?'playing':'paused'}catch(e){}}
+function msMeta(){try{const ms=navigator.mediaSession,s=queue[qi];if(!ms||!s)return;
+ ms.metadata=new MediaMetadata({title:s.title,artist:s.artist||'',album:'Sammelo',artwork:s.thumbnail_url?[{src:s.thumbnail_url,sizes:'512x512'},{src:s.thumbnail_url,sizes:'256x256'},{src:s.thumbnail_url,sizes:'128x128'}]:[]});
+ const d=audio.duration;if(ms.setPositionState&&isFinite(d)&&d>0)ms.setPositionState({duration:d,position:Math.min(audio.currentTime||0,d),playbackRate:audio.playbackRate||1})}catch(e){}}
+audio.onplaying=()=>{errN=0;retryId=null;trans=false;msMeta();msState()};
 audio.onerror=async()=>{if(!audio.getAttribute('src'))return;
  const s=queue[qi];
  if(!navigator.onLine){toast('Sin conexión: no se puede reproducir ahora.');return}
@@ -468,13 +473,13 @@ audio.onerror=async()=>{if(!audio.getAttribute('src'))return;
  errN++;
  if(queue.length>1&&errN<3){toast('No se pudo reproducir. Pasando a la siguiente…');setTimeout(()=>step(1),800)}
  else toast('No se pudo reproducir esta canción.')};
-audio.onplay=audio.onpause=()=>{document.body.classList.toggle('playing',!audio.paused);const h=audio.paused?I.play:I.pause;['#pp','#pp2'].forEach(k=>{const b=$(k);if(b)b.innerHTML=h});const d=$('#disc');if(d)d.classList.toggle('spin',!audio.paused);if(navigator.mediaSession)navigator.mediaSession.playbackState=audio.paused?'paused':'playing'};
-audio.onended=()=>{if(sleepEnd){sleepEnd=false;sleepUI();toast('Temporizador: música en pausa.');return}rep===2?(audio.currentTime=0,audio.play()):step(1)};
+audio.onplay=audio.onpause=()=>{document.body.classList.toggle('playing',!audio.paused);const h=audio.paused?I.play:I.pause;['#pp','#pp2'].forEach(k=>{const b=$(k);if(b)b.innerHTML=h});const d=$('#disc');if(d)d.classList.toggle('spin',!audio.paused);msState()};
+audio.onended=()=>{if(sleepEnd){sleepEnd=false;trans=false;msState();sleepUI();toast('Temporizador: música en pausa.');return}trans=true;msState();rep===2?(audio.currentTime=0,audio.play()):step(1)};
 
 async function play(list,i,at){
  const s=list[i];if(!s)return;
  if(list!==queue)heard.clear();
- queue=list;qi=i;heard.add(s.id);pushRecent(s.id);nextPick=-1;warmId=null;upd();
+ queue=list;qi=i;heard.add(s.id);pushRecent(s.id);nextPick=-1;warmId=null;trans=true;upd();msState();
  try{
   const c=urlCache[s.id];let u=c&&c.t>Date.now()?c.u:null;
   if(!u)u=await signed(s);
@@ -483,11 +488,11 @@ async function play(list,i,at){
   if(at>1)audio.addEventListener('loadedmetadata',()=>{audio.currentTime=at},{once:true});
   await audio.play();
   nextPick=pickNext();const nx=queue[nextPick];if(nx)signed(nx).catch(()=>{})}
- catch(e){if(e&&e.name==='AbortError')return;toast('No se pudo reproducir esta canción.')}}
+ catch(e){if(e&&e.name==='AbortError')return;trans=false;msState();toast('No se pudo reproducir esta canción.')}}
 function step(d){
  if(!queue.length)return;
  let n;
- if(d>0){n=nextPick>=0&&queue[nextPick]?nextPick:pickNext();if(n<0||!queue[n]){audio.pause();return}}
+ if(d>0){n=nextPick>=0&&queue[nextPick]?nextPick:pickNext();if(n<0||!queue[n]){trans=false;audio.pause();msState();return}}
  else n=Math.max(0,qi-1);
  play(queue,n)}
 function upd(){
@@ -497,7 +502,7 @@ function upd(){
  if(wfFor!==s.id)loadWave(s);
  {const pl=$('.player');if(pl){const h=hue(s.title+artistOf(s));pl.style.setProperty('--tint',curTheme()==='light'?`hsl(${h} 70% 93%)`:`hsl(${h} 38% 17%)`)}}
  const lk=$('#lk');if(lk){const f=favs.has(s.id);lk.setAttribute('aria-pressed',f);lk.innerHTML=f?I.heartF:I.heart}
- if(navigator.mediaSession)navigator.mediaSession.metadata=new MediaMetadata({title:s.title,artist:s.artist||'',artwork:s.thumbnail_url?[{src:s.thumbnail_url}]:[]});npRender()}
+ msMeta();npRender()}
 
 function npRender(){
  const s=queue[qi];if(!s||!$('#np'))return;
@@ -584,7 +589,16 @@ const go=()=>{const m=$('#main');if(m)m.scrollTop=0;scrollTo(0,0)};
 const hue=x=>{let h=0;for(const c of String(x))h=(h*31+c.charCodeAt(0))%360;return h};
 const tone=x=>`linear-gradient(135deg,hsl(${hue(x)} 50% 38%),hsl(${(hue(x)+40)%360} 55% 22%))`;
 const ini=x=>String(x||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
-const artistOf=s=>String(s.artist||'').replace(/\s*-\s*Topic$/i,'').trim()||'Artista desconocido';
+// Artistas que SÍ llevan "&", "y", coma o "x" en su nombre y no se deben cortar. Añade aquí los que necesites.
+const ARTISTAS_COMPLETOS=['Wisin & Yandel','Zion & Lennox','Simon & Garfunkel','Earth, Wind & Fire','Tyler, The Creator','Calle 13','Los Del Rio','Hall & Oates','Florence + The Machine'];
+const artistOf=s=>{
+ const raw=String(s.artist||'').replace(/\s*-\s*Topic$/i,'').trim();
+ if(!raw)return 'Artista desconocido';
+ const low=raw.toLowerCase(),ex=ARTISTAS_COMPLETOS.find(n=>low.startsWith(n.toLowerCase()));
+ if(ex)return ex;
+ // Se queda solo con el artista principal (el primero) y descarta los featuring
+ const main=raw.split(/\s*(?:,|;|\bfeat\.?|\bft\.?|\bfeaturing\b|\bcon\b|\bwith\b|\s&\s|\sx\s|\sy\s|\sand\s)\s*/i)[0].trim();
+ return main||raw};
 const albumOf=s=>String(s.album||s.album_name||'').trim();
 const thumbs=items=>[...new Set(items.map(s=>s.thumbnail_url).filter(Boolean))];
 const im=u=>`<img src="${esc(u)}" alt="" loading="lazy">`;
