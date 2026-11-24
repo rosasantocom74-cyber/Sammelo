@@ -591,7 +591,7 @@ const tone=x=>`linear-gradient(135deg,hsl(${hue(x)} 50% 38%),hsl(${(hue(x)+40)%3
 const ini=x=>String(x||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
 // Artistas que SÍ llevan "&", "y", coma o "x" en su nombre y no se deben cortar. Añade aquí los que necesites.
 const ARTISTAS_COMPLETOS=['Wisin & Yandel','Zion & Lennox','Simon & Garfunkel','Earth, Wind & Fire','Tyler, The Creator','Calle 13','Los Del Rio','Hall & Oates','Florence + The Machine'];
-const artistOf=s=>{
+const artistBase=s=>{
  const raw=String(s.artist||'').replace(/\s*-\s*Topic$/i,'').trim();
  if(!raw)return 'Artista desconocido';
  const low=raw.toLowerCase(),ex=ARTISTAS_COMPLETOS.find(n=>low.startsWith(n.toLowerCase()));
@@ -599,6 +599,12 @@ const artistOf=s=>{
  // Se queda solo con el artista principal (el primero) y descarta los featuring
  const main=raw.split(/\s*(?:,|;|\bfeat\.?|\bft\.?|\bfeaturing\b|\bcon\b|\bwith\b|\s&\s|\sx\s|\sy\s|\sand\s)\s*/i)[0].trim();
  return main||raw};
+// Une variantes del mismo artista (mayúsculas, tildes): "BAD BUNNY" = "Bad Bunny", "Eladio Carrion" = "Eladio Carrión"
+const artKey=n=>n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+let artCanon=new Map(),artN=-1;
+const artScore=n=>(n===n.toUpperCase()?0:2)+(n.normalize('NFD')!==n?1:0);
+function artBuild(){artCanon=new Map();songs.forEach(x=>{const n=artistBase(x),k=artKey(n),c=artCanon.get(k);if(!c||artScore(n)>artScore(c))artCanon.set(k,n)});artN=songs.length}
+const artistOf=s=>{const n=artistBase(s);if(artN!==songs.length)artBuild();return artCanon.get(artKey(n))||n};
 const albumOf=s=>String(s.album||s.album_name||'').trim();
 const thumbs=items=>[...new Set(items.map(s=>s.thumbnail_url).filter(Boolean))];
 const im=u=>`<img src="${esc(u)}" alt="" loading="lazy">`;
