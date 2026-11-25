@@ -456,10 +456,13 @@ async function load(){
   const ok=await claimInvite();
   if(ok===true){const r=await sb.from('profiles').select('*').eq('id',me.id).maybeSingle();if(r.data)prof=r.data}
   else if(ok===false)return gateScreen()}
- const[s,f,l]=await Promise.all([
+ const[s,f,l,ar]=await Promise.all([
   fetchAll(()=>sb.from('songs').select('*').order('created_at',{ascending:false}).order('id')),
   fetchAll(()=>sb.from('favorites').select('song_id').order('song_id')),
-  sb.from('playlists').select('id,name').order('created_at')]);
+  sb.from('playlists').select('id,name').order('created_at'),
+  fetchAll(()=>sb.from('artists').select('name,image_url').order('name')).catch(()=>({error:true}))]);
+ /* Foto de artista: la guarda el programa de descargas una sola vez en la tabla «artists». Si la tabla no existe o no se puede leer, se usa el comportamiento anterior. */
+ artImgs=!ar||ar.error||!(ar.data||[]).length?null:new Map((ar.data||[]).map(a=>[String(a.name||'').trim().toLowerCase(),a.image_url||'']));
  songs=(s.data||[]).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')));
  favs=new Set((f.data||[]).map(x=>x.song_id));lists=l.data||[];
  try{recent=JSON.parse(localStorage.getItem('rc:'+me.id)||'[]')}catch(e){recent=[]}
@@ -718,9 +721,11 @@ function seeded(a,seed){let x=(seed||1)%4294967296;const r=()=>(x=(x*1664525+101
 const dayN=()=>{const d=new Date();return d.getFullYear()*372+d.getMonth()*31+d.getDate()};
 function pushRecent(id){recent=[id,...recent.filter(x=>x!==id)].slice(0,30);try{localStorage.setItem('rc:'+me.id,JSON.stringify(recent))}catch(e){}stats.plays[id]=(stats.plays[id]||0)+1;saveStats()}
 const recentSongs=()=>recent.map(id=>songs.find(s=>s.id===id)).filter(Boolean);
+let artImgs=null;
+const artImg=(name,t)=>artImgs?(artImgs.get(String(name||'').trim().toLowerCase())||''):(t[0]||'');
 function cover(items,name,mode){
  const t=thumbs(items);
- if(mode==='round')return `<div class="art round" style="background:${tone(name)}">${t.length?im(t[0]):`<span class="ini">${esc(ini(name))}</span>`}</div>`;
+ if(mode==='round'){const u=artImg(name,t);return `<div class="art round" style="background:${tone(name)}">${u?im(u):`<span class="ini">${esc(ini(name))}</span>`}</div>`}
  if(mode==='mix'&&t.length>=4)return `<div class="art mos">${t.slice(0,4).map(im).join('')}</div>`;
  if(t.length)return `<div class="art">${im(t[0])}</div>`;
  return `<div class="art" style="background:${tone(name)}"><span class="ini">${I.list}</span></div>`}
