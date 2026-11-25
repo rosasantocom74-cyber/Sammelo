@@ -393,26 +393,7 @@ let cfg=window.SAMMELO&&window.SAMMELO.url?window.SAMMELO:null;
 if(!cfg){try{cfg=JSON.parse(localStorage.getItem('cfg')||'null')}catch(e){}}
 let sb,me,prof={},songs=[],favs=new Set(),lists=[],view='home',curList=null,coll=null,libTab='songs',recent=[],meta={},profTab='resumen',stats={sec:0,plays:{},days:{}},q='',queue=[],qi=-1,shuffle=false,rep=0,loadedFor=null,shellOn=false,pick=null,tt,sortBy='new';
 try{sortBy=localStorage.getItem('sort')||'new'}catch(e){}
-const urlCache={};
-/* Dos reproductores: mientras suena uno, el otro ya tiene cargada la canción siguiente. Al terminar, la siguiente
-   arranca al instante (sin pedir nada a internet), que es lo que necesita el celular con la pantalla bloqueada.
-   «audio» se comporta como un único reproductor para el resto de la app. */
-const A1=new Audio(),A2=new Audio();let cur=A1,sby=A2,sbyId=null;
-const audio=(()=>{
- const els=[A1,A2],hs={},both=['volume','muted','playbackRate','defaultPlaybackRate','preload'];
- const addL=(t,f,o)=>{
-  if(o&&typeof o==='object'&&o.once){cur.addEventListener(t,f,o);return}
-  els.forEach(el=>el.addEventListener(t,e=>{if(el===cur)f.call(audio,e)},o))};
- return new Proxy({},{
-  get(_,p){
-   if(p==='addEventListener')return addL;
-   if(typeof p==='string'&&p.startsWith('on')&&p in cur)return hs[p]||null;
-   const v=cur[p];return typeof v==='function'?v.bind(cur):v},
-  set(_,p,v){
-   if(typeof p==='string'&&p.startsWith('on')&&p in cur){hs[p]=v;els.forEach(el=>{el[p]=v?(e=>{if(el===cur)v.call(audio,e)}):null});return true}
-   if(both.includes(p))els.forEach(el=>{el[p]=v});else cur[p]=v;
-   return true}})})();
-A2.addEventListener('error',()=>{if(sby===A2)sbyId=null});A1.addEventListener('error',()=>{if(sby===A1)sbyId=null});
+const audio=new Audio(),urlCache={};
 let prefs={accent:'#9b8cff',lyr:false,shuf:false,calm:false,theme:'dark',resume:true,vinyl:false,auto:true,wave:true},deferred=null;
 audio.preload='auto';
 try{const v=parseFloat(localStorage.getItem('vol'));if(v>=0&&v<=1)audio.volume=v}catch(e){}
@@ -572,7 +553,7 @@ audio.onended=()=>{
  step(1);afterHandoff()};
 
 /* ---- Pantalla bloqueada: el reproductor externo no debe desaparecer y la música no debe cortarse ---- */
-let userPaused=false,hgN=0,wdT=-1,wdN=0,nearN=null;
+let userPaused=false,hgN=0,wdT=-1,wdN=0;
 function bindMS(){const ms=navigator.mediaSession;if(!ms)return;
  const h=(n,f)=>{try{ms.setActionHandler(n,f)}catch(e){}};
  h('play',()=>{userPaused=false;audio.play()});h('pause',()=>{userPaused=true;audio.pause()});
@@ -604,39 +585,16 @@ async function play(list,i,at){
  const s=list[i];if(!s)return;
  userPaused=false;
  if(list!==queue)heard.clear();
- queue=list;qi=i;heard.add(s.id);pushRecent(s.id);nextPick=-1;warmId=null;nearN=null;upd();
+ queue=list;qi=i;heard.add(s.id);pushRecent(s.id);nextPick=-1;warmId=null;upd();
  try{
-  let started=false;
-  if(!at&&sbyId===s.id&&sby.getAttribute('src')&&sby.readyState>=3)started=await takeStandby();
-  if(!started){
-   const c=urlCache[s.id];let u=c&&c.t>Date.now()?c.u:null;
-   if(!u)u=await signed(s);
-   if(queue[qi]!==s)return;
-   audio.src=u;
-   if(at>1)audio.addEventListener('loadedmetadata',()=>{audio.currentTime=at},{once:true});
-   await audio.play()}
+  const c=urlCache[s.id];let u=c&&c.t>Date.now()?c.u:null;
+  if(!u)u=await signed(s);
+  if(queue[qi]!==s)return;
+  audio.src=u;
+  if(at>1)audio.addEventListener('loadedmetadata',()=>{audio.currentTime=at},{once:true});
+  await audio.play();
   nextPick=pickNext();const nx=queue[nextPick];if(nx)signed(nx).catch(()=>{})}
  catch(e){if(e&&e.name==='AbortError')return;if(e&&e.name==='NotAllowedError'){afterHandoff();return}toast('No se pudo reproducir esta canción.')}}
-/* La canción siguiente ya está lista en el segundo reproductor: arrancarla sin ninguna espera. */
-async function takeStandby(){
- const nx=sby,old=cur;let p;
- try{p=nx.play()}catch(e){return false}
- cur=nx;sby=old;sbyId=null;
- try{old.pause()}catch(e){}
- old.removeAttribute('src');try{old.load()}catch(e){}
- try{await p;return true}catch(e){cur=old;sby=nx;sbyId=null;return false}}
-function prepStandby(){
- if(navigator.connection&&navigator.connection.saveData)return;
- if(nextPick<0||!queue[nextPick])nextPick=pickNext();
- const nx=queue[nextPick];if(!nx||sbyId===nx.id||rep===2)return;
- sbyId=nx.id;
- signed(nx).then(u=>{if(sbyId!==nx.id)return;sby.src=u;sby.preload='auto';sby.load()}).catch(()=>{if(sbyId===nx.id)sbyId=null})}
-/* Cambiar de canción unos instantes ANTES del final: así el sonido no se interrumpe y el celular bloqueado no se «duerme». */
-audio.addEventListener('timeupdate',()=>{
- const d=audio.duration,t=audio.currentTime,s=queue[qi];
- if(!s||!isFinite(d)||d<3||userPaused||audio.paused||sleepEnd||rep===2||nearN===s.id||d-t>0.45)return;
- const nx=queue[nextPick];if(!nx||sbyId!==nx.id||!sby.getAttribute('src')||sby.readyState<3)return;
- nearN=s.id;step(1);afterHandoff()});
 function step(d){
  if(!queue.length)return;
  let n;
@@ -1048,8 +1006,11 @@ function pickNext(){
  if(rep===1)return 0;
  return extendQueue()?qi+1:-1}
 function warmNext(){
- const d=audio.duration;if(!d||audio.currentTime/d<.35)return;
- prepStandby()}
+ const d=audio.duration;if(!d||audio.currentTime/d<.55)return;
+ if(document.hidden||(navigator.connection&&navigator.connection.saveData))return;
+ if(nextPick<0||!queue[nextPick])nextPick=pickNext();
+ const nx=queue[nextPick];if(!nx||warmId===nx.id)return;warmId=nx.id;
+ signed(nx).then(u=>{warm.src=u;warm.load()}).catch(()=>{})}
 
 /* ====== ONDA SONORA ====== */
 const WFN=120;
