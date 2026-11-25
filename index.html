@@ -574,14 +574,16 @@ audio.onended=()=>{
 
 /* ---- Pantalla bloqueada: el reproductor externo no debe desaparecer y la música no debe cortarse ---- */
 let userPaused=false,hgN=0,wdT=-1,wdN=0,nearN=null;
+let msKey='';
+function setMeta(s){const ms=navigator.mediaSession;if(!ms||!s)return;const k=s.id+'|'+s.title+'|'+(s.artist||'')+'|'+(s.thumbnail_url||'');if(k===msKey)return;msKey=k;try{ms.metadata=new MediaMetadata({title:s.title,artist:s.artist||'',artwork:s.thumbnail_url?[{src:s.thumbnail_url}]:[]})}catch(e){}}
 function bindMS(){const ms=navigator.mediaSession;if(!ms)return;
  const h=(n,f)=>{try{ms.setActionHandler(n,f)}catch(e){}};
  h('play',()=>{userPaused=false;audio.play()});h('pause',()=>{userPaused=true;audio.pause()});
  h('previoustrack',()=>step(-1));h('nexttrack',()=>step(1));
  h('seekto',d=>{if(d&&d.seekTime!=null)audio.currentTime=d.seekTime})}
 function msSync(){const ms=navigator.mediaSession,s=queue[qi];if(!ms)return;
- try{if(s)ms.metadata=new MediaMetadata({title:s.title,artist:s.artist||'',artwork:s.thumbnail_url?[{src:s.thumbnail_url}]:[]});
-  ms.playbackState='playing';bindMS();
+ try{if(s)setMeta(s);
+  if(ms.playbackState!=='playing')ms.playbackState='playing';bindMS();
   if(ms.setPositionState&&isFinite(audio.duration))ms.setPositionState({duration:audio.duration,position:Math.min(audio.currentTime,audio.duration),playbackRate:audio.playbackRate||1})}catch(e){}}
 audio.addEventListener('playing',msSync);
 async function revive(){const s=queue[qi];if(!s||userPaused)return;
@@ -623,6 +625,7 @@ async function takeStandby(){
  const nx=sby,old=cur;let p;
  try{p=nx.play()}catch(e){return false}
  cur=nx;sby=old;sbyId=null;
+ try{navigator.mediaSession.playbackState='playing'}catch(e){}
  try{old.pause()}catch(e){}
  old.removeAttribute('src');try{old.load()}catch(e){}
  try{await p;return true}catch(e){cur=old;sby=nx;sbyId=null;return false}}
@@ -651,7 +654,7 @@ function upd(){
  if(wfFor!==s.id)loadWave(s);
  {const pl=$('.player');if(pl){const h=hue(s.title+artistOf(s));pl.style.setProperty('--tint',curTheme()==='light'?`hsl(${h} 70% 93%)`:`hsl(${h} 38% 17%)`)}}
  const lk=$('#lk');if(lk){const f=favs.has(s.id);lk.setAttribute('aria-pressed',f);lk.innerHTML=f?I.heartF:I.heart}
- if(navigator.mediaSession)navigator.mediaSession.metadata=new MediaMetadata({title:s.title,artist:s.artist||'',artwork:s.thumbnail_url?[{src:s.thumbnail_url}]:[]});npRender()}
+ setMeta(s);npRender()}
 
 function npRender(){
  const s=queue[qi];if(!s||!$('#np'))return;
