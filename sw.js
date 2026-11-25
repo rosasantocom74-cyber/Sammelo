@@ -1,4 +1,4 @@
-const C = 'sammelo-v10';
+const C = 'sammelo-v11';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './privacidad.html'];
 const CDN = ['cdn.jsdelivr.net', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 

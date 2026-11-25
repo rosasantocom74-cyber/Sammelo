@@ -1321,8 +1321,8 @@ function openPick(id){
 /* ====== TANDA 2 · INVITACIÓN · PRESENCIA · PANEL ADMIN · PUBLICIDAD ====== */
 I.shield=P('M12 2 4 5v6c0 5.500 3.400 10.700 8 12 4.600-1.300 8-6.500 8-12V5l-8-3zm0 2.100 6 2.200V11c0 4.300-2.500 8.400-6 9.800C8.500 19.400 6 15.300 6 11V6.300l6-2.200z');
 const T2={tele:null,on:false,act:true,lastHb:0,country:null,tok:null,ads:null,adS:0,hbT:null,hbD:null,adT:null,adAt:0};
-const adm={tab:'live',live:null,stats:null,users:null,invites:null,off:0,uq:'',metric:'visitors',all:false,err:'',t:null,ch:null,rt:null,lastStats:0,busy:false};
-const ADM_TABS=[['live','Usuarios en vivo'],['stats','Estadísticas'],['users','Usuarios'],['inv','Invitaciones'],['ads','Publicidad']];
+const adm={dg:null,dsel:{},dshow:25,dres:'',tab:'live',live:null,stats:null,users:null,invites:null,off:0,uq:'',metric:'visitors',all:false,err:'',t:null,ch:null,rt:null,lastStats:0,busy:false};
+const ADM_TABS=[['live','Usuarios en vivo'],['stats','Estadísticas'],['users','Usuarios'],['inv','Invitaciones'],['ads','Publicidad'],['dup','Repetidas']];
 const ADS_DEF={top:false,library:false,webview:false,client:'',slot_top:'',slot_library:''};
 const DEV={android:'Android',iphone:'iPhone',tablet:'Tableta',desktop:'Computadora',other:'Otro'};
 const isAdm=()=>!!prof&&prof.role==='admin';
@@ -1480,7 +1480,7 @@ function adminHTML(){
  return`<div class="hd"><h2>Administración</h2></div><div class="chips" role="group" aria-label="Secciones del panel">${ADM_TABS.map(c=>`<button class="chip" data-ad="tab" data-id="${c[0]}" aria-pressed="${adm.tab===c[0]}">${c[1]}</button>`).join('')}</div><div id="adm">${admBody()}</div>`}
 function admBody(){
  const e=adm.err?`<p class="adm-note err" role="alert">${esc(adm.err)}</p>`:'';
- return e+({live:admLive,stats:admStats,users:admUsers,inv:admInv,ads:admAds}[adm.tab]||admLive)()}
+ return e+({live:admLive,stats:admStats,users:admUsers,inv:admInv,ads:admAds,dup:admDup}[adm.tab]||admLive)()}
 
 function admLive(){
  const d=adm.live,s=adm.stats;
@@ -1569,14 +1569,21 @@ function admWire(){
  const v=$('#view');if(!v)return;
  v.addEventListener('click',admClick);
  v.addEventListener('input',e=>{if(view==='admin'&&e.target.id==='uq'){adm.uq=e.target.value;const l=$('#ulist');if(l)l.innerHTML=admUserList()}});
+ v.addEventListener('change',e=>{const r=e.target;if(view==='admin'&&r.dataset&&r.dataset.dg){adm.dsel[r.dataset.dg]=r.value;admPaint(true)}});
  v.addEventListener('mousemove',tip);v.addEventListener('mouseleave',tip);v.addEventListener('click',tip)}
 async function admClick(e){
  if(view!=='admin')return;
  const b=e.target.closest('[data-ad]');if(!b)return;
  const a=b.dataset.ad,id=b.dataset.id;
- if(a==='tab'){adm.tab=id;adm.err='';$$('#view .chips [data-ad=tab]').forEach(c=>c.setAttribute('aria-pressed',c.dataset.id===id));syncUrl();admPaint(true);return admLoad()}
+ if(a==='tab'){adm.tab=id;adm.err='';if(id==='dup')adm.dg=null;$$('#view .chips [data-ad=tab]').forEach(c=>c.setAttribute('aria-pressed',c.dataset.id===id));syncUrl();admPaint(true);return admLoad()}
  if(a==='metric'){adm.metric=id;return admPaint(true)}
  if(a==='allsongs'){adm.all=!adm.all;return admPaint(true)}
+ if(a==='dsel'){adm.dsel[b.dataset.g]=id;return admPaint(true)}
+ if(a==='dupre'){adm.dg=null;adm.dres='';return admPaint(true)}
+ if(a==='dupmore'){adm.dshow+=25;return admPaint(true)}
+ if(a==='dupold'||a==='dupnew'){dupEnsure();adm.dg.forEach(g=>{adm.dsel[g.id]=a==='dupold'?g.songs[0].id:g.songs[g.songs.length-1].id});return admPaint(true)}
+ if(a==='dprev'){const sg=songs.find(x=>x.id===id);if(sg)play([sg],0);return}
+ if(a==='dupgo')return dupGo()
  if(a==='copylink'){try{await navigator.clipboard.writeText(location.origin+location.pathname);toast('Enlace copiado.')}catch(x){toast(location.origin+location.pathname)}return}
  if(a==='invsend'){
   const raw=($('#inv-t').value||'').split(/[\s,;]+/).map(x=>x.trim().toLowerCase()).filter(Boolean),ok=raw.filter(x=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x));
@@ -1609,6 +1616,68 @@ async function admClick(e){
   if(error)return m.textContent='No se pudo guardar: '+error.message;
   T2.ads={...ADS_DEF,...v};T2.adAt=Date.now();$$('.ad').forEach(el=>{el.innerHTML='';delete el.dataset.f;el.hidden=true});
   toast('Publicidad guardada.');admPaint(true);return adsApply()}}
+
+/* ---------- Canciones repetidas (Admin > Repetidas) ---------- */
+const DUP_NOISE=new Set(['official','oficial','officiel','video','videoclip','clip','audio','visualizer','visualiser','visualizador','lyric','lyrics','letra','letras','hd','hq','4k','8k','mv','pv','music','musical','musica','con','with','new','nuevo','nueva','full','exclusive','exclusivo','premiere','estreno']);
+const dupWords=x=>String(x||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().match(/[\p{L}\p{N}]+/gu)||[];
+const dupNoise=x=>{const w=dupWords(x);return w.length>0&&w.every(k=>DUP_NOISE.has(k))};
+function dupKey(s){
+ const art=artistOf(s);let t=String(s.title||'');
+ t=t.replace(/[\(\[\{【][^\(\)\[\]\{\}【】]*[\)\]\}】]/g,m=>dupNoise(m.slice(1,-1))?' ':m);
+ t=t.replace(/\s+[-–—|]\s+([^-–—|]*)$/,(m,r)=>dupNoise(r)?'':m);
+ const pre=new RegExp('^\\s*'+art.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s*[-–—:|]\\s*','i');
+ t=t.replace(pre,'');
+ const k=artNorm(t);return k?artNorm(art)+'|'+k:''}
+function dupGroups(){
+ const by=new Map();
+ songs.forEach(s=>{const k=dupKey(s);if(!k)return;(by.get(k)||by.set(k,[]).get(k)).push(s)});
+ const out=[];
+ by.forEach(list=>{
+  if(list.length<2)return;
+  list.sort((a,b)=>(a.duration_seconds||0)-(b.duration_seconds||0));
+  let cl=[list[0]];
+  const flush=()=>{if(cl.length>1)out.push(cl);cl=[]};
+  for(let i=1;i<list.length;i++){
+   if((list[i].duration_seconds||0)-(cl[cl.length-1].duration_seconds||0)>12){flush();cl=[list[i]]}else cl.push(list[i])}
+  flush()});
+ return out.map(g=>{g.sort((a,b)=>String(a.created_at||'').localeCompare(String(b.created_at||''))||String(a.id).localeCompare(String(b.id)));return{id:g[0].id,songs:g}})
+  .sort((a,b)=>artistOf(a.songs[0]).localeCompare(artistOf(b.songs[0]),'es')||String(a.songs[0].title).localeCompare(String(b.songs[0].title),'es'))}
+function dupEnsure(){
+ if(!adm.dg){adm.dg=dupGroups();adm.dsel=adm.dsel||{};adm.dshow=25;adm.dres=adm.dres||''}
+ adm.dg.forEach(g=>{if(!g.songs.some(s=>s.id===adm.dsel[g.id]))adm.dsel[g.id]=g.songs[0].id})}
+function dupPlan(){
+ return adm.dg.map(g=>({keep:adm.dsel[g.id],drop:g.songs.filter(s=>s.id!==adm.dsel[g.id])})).filter(x=>x.drop.length)}
+function admDup(){
+ dupEnsure();
+ const g=adm.dg,plan=dupPlan(),n=plan.reduce((a,x)=>a+x.drop.length,0);
+ if(!g.length)return`<div class="admf"><p>${adm.dres?esc(adm.dres)+'<br><br>':''}<b>No encontré canciones repetidas.</b> Busco la misma canción del mismo artista, con casi la misma duración, aunque una diga «Official Video» y otra «Visualizer».</p><button class="btn ghost" data-ad="dupre">Volver a buscar</button></div>`;
+ const rows=g.slice(0,adm.dshow).map(gr=>`<div class="card2" style="margin:0 24px 12px"><h4>${esc(artistOf(gr.songs[0]))} — ${esc(gr.songs.map(x=>x.title).sort((a,b)=>a.length-b.length)[0])} <small>${gr.songs.length} copias</small></h4>${gr.songs.map(s=>{const k=adm.dsel[gr.id]===s.id;return`<div class="dgr" data-ad="dsel" data-g="${esc(gr.id)}" data-id="${esc(s.id)}" style="display:flex;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--hv);cursor:pointer"><input type="radio" style="flex:none;width:auto" name="g${esc(gr.id)}" data-dg="${esc(gr.id)}" value="${esc(s.id)}" ${k?'checked':''} tabindex="0"><span style="width:44px;height:44px;border-radius:6px;overflow:hidden;flex:none;background:var(--hv)">${s.thumbnail_url?im(s.thumbnail_url):''}</span><span style="flex:1;min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.title)}</b><small class="hint">${fmt(s.duration_seconds)} · subida ${esc(new Date(s.created_at).toLocaleDateString('es'))}${favs.has(s.id)?' · ♥ en tus favoritos':''}</small></span><button type="button" class="sbtn" data-ad="dprev" data-id="${esc(s.id)}" aria-label="Escuchar">Escuchar</button><span class="stt ${k?'a':'c'}">${k?'<i></i>Se queda':'<i></i>Se borra'}</span></div>`}).join('')}</div>`).join('');
+ return`<div class="admf" style="padding-bottom:10px"><p>${adm.dres?esc(adm.dres)+'<br><br>':''}Encontré <b>${g.length}</b> ${g.length===1?'canción repetida (un grupo de copias)':'canciones repetidas (grupos de copias)'}. En cada grupo marca la copia que quieres <b>conservar</b>; las demás se borrarán. Ya dejé marcada la más antigua.</p><p class="hint">Los favoritos, las listas y las reproducciones de las copias pasan a la que se queda. Antes de borrar se descarga una copia de seguridad con los datos.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="sbtn" data-ad="dupold">Conservar la más antigua en todos</button><button class="sbtn" data-ad="dupnew">Conservar la más nueva en todos</button><button class="sbtn" data-ad="dupre">Volver a buscar</button></div><p id="dprog" class="hint" role="status"></p><button class="btn" data-ad="dupgo" ${n?'':'disabled'}>Borrar ${n} repetida${n===1?'':'s'}…</button></div>${rows}${g.length>adm.dshow?`<div class="admf"><button class="btn ghost" data-ad="dupmore">Mostrar más (${g.length-adm.dshow} grupos)</button></div>`:''}`}
+async function dupGo(){
+ dupEnsure();const plan=dupPlan(),n=plan.reduce((a,x)=>a+x.drop.length,0),pr=$('#dprog');
+ if(!n)return;
+ if(!confirm(`Vas a BORRAR ${n} canción(es) repetida(s) y sus archivos MP3, de ${plan.length} grupo(s).\n\nNo se puede deshacer. Se conservan las copias que marcaste y a ellas pasan favoritos, listas y reproducciones.\n\nAntes se descargará una copia de seguridad de los datos.\n\n¿Continuar?`))return;
+ const w=prompt('Para confirmar escribe BORRAR (en mayúsculas):');
+ if(w!=='BORRAR'){toast('No se borró nada.');return}
+ const respaldo=plan.map(x=>({se_queda:x.keep,se_borran:x.drop}));
+ try{const bl=new Blob([JSON.stringify({fecha:new Date().toISOString(),grupos:respaldo},null,1)],{type:'application/json'}),a=document.createElement('a');
+  a.href=URL.createObjectURL(bl);a.download='sammelo-respaldo-repetidas-'+new Date().toISOString().slice(0,16).replace(/[:T]/g,'-')+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}catch(e){}
+ await new Promise(r=>setTimeout(r,600));
+ const drops=new Set(plan.flatMap(x=>x.drop.map(s=>s.id)));
+ if(queue[qi]&&drops.has(queue[qi].id)){try{audio.pause()}catch(e){}}
+ let hechos=0,borradas=0,paths=[],fallo='';
+ for(const x of plan){
+  if(pr)pr.textContent=`Borrando… grupo ${hechos+1} de ${plan.length}`;
+  const{data,error}=await sb.rpc('admin_merge_duplicates',{p_keep:x.keep,p_drop:x.drop.map(s=>s.id)});
+  if(error){fallo=/PGRST202|Could not find/i.test((error.code||'')+(error.message||''))?'Falta ejecutar 4-repetidas.sql en Supabase.':'Se detuvo: '+error.message;break}
+  hechos++;borradas+=x.drop.length;paths.push(...(data||[]));
+  x.drop.forEach(s=>{const i=songs.findIndex(y=>y.id===s.id);if(i>=0)songs.splice(i,1);if(favs.has(s.id)){favs.delete(s.id);favs.add(x.keep)}})}
+ let sinArchivo=0;
+ for(let i=0;i<paths.length;i+=100){
+  const r=await sb.storage.from('songs').remove(paths.slice(i,i+100));
+  if(r.error)sinArchivo+=Math.min(100,paths.length-i)}
+ adm.dg=null;adm.dres=(borradas?`Listo: se borraron ${borradas} repetida(s).`:'')+(sinArchivo?` No se pudieron borrar ${sinArchivo} archivo(s) MP3 (quedan sin usar en el almacenamiento).`:'')+(fallo?' '+fallo:'');
+ render();if(view==='admin'){admPaint(true)}}
 
 /* ---------- Privacidad en Ajustes ---------- */
 function pfPriv(){
