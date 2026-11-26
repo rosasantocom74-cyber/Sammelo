@@ -1,5 +1,5 @@
-const C = 'sammelo-v12';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './privacidad.html', './config.js', './offline.js'];
+const C = 'sammelo-v13';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './privacidad.html', './config.js', './offline.js', './artistas.js'];
 // Librería de Supabase y fuente: se guardan al instalar para que la app abra sin internet desde la primera vez.
 const REMOTE = [
   'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js',
