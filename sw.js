@@ -1,10 +1,18 @@
-const C = 'sammelo-v11';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './privacidad.html'];
+const C = 'sammelo-v12';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './privacidad.html', './config.js', './offline.js'];
+// Librería de Supabase y fuente: se guardan al instalar para que la app abra sin internet desde la primera vez.
+const REMOTE = [
+  'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js',
+  'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap'
+];
 const CDN = ['cdn.jsdelivr.net', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(C).then(c => Promise.allSettled(SHELL.map(u => c.add(u)))).then(() => self.skipWaiting())
+    caches.open(C).then(c => Promise.allSettled([
+      ...SHELL.map(u => c.add(u)),
+      ...REMOTE.map(u => c.add(new Request(u, { mode: 'cors', credentials: 'omit' })))
+    ])).then(() => self.skipWaiting())
   );
 });
 
@@ -22,8 +30,24 @@ self.addEventListener('fetch', e => {
   const u = new URL(r.url);
 
   // Páginas: red primero, y si no hay internet, la copia guardada.
+  // Si la red no responde en 4 s (por ejemplo Wi-Fi sin internet), se abre la copia guardada en vez de quedarse esperando.
   if (r.mode === 'navigate') {
-    e.respondWith(fetch(r).catch(() => caches.match('./index.html')));
+    e.respondWith((async () => {
+      const saved = () => caches.match('./index.html').then(x => x || caches.match('./'));
+      const has = await saved();
+      const ctl = new AbortController();
+      const t = has ? setTimeout(() => ctl.abort(), 4000) : null;
+      try {
+        const res = await fetch(r, { signal: ctl.signal });
+        if (res.ok && u.origin === location.origin && /(\/|index\.html)$/.test(u.pathname)) {
+          const copy = res.clone();
+          caches.open(C).then(c => c.put('./index.html', copy)).catch(() => {});
+        }
+        return res;
+      } catch (_) {
+        return has || Response.error();
+      } finally { if (t) clearTimeout(t); }
+    })());
     return;
   }
 
