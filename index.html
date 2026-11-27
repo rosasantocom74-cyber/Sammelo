@@ -573,6 +573,12 @@ main{overscroll-behavior-y:contain}
 @keyframes ptrs{to{transform:rotate(1turn)}}
 .bar .sv{flex:none;border:1px solid var(--hv);color:var(--t)}
 .bar .sv svg{width:22px;height:22px;fill:currentColor}
+
+/* rankings */
+.rkn{position:absolute;left:8px;bottom:4px;z-index:2;font-size:46px;font-weight:900;line-height:1;color:#fff;letter-spacing:-2px;text-shadow:0 2px 14px #000c;pointer-events:none}
+.songs.ranked li>.n{display:grid!important;place-items:center;font-size:20px;font-weight:900;color:var(--m)}
+.songs.ranked li:nth-child(-n+3)>.n .num{color:var(--gt)}
+@media(max-width:800px){.songs.ranked li{grid-template-columns:34px 1fr 44px 44px}}
 </style>
 </head>
 <body>
@@ -925,7 +931,7 @@ function editLyr(s){
   if(error)return toast('No se pudo guardar la letra. Revisa el permiso de admin.');
   s.lyrics=v;toast('Letra guardada.');npRender()}}
 let shown=[];
-const rows=l=>{shown=l;return l.length?`<ul class="songs">${l.map((s,i)=>`<li data-i="${i}" data-id="${s.id}" class="${queue[qi]&&queue[qi].id===s.id?'on':''}"><span class="n"><span class="num">${i+1}</span><i class="eqb"><b></b><b></b><b></b></i></span><div class="tt">${s.thumbnail_url?`<img src="${esc(s.thumbnail_url)}" alt="" loading="lazy">`:'<span class="cov"></span>'}<div class="t"><b>${esc(s.title)}</b><span>${esc(s.artist)}</span></div></div><span></span><button class="ib" data-a="fav" data-id="${s.id}" aria-label="Favorito" aria-pressed="${favs.has(s.id)}">${favs.has(s.id)?I.heartF:I.heart}</button>${view==='pl'&&curList?`<button class="ib rm" data-a="rm" data-id="${s.id}" aria-label="Quitar de la lista">${I.minus}</button>`:`<button class="ib" data-a="add" data-id="${s.id}" aria-label="Más opciones">${I.dots}</button>`}<span class="d">${fmt(s.duration_seconds)}</span></li>`).join('')}</ul>`:'<p class="mut mt">Aquí no hay canciones todavía.</p>'};
+const rows=l=>{shown=l;return l.length?`<ul class="songs${coll&&coll.rank?' ranked':''}">${l.map((s,i)=>`<li data-i="${i}" data-id="${s.id}" class="${queue[qi]&&queue[qi].id===s.id?'on':''}"><span class="n"><span class="num">${i+1}</span><i class="eqb"><b></b><b></b><b></b></i></span><div class="tt">${s.thumbnail_url?`<img src="${esc(s.thumbnail_url)}" alt="" loading="lazy">`:'<span class="cov"></span>'}<div class="t"><b>${esc(s.title)}</b><span>${esc(s.artist)}</span></div></div><span></span><button class="ib" data-a="fav" data-id="${s.id}" aria-label="Favorito" aria-pressed="${favs.has(s.id)}">${favs.has(s.id)?I.heartF:I.heart}</button>${view==='pl'&&curList?`<button class="ib rm" data-a="rm" data-id="${s.id}" aria-label="Quitar de la lista">${I.minus}</button>`:`<button class="ib" data-a="add" data-id="${s.id}" aria-label="Más opciones">${I.dots}</button>`}<span class="d">${fmt(s.duration_seconds)}</span></li>`).join('')}</ul>`:'<p class="mut mt">Aquí no hay canciones todavía.</p>'};
 const norm=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const srt=l=>{const a=[...l],c=(x,y)=>String(x||'').localeCompare(String(y||''),'es',{sensitivity:'base'});
  if(sortBy==='az')a.sort((x,y)=>c(x.title,y.title));else if(sortBy==='art')a.sort((x,y)=>c(x.artist,y.artist)||c(x.title,y.title));return a};
@@ -1036,6 +1042,56 @@ function fadeThen(cb){
  fadeStop(false);const v0=audio.volume,t0=Date.now(),D=12000;fadeV=v0;
  fadeI=setInterval(()=>{const k=Math.min(1,(Date.now()-t0)/D);audio.volume=Math.max(0,v0*(1-k));
   if(k>=1){clearInterval(fadeI);fadeI=null;cb();audio.volume=v0;fadeV=null}},250)}
+
+/* ====== RANKINGS · lo más escuchado ====== */
+let _plog=null,_plogUid=null;
+const plogKey=()=>'pl:'+(me?me.id:'x');
+function plogGet(){
+ if(_plog&&_plogUid===(me&&me.id))return _plog;
+ _plogUid=me&&me.id;
+ try{_plog=JSON.parse(localStorage.getItem(plogKey())||'[]');if(!Array.isArray(_plog))_plog=[]}catch(e){_plog=[]}
+ return _plog}
+function plogAdd(id){
+ const l=plogGet(),last=l[l.length-1];
+ if(last&&last[0]===String(id)&&Date.now()-last[1]<10000)return;
+ l.push([String(id),Date.now()]);if(l.length>2500)l.splice(0,l.length-2500);
+ try{localStorage.setItem(plogKey(),JSON.stringify(l))}catch(e){}}
+function rankSongs(counts,limit){
+ const m=new Map(songs.map(x=>[String(x.id),x]));
+ return Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(e=>[m.get(String(e[0])),e[1]]).filter(x=>x[0]).slice(0,limit)}
+function topFromLog(days,limit){
+ const t0=Date.now()-days*864e5,c={};
+ plogGet().forEach(e=>{if(e[1]>=t0)c[e[0]]=(c[e[0]]||0)+1});
+ return rankSongs(c,limit)}
+const topAll=limit=>rankSongs(stats.plays||{},limit);
+const rk={ok:false,off:false,busy:false,t:0,uid:null,items:[]};
+async function rankLoad(){
+ if(!me||!sb)return;
+ if(rk.uid!==me.id){rk.uid=me.id;rk.ok=false;rk.off=false;rk.t=0;rk.items=[]}
+ if(rk.off||rk.busy||Date.now()-rk.t<600000)return;
+ rk.busy=true;
+ try{
+  const r=await sb.rpc('top_songs_week',{p_days:7,p_limit:20});
+  if(r.error){rk.off=true}
+  else{const m=new Map(songs.map(x=>[String(x.id),x]));rk.items=(r.data||[]).map(x=>[m.get(String(x.song_id)),+x.plays]).filter(x=>x[0]);rk.ok=true;rk.t=Date.now()}
+ }catch(e){rk.off=true}
+ rk.busy=false;
+ if(rk.ok&&view==='home')render()}
+function homeRank(ar){
+ const numd=(t,i)=>t.replace(/(<div class="tile"[^>]*><div>)/,`$1<span class="rkn">${i+1}</span>`);
+ const block=(title,id,sub,pairs,lim)=>{
+  const it=pairs.slice(0,lim).map(x=>x[0]);
+  if(it.length<3)return '';
+  const c={kind:'mix',id:'rk:'+id,name:title,sub,items:it,rank:true},k=rg(c),key='rk_'+id;
+  hl[key]=it.slice(0,10);
+  return sec(title,hl[key].map((x,i)=>numd(songTile(x,key,i),i)).join(''),`<button data-a="coll" data-k="${esc(k)}">Ver todo</button>`)};
+ let h='';
+ if(rk.ok)h+=block('Top de la semana en Sammelo','cw','Lo más escuchado esta semana',rk.items,20);
+ h+=block('Tu top de la semana','w','Lo que más pusiste estos 7 días',topFromLog(7,25),25);
+ h+=block('Lo más escuchado por ti','all','Tus canciones de siempre',topAll(25),25);
+ const at=ar.map(c=>[c,artPlays(c)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,10);
+ if(at.length>=3)h+=sec('Tus artistas más escuchados',at.map((x,i)=>numd(tile(x[0]),i)).join(''));
+ return h}
 /* ====== CARNET DE FAN · coleccionar artistas ====== */
 const fans={ok:false,off:false,busy:false,uid:null,mine:new Map(),counts:new Map()};
 const TIERS=[[150,'Leyenda'],[50,'Superfán'],[10,'Fan'],[0,'Oyente']];
@@ -1181,7 +1237,7 @@ function smartSearch(inp,opt){
   else if(g==='song'){shAdd(inp.value);close();play(found,+r.dataset.i)}})}
 function render(){
  if(view==='admin'&&!isAdm())view='home';if(view!=='admin'||coll)admStop();
- $$('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===view?'page':'false'));syncMore();fansLoad();
+ $$('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===view?'page':'false'));syncMore();fansLoad();rankLoad();
  const m=$('#view');
  if(coll)collPage(m);
  else if(view==='home'){m.innerHTML=homeHTML();smartSearch($('#hq'),{home:true})}
@@ -1224,7 +1280,7 @@ const im=u=>`<img src="${esc(u)}" alt="" loading="lazy">`;
 const plur=n=>n+(n===1?' canción':' canciones');
 function seeded(a,seed){let x=(seed||1)%4294967296;const r=()=>(x=(x*1664525+1013904223)%4294967296)/4294967296,b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
 const dayN=()=>{const d=new Date();return d.getFullYear()*372+d.getMonth()*31+d.getDate()};
-function pushRecent(id){recent=[id,...recent.filter(x=>x!==id)].slice(0,30);try{localStorage.setItem('rc:'+me.id,JSON.stringify(recent))}catch(e){}stats.plays[id]=(stats.plays[id]||0)+1;saveStats()}
+function pushRecent(id){recent=[id,...recent.filter(x=>x!==id)].slice(0,30);try{localStorage.setItem('rc:'+me.id,JSON.stringify(recent))}catch(e){}stats.plays[id]=(stats.plays[id]||0)+1;plogAdd(id);saveStats()}
 const recentSongs=()=>recent.map(id=>songs.find(s=>s.id===id)).filter(Boolean);
 let artImgs=null;
 const artNorm=x=>String(x||'').replace(/\s*-\s*topic$/i,'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,'')||String(x||'').trim().toLowerCase();
@@ -1283,6 +1339,7 @@ function homeHTML(){
   +sec('Escuchado hace poco',hl.recent.slice(1).map((s,i)=>songTile(s,'recent',i+1)).join(''))
    +fanRow(ar)
   +sec('Hecho para ti',mx.map(c=>tile(c)).join(''))
+  +homeRank(ar)
   +sec('Tus artistas',ar.slice(0,16).map(c=>tile(c)).join(''),more('artists'))
   +sec('Álbumes',al.slice(0,16).map(c=>tile(c)).join(''),al.length?more('albums'):'')
   +sec('Tus listas',lists.map(l=>`<div class="tile" tabindex="0" role="button" data-a="open" data-id="${l.id}" aria-label="${esc(l.name)}"><div><div class="art" style="background:${tone(l.name)}"><span class="ini">${I.list}</span></div></div><b>${esc(l.name)}</b><span class="s">Lista</span></div>`).join(''))
@@ -1297,7 +1354,7 @@ function openColl(k){const c=reg[k];if(!c)return;collSort='def';coll=c;curList=n
 function collPage(m){
  const c=coll,n=c.items.length,min=Math.round(c.items.reduce((a,s)=>a+(s.duration_seconds||0),0)/60);
  const lbl={artist:'Artista',album:'Álbum',mix:'Mix'}[c.kind]||'Colección';
- m.innerHTML=`<div class="dh" style="--c:hsl(${hue(c.name)} 45% 30%)">${cover(c.items,c.name,modeOf(c))}<div><small>${lbl}</small><h2>${esc(c.name)}</h2><p class="mut">${c.sub&&c.kind!=='artist'?esc(c.sub)+' · ':''}${plur(n)}${min?' · '+min+' min':''}</p></div></div><div class="bar"><button class="ib" data-a="back" aria-label="Volver">${I.back}</button><button class="big" data-a="playall" aria-label="Reproducir">${I.play}</button><button class="btn ghost" data-a="shufcoll">Aleatorio</button>${c.items.length>1?`<button class="ib sv" data-a="savelist" aria-label="Guardar como lista" title="Guardar como lista">${SAVEL_I}</button>`:''}</div>${fanBox(c)}${csortBar(c)}${rows(collSort==='top'&&c.kind==='artist'?topOf(c.items):c.items)}`}
+ m.innerHTML=`<div class="dh" style="--c:hsl(${hue(c.name)} 45% 30%)">${cover(c.items,c.name,modeOf(c))}<div><small>${c.rank?'Ranking':lbl}</small><h2>${esc(c.name)}</h2><p class="mut">${c.sub&&c.kind!=='artist'?esc(c.sub)+' · ':''}${plur(n)}${min?' · '+min+' min':''}</p></div></div><div class="bar"><button class="ib" data-a="back" aria-label="Volver">${I.back}</button><button class="big" data-a="playall" aria-label="Reproducir">${I.play}</button><button class="btn ghost" data-a="shufcoll">Aleatorio</button>${c.items.length>1?`<button class="ib sv" data-a="savelist" aria-label="Guardar como lista" title="Guardar como lista">${SAVEL_I}</button>`:''}</div>${fanBox(c)}${csortBar(c)}${rows(collSort==='top'&&c.kind==='artist'?topOf(c.items):c.items)}`}
 
 /* ====== PERFIL ====== */
 const COLORS=[['#9b8cff','Violeta'],['#5eead4','Turquesa'],['#7dd3fc','Cielo'],['#86efac','Verde'],['#fde68a','Dorado'],['#fdba74','Naranja'],['#f9a8d4','Rosa'],['#fca5a5','Coral']];
