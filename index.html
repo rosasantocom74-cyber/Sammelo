@@ -66,6 +66,22 @@ main{background:var(--bg);border-radius:10px;overflow:auto;min-width:0}
 .hd{padding:calc(28px + var(--sat)) 24px 12px;background:linear-gradient(var(--hdg),transparent)}
 .hd h2{font-size:34px;font-weight:800;letter-spacing:-.5px;margin-bottom:14px}
 .hd input{max-width:420px}
+/* búsqueda inteligente */
+.ssw{position:relative;max-width:420px}.ssw input{max-width:none!important}
+.ssb{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:60;background:var(--p);border:1px solid var(--hv);border-radius:14px;box-shadow:0 12px 32px #0007;max-height:min(60vh,420px);overflow:auto;padding:6px}
+.ssb[hidden]{display:none}
+.ssh{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;font-size:12px;color:var(--m)}
+.ssh button{color:var(--gt);font-size:12px}
+.ssr{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer;min-width:0}
+.ssr:hover,.ssr.on{background:var(--hv)}
+.ssr svg{flex:none;width:18px;height:18px;opacity:.6}
+.ssr .sst{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ssr .sst small{display:block;color:var(--m);font-size:12px}
+.ssr img,.ssr .ssc{flex:none;width:36px;height:36px;border-radius:6px;object-fit:cover;background:var(--hv)}
+.ssr .ssx{flex:none;width:28px;height:28px;border-radius:50%;color:var(--m);font-size:18px;line-height:1}
+.ssr .ssx:hover{background:var(--hv3)}
+.ssl{padding:6px 10px 4px;font-size:12px;color:var(--m);text-transform:uppercase;letter-spacing:.5px}
+
 .bar{display:flex;gap:10px;align-items:center;padding:14px 24px;flex-wrap:wrap}
 .big{width:52px;height:52px;border-radius:50%;background:var(--g);color:#14102a;display:grid;place-items:center}
 .big:hover{transform:scale(1.06)}
@@ -365,6 +381,36 @@ dialog::backdrop{background:var(--scrim)}dialog h3{margin-bottom:12px}
  .arow{margin:0 12px 8px}.adm-note,.admf{padding-left:16px;padding-right:16px}
  .st.hero b{font-size:34px}
 }
+
+/* barra inferior moderna + menú sándwich */
+.ni{display:contents}#mnb{display:none}
+#msheet{position:fixed;inset:0;z-index:20;background:#0000;pointer-events:none;transition:background .25s;display:flex;align-items:flex-end;justify-content:center}
+#msheet.on{background:#0009;pointer-events:auto;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#msheet .sh{width:100%;max-width:520px;background:var(--p);border-radius:26px 26px 0 0;padding:10px 16px calc(var(--sab) + 18px);transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.8,.2,1);box-shadow:0 -20px 60px #0008;border:1px solid var(--hv);border-bottom:0}
+#msheet.on .sh{transform:none}
+.sh .grip{width:40px;height:4px;border-radius:4px;background:var(--p3);margin:0 auto 14px}
+.sh .who{display:flex;align-items:center;gap:12px;padding:4px 6px 14px}
+.sh .av2{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--g),color-mix(in srgb,var(--g) 40%,#000));display:grid;place-items:center;font-weight:800;color:#14102a;overflow:hidden;flex:none}
+.sh .av2 img{width:100%;height:100%;object-fit:cover}
+.sh .who b{display:block;font-size:17px}.sh .who small{color:var(--m)}
+.sh .mi{display:flex;align-items:center;gap:14px;width:100%;padding:12px 14px;border-radius:14px;font-weight:600;font-size:16px;text-align:left;transition:background .15s,transform .1s}
+.sh .mi:hover{background:var(--hv2)}.sh .mi:active{transform:scale(.98);background:var(--hv)}
+.sh .mi .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--g) 16%,transparent);color:var(--gt);flex:none}
+.sh .mi svg{width:20px;height:20px;fill:currentColor}
+.sh .mi small{display:block;color:var(--m);font-weight:400;font-size:12px}
+.sh hr{border:0;border-top:1px solid var(--hv);margin:8px 6px}
+@media(max-width:800px){
+ :root{--nvt:calc(var(--nv) + var(--sab) + 14px)}
+ nav{left:12px;right:12px;bottom:calc(var(--sab) + 10px);height:var(--nv);padding:0 6px;border-radius:24px;background:color-mix(in srgb,var(--bg0) 78%,transparent);-webkit-backdrop-filter:blur(20px) saturate(1.4);backdrop-filter:blur(20px) saturate(1.4);border:1px solid var(--hv);box-shadow:0 10px 30px #0008,inset 0 1px 0 #ffffff12;gap:2px}
+ nav button.x{display:none}
+ #mnb{display:flex}
+ nav button{border-radius:18px;font-size:10.5px;letter-spacing:.2px;gap:1px;padding:4px 2px;-webkit-tap-highlight-color:transparent}
+ nav .ni{display:grid;place-items:center;width:52px;height:28px;border-radius:14px;transition:background .25s,transform .25s cubic-bezier(.3,1.6,.5,1)}
+ nav .ni svg{width:22px;height:22px;fill:currentColor}
+ nav button[aria-current=page]{background:none;color:var(--gt)}
+ nav button[aria-current=page] .ni{background:color-mix(in srgb,var(--g) 22%,transparent);transform:translateY(-1px) scale(1.04)}
+ nav button:active .ni{transform:scale(.92)}
+}
 </style>
 </head>
 <body>
@@ -502,13 +548,13 @@ async function signed(s){
 
 function shell(){
  if(shellOn)return;shellOn=true;
- $('#root').innerHTML=`<div class="app"><nav aria-label="Principal"><div class="brand"><img src="icon-192.png" alt="" onerror="this.style.display='none'">Sammelo</div>${tabs().map(t=>`<button data-v="${t[0]}">${t[2]}<span>${t[1]}</span></button>`).join('')}<div class="sp"></div><button id="thb" aria-label="Cambiar entre modo claro y oscuro">${I.sun}</button></nav>
+ $('#root').innerHTML=`<div class="app"><nav aria-label="Principal"><div class="brand"><img src="icon-192.png" alt="" onerror="this.style.display='none'">Sammelo</div>${tabs().map(t=>`<button data-v="${t[0]}"${['pl','acc','admin'].includes(t[0])?' class="x"':''}><i class="ni">${t[2]}</i><span>${t[1]}</span></button>`).join('')}<button id="mnb" aria-label="Abrir menú" aria-haspopup="dialog"><i class="ni">${MENU_I}</i><span>Menú</span></button><div class="sp"></div><button id="thb" aria-label="Cambiar entre modo claro y oscuro">${I.sun}</button></nav>
  <main id="main"><div class="ad" id="adtop" hidden></div><div id="view"></div><div class="ad" id="adlib" hidden></div></main>
  <div class="player"><div class="now"><img class="cov" id="cv" alt=""><div class="t"><b id="nt">Elige una canción</b><span id="na"></span></div><button class="ib" id="lk" aria-label="Favorito" aria-pressed="false">${I.heart}</button></div>
  <div class="ctr"><div class="btns"><button class="ib" id="sh" aria-label="Aleatorio" aria-pressed="false">${I.shuf}</button><button class="ib" id="pv" aria-label="Anterior">${I.prev}</button><button class="play" id="pp" aria-label="Reproducir">${I.play}</button><button class="ib" id="nx" aria-label="Siguiente">${I.next}</button><button class="ib" id="rp" aria-label="Repetir" data-m="0">${I.rep}</button></div>
  <div class="seek"><span id="cur">0:00</span><div class="wf" id="wf1"><canvas></canvas><input id="sk" type="range" min="0" max="1000" value="0" aria-label="Posición"><i class="wf-tip"></i></div><span id="dur">0:00</span></div></div>
  <div class="vol"><button class="ib" id="tqb" aria-label="Ver cola">${I.list}</button><button class="ib" id="vm" aria-label="Silenciar">${I.vol}</button><input id="vl" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volumen"><button class="ib" id="xp" aria-label="Abrir reproductor">${I.expand}</button></div><i class="mprog"><b></b></i></div></div><section id="np" aria-label="Reproduciendo" hidden><div><button class="ib" id="npc" aria-label="Cerrar" style="transform:rotate(-90deg)">${I.back}</button><div class="disc" id="disc"><img id="dc" alt=""></div></div><div><h2 id="nt2"></h2><p class="mut" id="na2"></p><div class="info"><span id="i1"></span><span id="i2"></span></div><div class="np-seek"><span id="cur2">0:00</span><div class="wf lg" id="wf2"><canvas></canvas><input id="sk2" type="range" min="0" max="1000" value="0" aria-label="Posición"><i class="wf-tip"></i></div><span id="dur2">0:00</span></div><div class="np-ctl"><button class="ib" id="sh2" aria-label="Aleatorio" aria-pressed="false">${I.shuf}</button><button class="ib" id="pv2" aria-label="Anterior">${I.prev}</button><button class="play" id="pp2" aria-label="Reproducir o pausar">${I.play}</button><button class="ib" id="nx2" aria-label="Siguiente">${I.next}</button><button class="ib" id="rp2" aria-label="Repetir" data-m="0">${I.rep}</button></div><button class="btn ghost" id="lyb" style="margin-bottom:14px">Ver letra</button><div class="tools"><button class="chip" id="tq" aria-pressed="true">${I.list}<span>Cola</span></button><button class="chip" id="ts" aria-pressed="false">${I.timer}<span>Temporizador</span></button><button class="chip" id="tv" aria-pressed="false">${I.fast}<span>1×</span></button><button class="chip" id="tsh">${I.share}<span>Compartir</span></button></div><div id="qsec"></div><div id="lysec" hidden><h3>Letra</h3><div class="lyr" id="ly"></div><div class="adj" id="adj" hidden>Sincronía<button data-o="-0.5">Retrasar letra</button><button data-o="0.5">Adelantar letra</button><span id="ov"></span></div><div id="le"></div></div></div></section><dialog id="dlg"></dialog>`;
- $('nav').onclick=e=>{const b=e.target.closest('button');if(b&&b.id==='thb'){toggleTheme();return}if(b){view=b.dataset.v;curList=null;coll=null;$('#np').hidden=true;render();go()}};
+ $('nav').onclick=e=>{const b=e.target.closest('button');if(b&&navigator.vibrate)try{navigator.vibrate(8)}catch(x){}if(b&&b.id==='thb'){toggleTheme();return}if(b&&b.id==='mnb'){openMore();return}if(b){view=b.dataset.v;curList=null;coll=null;$('#np').hidden=true;render();go()}};
  $('.now').onclick=openNp;
  $('#lyb').onclick=()=>{lyShow=!lyShow;lyUI()};
  $('#tq').onclick=e=>{const q=$('#qsec');q.hidden=!q.hidden;e.currentTarget.setAttribute('aria-pressed',!q.hidden);qRender()};
@@ -722,17 +768,103 @@ const srt=l=>{const a=[...l],c=(x,y)=>String(x||'').localeCompare(String(y||''),
  if(sortBy==='az')a.sort((x,y)=>c(x.title,y.title));else if(sortBy==='art')a.sort((x,y)=>c(x.artist,y.artist)||c(x.title,y.title));return a};
 const filt=l=>{const t=norm(q.trim());return srt(t?l.filter(s=>norm(s.title+' '+s.artist).includes(t)):l)};
 const playBar=l=>l.length?`<div class="bar"><button class="big" data-a="playall" aria-label="Reproducir todo">${I.play}</button></div>`:'';
+
+
+/* ====== MENÚ SÁNDWICH (barra inferior) ====== */
+const MENU_I='<svg viewBox="0 0 24 24"><path d="M4 6.5h16v2H4zm0 4.5h16v2H4zm0 4.5h10v2H4z"/></svg>';
+const MORE_V={pl:['Listas',()=>I.list],acc:['Perfil',()=>I.user],admin:['Admin',()=>I.shield]};
+function syncMore(){const b=$('#mnb');if(!b)return;const m=MORE_V[view];
+ b.setAttribute('aria-current',m?'page':'false');b.innerHTML=`<i class="ni">${m?m[1]():MENU_I}</i><span>${m?m[0]:'Menú'}</span>`}
+function closeMore(){const sh=$('#msheet');if(!sh)return;sh.classList.remove('on');document.body.style.overflow='';setTimeout(()=>{if(!sh.classList.contains('on'))sh.remove()},330)}
+function openMore(){
+ if($('#msheet'))return;
+ const nm=nameOf(),av=(()=>{try{return avUrl()}catch(e){return''}})();
+ const it=(a,ic,t,sub)=>`<button class="mi" data-mv="${a}"><span class="ic">${ic}</span><span>${t}${sub?`<small>${sub}</small>`:''}</span></button>`;
+ const th=curTheme()==='light';
+ const sh=document.createElement('div');sh.id='msheet';sh.setAttribute('role','dialog');sh.setAttribute('aria-label','Menú');
+ sh.innerHTML=`<div class="sh"><div class="grip"></div><div class="who"><span class="av2">${av?`<img src="${esc(av)}" alt="">`:esc(ini(nm))}</span><span><b>${esc(nm)}</b><small>${songs.length?plur(songs.length)+' en tu biblioteca':'Tu biblioteca'}</small></span></div>${it('pl',I.list,'Listas','Tus listas de reproducción')}${it('acc',I.user,'Perfil','Tu actividad, ajustes y cuenta')}${isAdm()?it('admin',I.shield,'Admin','Usuarios, invitaciones y estadísticas'):''}<hr>${songs.length?it('surprise',I.fast,'Sorpréndeme','Música al azar de tu biblioteca'):''}${it('theme',th?I.moon:I.sun,th?'Modo oscuro':'Modo claro','Cambia el aspecto de la app')}</div>`;
+ document.body.appendChild(sh);document.body.style.overflow='hidden';
+ requestAnimationFrame(()=>requestAnimationFrame(()=>sh.classList.add('on')));
+ let y0=null;
+ sh.addEventListener('touchstart',e=>{y0=e.touches[0].clientY},{passive:true});
+ sh.addEventListener('touchend',e=>{if(y0!==null&&e.changedTouches[0].clientY-y0>70)closeMore();y0=null},{passive:true});
+ sh.addEventListener('click',e=>{
+  if(e.target===sh){closeMore();return}
+  const b=e.target.closest('[data-mv]');if(!b)return;
+  if(navigator.vibrate)try{navigator.vibrate(8)}catch(x){}
+  const a=b.dataset.mv;closeMore();
+  if(a==='theme')return toggleTheme();
+  if(a==='surprise'){shuffle=true;syncModes();return songs.length&&play(seeded(songs,Date.now()),0)}
+  view=a;curList=null;coll=null;$('#np').hidden=true;render();go()})}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#msheet'))closeMore()});
+/* ====== BÚSQUEDA INTELIGENTE (historial + sugerencias en vivo) ====== */
+const shKey=()=>'sh:'+(me?me.id:'x');
+function shGet(){try{const l=JSON.parse(localStorage.getItem(shKey())||'[]');return Array.isArray(l)?l:[]}catch(e){return[]}}
+function shSet(l){try{localStorage.setItem(shKey(),JSON.stringify(l.slice(0,12)))}catch(e){}}
+function shAdd(t){t=String(t||'').trim();if(t.length<2)return;shSet([t,...shGet().filter(x=>norm(x)!==norm(t))])}
+const SH_CLK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+document.addEventListener('pointerdown',e=>{document.querySelectorAll('.ssb').forEach(b=>{if(!b.parentNode.contains(e.target))b.hidden=true})});
+function smartSearch(inp,opt){
+ opt=opt||{};if(!inp||inp.dataset.ss)return;inp.dataset.ss='1';
+ const wrap=document.createElement('div');wrap.className='ssw';
+ inp.parentNode.insertBefore(wrap,inp);wrap.appendChild(inp);
+ const box=document.createElement('div');box.className='ssb';box.hidden=true;wrap.appendChild(box);
+ inp.setAttribute('autocomplete','off');inp.setAttribute('enterkeyhint','search');
+ let act=-1,found=[],saveT=null;
+ const its=()=>[...box.querySelectorAll('[data-go]')];
+ const close=()=>{box.hidden=true;act=-1};
+ const hi=()=>{const l=its();l.forEach((e,i)=>e.classList.toggle('on',i===act));if(l[act])l[act].scrollIntoView({block:'nearest'})};
+ const hrow=x=>`<div class="ssr" data-go="q" data-v="${esc(x)}">${SH_CLK}<span class="sst">${esc(x)}</span><button type="button" class="ssx" data-del="${esc(x)}" aria-label="Quitar de recientes">×</button></div>`;
+ function draw(){
+  const v=inp.value.trim(),t=norm(v),hist=shGet();act=-1;let h='';
+  if(!t){
+   if(!hist.length)return close();
+   h=`<div class="ssh"><span>Búsquedas recientes</span><button type="button" data-clr="1">Borrar todo</button></div>`+hist.map(hrow).join('')}
+  else{
+   const hm=hist.filter(x=>norm(x).includes(t)&&norm(x)!==t).slice(0,3);
+   h=hm.map(hrow).join('');found=[];
+   if(opt.home){
+    const sc=x=>{const a=norm(x.title),b=norm(x.artist);return a.startsWith(t)?0:b.startsWith(t)?1:a.includes(t)?2:3};
+    found=songs.filter(x=>norm(x.title+' '+x.artist).includes(t)).sort((a,b)=>sc(a)-sc(b)).slice(0,6);
+    const ar=artistsAll().filter(c=>norm(c.name).includes(t)).slice(0,2);
+    if(ar.length)h+=`<div class="ssl">Artistas</div>`+ar.map(c=>`<div class="ssr" data-go="art" data-k="${esc(rg(c))}">${c.items&&c.items[0]&&c.items[0].thumbnail_url?im(c.items[0].thumbnail_url):'<span class="ssc"></span>'}<span class="sst">${esc(c.name)}<small>Artista</small></span></div>`).join('');
+    if(found.length)h+=`<div class="ssl">Canciones</div>`+found.map((x,i)=>`<div class="ssr" data-go="song" data-i="${i}">${x.thumbnail_url?im(x.thumbnail_url):'<span class="ssc"></span>'}<span class="sst">${esc(x.title)}<small>${esc(artistOf(x))}</small></span></div>`).join('');
+    h+=found.length||ar.length?`<div class="ssr" data-go="all" style="color:var(--gt)"><span class="sst">Ver todos los resultados de «${esc(v)}»</span></div>`:`<div class="ssr" data-go="all"><span class="sst">Sin coincidencias. Buscar «${esc(v)}» de todos modos</span></div>`}
+   if(!h)return close()}
+  box.innerHTML=h;box.hidden=false}
+ function submit(v){v=String(v||'').trim();if(!v)return;shAdd(v);close();
+  if(opt.home){q=v;libTab='songs';view='lib';render();go()}else{inp.value=v;q=v;const r=$('#res');if(r){r.innerHTML=libRes();upd()}inp.blur()}}
+ inp.addEventListener('input',()=>{draw();if(!opt.home){clearTimeout(saveT);saveT=setTimeout(()=>{if(inp.value.trim().length>=3)shAdd(inp.value)},1500)}});
+ inp.addEventListener('focus',draw);
+ inp.addEventListener('keydown',e=>{
+  const l=its();
+  if(e.key==='ArrowDown'&&l.length){e.preventDefault();act=(act+1)%l.length;hi()}
+  else if(e.key==='ArrowUp'&&l.length){e.preventDefault();act=act<=0?l.length-1:act-1;hi()}
+  else if(e.key==='Escape')close();
+  else if(e.key==='Enter'){e.preventDefault();if(act>=0&&l[act])l[act].click();else submit(inp.value)}});
+ box.addEventListener('mousedown',e=>e.preventDefault());
+ box.addEventListener('click',e=>{
+  e.stopPropagation();
+  const d=e.target.closest('[data-del]');
+  if(d){shSet(shGet().filter(x=>x!==d.dataset.del));draw();return}
+  if(e.target.closest('[data-clr]')){shSet([]);close();return}
+  const r=e.target.closest('[data-go]');if(!r)return;
+  const g=r.dataset.go;
+  if(g==='q'){inp.value=r.dataset.v;submit(r.dataset.v)}
+  else if(g==='all')submit(inp.value);
+  else if(g==='art'){shAdd(inp.value);close();openColl(r.dataset.k)}
+  else if(g==='song'){shAdd(inp.value);close();play(found,+r.dataset.i)}})}
 function render(){
  if(view==='admin'&&!isAdm())view='home';if(view!=='admin'||coll)admStop();
- $$('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===view?'page':'false'));
+ $$('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===view?'page':'false'));syncMore();
  const m=$('#view');
  if(coll)collPage(m);
- else if(view==='home'){m.innerHTML=homeHTML();const hq=$('#hq');if(hq)hq.onkeydown=e=>{if(e.key==='Enter'){q=hq.value;libTab='songs';view='lib';render();go()}}}
+ else if(view==='home'){m.innerHTML=homeHTML();smartSearch($('#hq'),{home:true})}
  else if(view==='lib'){
   const sg=libTab==='songs';
   m.innerHTML=`<div class="hd"><h2>Biblioteca</h2><input id="q" type="search" placeholder="Buscar en tu biblioteca" value="${esc(q)}">${sg?' <select class="sort" id="so" aria-label="Ordenar"><option value="new">Más recientes</option><option value="az">Título A–Z</option><option value="art">Artista A–Z</option></select>':''}</div><div class="chips" role="group" aria-label="Ver por">${[['songs','Canciones'],['artists','Artistas'],['albums','Álbumes']].map(c=>`<button class="chip" data-a="tab" data-id="${c[0]}" aria-pressed="${libTab===c[0]}">${c[1]}</button>`).join('')}</div>${sg?playBar(songs):''}<div id="res">${libRes()}</div>`;
   if(sg){$('#so').value=sortBy;$('#so').onchange=e=>{sortBy=e.target.value;try{localStorage.setItem('sort',sortBy)}catch(x){}$('#res').innerHTML=libRes();upd()}}
-  $('#q').oninput=e=>{q=e.target.value;$('#res').innerHTML=libRes();upd()}}
+  $('#q').oninput=e=>{q=e.target.value;$('#res').innerHTML=libRes();upd()};smartSearch($('#q'),{})}
  else if(view==='fav'){const l=songs.filter(s=>favs.has(s.id));m.innerHTML=`<div class="hd"><h2>Favoritos</h2></div>${playBar(l)}${rows(l)}`}
  else if(view==='pl'&&curList){m.innerHTML=`<div class="hd"><h2>${esc(curList.name)}</h2></div><div class="bar"><button class="ib" data-a="back" aria-label="Volver">${I.back}</button>${curList.items.length?`<button class="big" data-a="playall" aria-label="Reproducir lista">${I.play}</button>`:''}<button class="btn ghost" data-a="ren">Renombrar</button><button class="btn ghost" data-a="del">Eliminar lista</button></div>${rows(curList.items)}`}
  else if(view==='pl'){m.innerHTML=`<div class="hd"><h2>Tus listas</h2></div><div class="pad"><input id="pn" placeholder="Nombre de la lista"><button class="btn" data-a="new">Crear lista</button></div>${lists.length?`<div class="grid">${lists.map(l=>`<button class="card" data-a="open" data-id="${l.id}"><div class="cv">${I.list}</div><b>${esc(l.name)}</b></button>`).join('')}</div>`:'<p class="mut mt">Todavía no tienes listas.</p>'}`}
