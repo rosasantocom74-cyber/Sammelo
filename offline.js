@@ -503,10 +503,11 @@
     if (!rafM) rafM = requestAnimationFrame(function () { rafM = 0; markRows(); });
   }
 
-  function toggleCurrent() {
+  window.__ask = window.__ask || function (x) { return typeof askSheet === 'function' ? askSheet(x) : Promise.resolve(confirm(x.title + (x.text ? '\n' + x.text : ''))); };
+  async function toggleCurrent() {
     var s = queue[qi]; if (!s) return;
     var id = sid(s.id);
-    if (OFF.have.has(id)) { if (confirm('¿Quitar «' + s.title + '» de tus descargas?')) removeSongs([id]); }
+    if (OFF.have.has(id)) { if (await window.__ask({ title: '¿Quitar «' + s.title + '» de tus descargas?', ok: 'Quitar', danger: true })) removeSongs([id]); }
     else if (DL.q.indexOf(id) >= 0 || (DL.cur && DL.cur.id === id)) dequeue(id);
     else enqueue([id]);
   }
@@ -519,7 +520,7 @@
     if (a === 'reload') return location.reload();
     if (a === 'open') { view = 'off'; coll = null; curList = null; $q('#np') && ($q('#np').hidden = true); render(); go(); return; }
     if (a === 'np') return toggleCurrent();
-    if (a === 'wipe') { if (confirm('¿Borrar todas las canciones descargadas de este dispositivo?')) { cancelAll(); await removeSongs(Array.from(OFF.have.keys())); toast('Descargas borradas.'); } return; }
+    if (a === 'wipe') { if (await window.__ask({ title: '¿Borrar todas tus descargas?', text: 'Se quitarán las canciones guardadas en este dispositivo.', ok: 'Borrar', danger: true })) { cancelAll(); await removeSongs(Array.from(OFF.have.keys())); toast('Descargas borradas.'); } return; }
     if (a === 'fav' || a === 'all' || a === 'list') {
       var ids;
       if (a === 'fav') ids = songs.filter(function (s) { return favs.has(s.id); }).map(function (s) { return s.id; });
@@ -539,7 +540,7 @@
           if (es.quota && need * 1.1 > es.quota - es.usage) return alert('No hay espacio suficiente: necesitas unos ' + fmtSize(need) + ' y tienes ' + fmtSize(Math.max(0, es.quota - es.usage)) + ' libres para Sammelo.');
         }
       } catch (x) { }
-      if (ids.length > 1 && !confirm('Se descargarán ' + ids.length + ' canciones (aprox. ' + fmtSize(need) + '). ¿Continuar?')) return;
+      if (ids.length > 1 && !(await window.__ask({ title: '¿Descargar ' + ids.length + ' canciones?', text: 'Ocuparán unos ' + fmtSize(need) + ' en este dispositivo.', ok: 'Descargar' }))) return;
       enqueue(ids);
     }
   }

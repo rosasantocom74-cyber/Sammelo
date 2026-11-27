@@ -139,7 +139,7 @@
       '<input id="af-q" type="search" autocomplete="off" placeholder="Buscar artista o escribir un nombre nuevo" style="width:100%;padding:12px 14px;border-radius:999px;border:0;background:var(--fld);color:var(--t);font:inherit;margin-bottom:10px">' +
       '<div id="af-l"></div>' + extra + undo + '<button class="btn ghost" style="margin-top:12px;width:100%" data-af="close">Cerrar</button>';
     paintList();
-    if (!d.open) d.showModal();
+    if (typeof sheetify === 'function') sheetify(d); if (!d.open) d.showModal();
   }
 
   async function commit(label, mutate, then) {
@@ -206,7 +206,7 @@
     _main = mainArtist;
     mainArtist = function (raw) { var c = CANON.get(raw); return c !== undefined ? c : _main(raw); };
 
-    var d = document.createElement('dialog'); d.id = 'afdlg'; d.style.width = 'min(92vw,420px)'; d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+    var d = document.createElement('dialog'); d.id = 'afdlg'; d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
     d.addEventListener('input', function (e) { if (e.target && e.target.id === 'af-q' && ctx) paintList(); });
     document.body.appendChild(d);
     document.addEventListener('click', onAf);

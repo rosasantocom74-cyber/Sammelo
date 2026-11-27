@@ -500,6 +500,40 @@ dialog::backdrop{background:var(--scrim)}dialog h3{margin-bottom:12px}
 [data-theme=light] .strk{color:#b45309}
 #offb{position:fixed;top:0;left:0;right:0;z-index:60;padding:calc(6px + var(--sat)) 12px 6px;text-align:center;font-size:12px;font-weight:600;background:#b45309;color:#fff;transform:translateY(-100%);transition:transform .3s}
 #offb.show{transform:none}#offb span{font-weight:800}
+
+/* hoja de opciones de canción */
+dialog.sheet{margin:auto auto 0;width:100%;max-width:520px;border-radius:26px 26px 0 0;padding:10px 16px calc(var(--sab) + 18px);background:var(--p);border:1px solid var(--hv);border-bottom:0;max-height:82vh;box-shadow:0 -20px 60px #0008}
+dialog.sheet[open]{animation:sheetUp .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes sheetUp{from{transform:translateY(100%)}}
+dialog.sheet::backdrop{background:#0009;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.sheet .grip{width:40px;height:4px;border-radius:4px;background:var(--p3);margin:0 auto 14px}
+.sheet .sh-hd{display:flex;align-items:center;gap:14px;padding:2px 4px 14px;margin-bottom:6px;border-bottom:1px solid var(--hv)}
+.sheet .sh-hd img,.sheet .sh-hd .ph{flex:none;width:56px;height:56px;border-radius:12px;object-fit:cover;background:var(--hv);box-shadow:0 8px 20px #0005}
+.sheet .sh-hd div{min-width:0}
+.sheet .sh-hd b{display:block;font-size:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheet .sh-hd small{display:block;color:var(--m);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheet .sh-l{margin:14px 6px 4px;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--m)}
+.sheet .row{position:relative;display:flex;align-items:center;gap:14px;padding:10px 10px;border-radius:14px;font-weight:600;font-size:16px;--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z'/%3E%3C/svg%3E");transition:background .15s,transform .1s}
+.sheet .row:active{transform:scale(.98)}
+.sheet .row::before{content:"";flex:none;width:38px;height:38px;border-radius:12px;background:color-mix(in srgb,var(--g) 16%,transparent)}
+.sheet .row::after{content:"";position:absolute;left:10px;top:50%;width:38px;height:38px;margin-top:-19px;background:var(--gt);-webkit-mask:var(--ic) center/20px no-repeat;mask:var(--ic) center/20px no-repeat}
+.sheet .row[data-o=next]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z'/%3E%3C/svg%3E")}
+.sheet .row[data-o=queue]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z'/%3E%3C/svg%3E")}
+.sheet .row[data-o=share]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z'/%3E%3C/svg%3E")}
+.sheet .row[data-l]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z'/%3E%3C/svg%3E")}
+.sheet .row[data-ic=dl]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z'/%3E%3C/svg%3E")}
+.sheet .row[data-ic=usr]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E")}
+.sheet .row[data-ic=dot]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z'/%3E%3C/svg%3E")}
+
+/* hojas inferiores: títulos, confirmaciones y más íconos */
+.sheet h3{font-size:19px;margin:2px 6px 12px}
+.sheet .mut{margin:-4px 6px 10px}
+.sheet .row[data-ic=clk]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.5 5H11v6l5.2 3.1.8-1.3-4.5-2.7V7z'/%3E%3C/svg%3E")}
+.sheet .row[data-ic=off]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E")}
+.sheet .row[data-ic=undo]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z'/%3E%3C/svg%3E")}
+.askb{display:flex;gap:10px;margin-top:16px}.askb .btn{flex:1}
+.askb .btn.danger{background:#e5484d;color:#fff;border-color:#e5484d}
+#ask-i{width:100%;padding:13px 16px;border-radius:14px;border:1px solid var(--hv);background:var(--fld);color:var(--t);font:inherit;margin:4px 0 0}
 </style>
 </head>
 <body>
@@ -955,7 +989,7 @@ async function fanJoin(key){
  toast(`Ahora coleccionas a ${c.name}`);fansLoad(true)}
 async function fanLeave(key){
  const c=coll;if(!c||c.key!==key)return;
- if(!confirm(`¿Dejar de coleccionar a ${c.name}? Se quitará tu carnet.`))return;
+ if(!await askSheet({title:`¿Dejar de coleccionar a ${c.name}?`,text:'Se quitará tu carnet.',ok:'Dejar de coleccionar',danger:true}))return;
  const{error}=await sb.rpc('release_artist',{p_key:key});
  if(error)return toast('No se pudo quitar. Inténtalo de nuevo.');
  fans.mine.delete(key);fans.counts.set(key,Math.max(0,(fans.counts.get(key)||1)-1));render();fansLoad(true)}
@@ -1232,7 +1266,7 @@ function exportData(){
   favoritos:songs.filter(s=>favs.has(s.id)).map(s=>({titulo:s.title,artista:artistOf(s)})),listas:lists.map(l=>l.name),
   recientes:recentSongs().map(s=>s.title+' — '+artistOf(s)),estadisticas:{segundos_escuchados:Math.round(stats.sec),reproducciones:stats.plays}};
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}));a.download='sammelo-mis-datos.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);toast('Datos exportados.')}
-function clearHist(){if(!confirm('¿Borrar tu historial y tus estadísticas de escucha en este dispositivo?'))return;
+async function clearHist(){if(!await askSheet({title:'¿Borrar tu historial?',text:'Se borrarán tu historial y tus estadísticas de escucha en este dispositivo.',ok:'Borrar',danger:true}))return;
  recent=[];stats={sec:0,plays:{},days:{}};try{localStorage.removeItem('rc:'+me.id)}catch(e){}saveStats();toast('Historial borrado.');render()}
 function clearLyr(){kvClear('ly:');try{Object.keys(localStorage).filter(k=>k.startsWith('ly:')||k.startsWith('lo:')).forEach(k=>localStorage.removeItem(k))}catch(e){}Object.keys(lyMem).forEach(k=>delete lyMem[k]);toast('Caché de letras borrada.')}
 
@@ -1326,7 +1360,7 @@ function qAdd(x){if(!x)return;if(qi<0){play([x],0);return}nextPick=-1;queue=[...
 function sleepMenu(){const d=$('#dlg');
  d.innerHTML=`<h3>Temporizador de sueño</h3>${[15,30,45,60].map(m=>`<button class="row" data-m="${m}">${m} minutos</button>`).join('')}<button class="row" data-m="end">Al terminar esta canción</button>${(sleepT||sleepEnd)?'<button class="row" data-m="off">Desactivar</button>':''}<button class="btn ghost" style="margin-top:12px;width:100%" data-x>Cerrar</button>`;
  d.onclick=e=>{if(e.target.closest('[data-x]'))return d.close();const r=e.target.closest('[data-m]');if(!r)return;setSleep(r.dataset.m);d.close()};
- d.showModal()}
+ sheetify(d);d.showModal()}
 function setSleep(m){clearTimeout(sleepT);sleepT=null;sleepEnd=false;sleepAt=0;
  if(m==='end'){sleepEnd=true;toast('Se detendrá al terminar la canción.')}
  else if(m!=='off'){const n=+m;sleepAt=Date.now()+n*60000;sleepT=setTimeout(()=>{sleepT=null;sleepAt=0;userPaused=true;audio.pause();toast('Temporizador: música en pausa. ¡Buenas noches!');sleepUI()},n*60000);toast('Se pausará en '+n+' minutos.')}
@@ -1339,13 +1373,13 @@ function cycleSpeed(){spdI=(spdI+1)%SPD.length;const r=SPD[spdI];audio.defaultPl
 async function shareSong(x){if(!x)return;const t=x.title+' — '+artistOf(x);
  try{if(navigator.share){await navigator.share({title:x.title,text:t});return}await navigator.clipboard.writeText(t);toast('Copiado: '+t)}
  catch(e){if(!e||e.name!=='AbortError')toast('No se pudo compartir.')}}
-async function renList(){const n=(prompt('Nuevo nombre de la lista',curList.name)||'').trim();if(!n||n===curList.name)return;
+async function renList(){const n=String(await askSheet({title:'Renombrar lista',input:{value:curList.name,placeholder:'Nombre de la lista'},ok:'Guardar'})||'').trim();if(!n||n===curList.name)return;
  const{error}=await sb.from('playlists').update({name:n}).eq('id',curList.id);if(error)return toast('No se pudo renombrar la lista.');
  curList.name=n;const l=lists.find(x=>x.id===curList.id);if(l)l.name=n;render()}
 function shortcutsHelp(){const d=$('#dlg');
  const k=[['Espacio','Reproducir / pausa'],['← →','Retroceder / adelantar 5 s'],['Shift + ← →','Canción anterior / siguiente'],['M','Silenciar'],['F','Favorito la canción actual'],['/','Buscar en la biblioteca'],['Esc','Cerrar el reproductor'],['?','Ver esta ayuda']];
  d.innerHTML=`<h3>Atajos de teclado</h3>${k.map(x=>`<div style="display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px solid var(--hv)"><b>${x[0]}</b><span class="mut">${x[1]}</span></div>`).join('')}<button class="btn ghost" style="margin-top:14px;width:100%" data-x>Cerrar</button>`;
- d.onclick=e=>{if(e.target.closest('[data-x]'))d.close()};d.showModal()}
+ d.onclick=e=>{if(e.target.closest('[data-x]'))d.close()};sheetify(d);d.showModal()}
 /* ====== CONTINUAR DONDE LO DEJASTE ====== */
 function savePb(){if(!me||qi<0||prefs.resume===false)return;try{localStorage.setItem('pb:'+me.id,JSON.stringify({ids:queue.slice(qi,qi+150).map(x=>x.id),t:audio.currentTime||resumeAt}))}catch(e){}}
 audio.addEventListener('timeupdate',()=>{if(++pbN%20===0)savePb()});
@@ -1610,7 +1644,7 @@ async function onMain(e){
   if(a==='pwsave')return savePass();
   if(a==='emsave')return saveEmail();
   if(a==='others')return closeOthers();
-  if(a==='outall'){if(!confirm('¿Cerrar sesión en todos tus dispositivos, incluido este?'))return;return signOutApp('global')}
+  if(a==='outall'){if(!await askSheet({title:'¿Cerrar sesión en todos tus dispositivos?',text:'Incluido este.',ok:'Cerrar sesión',danger:true}))return;return signOutApp('global')}
   if(a==='accent'){prefs.accent=id;savePrefs();sb.auth.updateUser({data:{accent:id}}).then(r=>{if(r.data&&r.data.user){me=r.data.user;meta=me.user_metadata||{}}});return render()}
   if(a==='eye'){$$('.pwf').forEach(x=>x.type=x.type==='password'?'text':'password');return}
   if(a==='export')return exportData();
@@ -1637,14 +1671,15 @@ async function rmFromList(id){
  if(error)return toast('No se pudo quitar de la lista.');
  curList.items=curList.items.filter(s=>s.id!==id);render();toast('Quitada de la lista.')}
 async function delList(){
- if(!confirm('¿Eliminar esta lista?'))return;
+ if(!await askSheet({title:'¿Eliminar esta lista?',text:'No se puede deshacer.',ok:'Eliminar',danger:true}))return;
  const{error}=await sb.from('playlists').delete().eq('id',curList.id);
  if(error)return toast('No se pudo eliminar la lista.');
  lists=lists.filter(l=>l.id!==curList.id);curList=null;render()}
 function openPick(id){
  pick=id;const d=$('#dlg'),sg=songs.find(x=>x.id===id);
- d.innerHTML=`<h3>${esc(sg?sg.title:'Opciones')}</h3>${sg?`<p class="mut" style="margin:-6px 0 10px">${esc(artistOf(sg))}</p>`:''}<button class="row" data-o="next">Reproducir a continuación</button><button class="row" data-o="queue">Añadir a la cola</button><button class="row" data-o="share">Compartir</button><p class="mut" style="margin:12px 0 4px;font-weight:700">Añadir a una lista</p>${lists.map(l=>`<button class="row" data-l="${l.id}">${esc(l.name)}</button>`).join('')||'<p class="mut">Crea una lista primero en la pestaña Listas.</p>'}<button class="btn ghost" style="margin-top:12px;width:100%" data-x>Cerrar</button>`;
+ d.innerHTML=`<div class="grip"></div><div class="sh-hd">${sg&&sg.thumbnail_url?im(sg.thumbnail_url):'<span class="ph"></span>'}<div><b>${esc(sg?sg.title:'Opciones')}</b>${sg?`<small>${esc(artistOf(sg))}</small>`:''}</div></div><button class="row" data-o="next">Reproducir a continuación</button><button class="row" data-o="queue">Añadir a la cola</button><button class="row" data-o="share">Compartir</button><p class="sh-l">Añadir a una lista</p>${lists.map(l=>`<button class="row" data-l="${l.id}">${esc(l.name)}</button>`).join('')||'<p class="mut">Crea una lista primero en la pestaña Listas.</p>'}<button class="btn ghost" style="margin-top:12px;width:100%" data-x>Cerrar</button>`;
  d.onclick=async e=>{
+  if(e.target===d){const r=d.getBoundingClientRect();if(e.clientY<r.top||e.clientY>r.bottom||e.clientX<r.left||e.clientX>r.right)return d.close()}
   if(e.target.closest('[data-x]'))return d.close();
   const o=e.target.closest('[data-o]');if(o){d.close();return o.dataset.o==='next'?qNext(sg):o.dataset.o==='queue'?qAdd(sg):shareSong(sg)}
   const r=e.target.closest('[data-l]');if(!r)return;
@@ -1652,7 +1687,34 @@ function openPick(id){
   const pos=last&&last.length?(last[0].position||0)+1:0;
   const{error}=await sb.from('playlist_songs').insert({playlist_id:r.dataset.l,song_id:pick,position:pos});
   d.close();toast(error?'No se pudo añadir (¿ya está en la lista?).':'Añadida a la lista.')};
- d.showModal()}
+ sheetify(d);d.showModal()}
+
+/* ====== HOJAS INFERIORES (todas las ventanas emergentes) ====== */
+function sheetify(d,o){
+ o=o||{};
+ d.className='sheet';
+ d.addEventListener('close',()=>{d.className=''},{once:true});
+ if(!d._sheetMo){
+  d._sheetMo=new MutationObserver(()=>{if(!d.querySelector(':scope>.grip'))d.insertAdjacentHTML('afterbegin','<div class="grip"></div>');sheetIcons(d)});
+  d._sheetMo.observe(d,{childList:true});
+  let y0=null;
+  d.addEventListener('touchstart',e=>{y0=!o.lock&&d.classList.contains('sheet')&&d.scrollTop<=0&&!e.target.closest('input,textarea')?e.touches[0].clientY:null},{passive:true});
+  d.addEventListener('touchend',e=>{if(y0!==null&&e.changedTouches[0].clientY-y0>90)d.close();y0=null},{passive:true});
+  if(!o.lock)d.addEventListener('click',e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientY<r.top||e.clientY>r.bottom||e.clientX<r.left||e.clientX>r.right)d.close()})}
+ if(!d.querySelector(':scope>.grip'))d.insertAdjacentHTML('afterbegin','<div class="grip"></div>');
+ sheetIcons(d)}
+function askSheet(o){
+ o=o||{};
+ return new Promise(res=>{
+  const d=document.createElement('dialog');d.id='askdlg';let out=o.input?null:false;
+  d.innerHTML=`<h3>${esc(o.title||'')}</h3>${o.text?`<p class="mut">${esc(o.text)}</p>`:''}${o.input?`<input id="ask-i" type="text" autocomplete="off" value="${esc(o.input.value||'')}" placeholder="${esc(o.input.placeholder||'')}">`:''}<div class="askb"><button class="btn ghost" data-k="0">${esc(o.cancel||'Cancelar')}</button><button class="btn${o.danger?' danger':''}" data-k="1">${esc(o.ok||'Aceptar')}</button></div>`;
+  const ok=()=>{out=o.input?d.querySelector('#ask-i').value:true;d.close()};
+  d.addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b)return;if(b.dataset.k==='1')ok();else d.close()});
+  d.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='ask-i'){e.preventDefault();ok()}});
+  d.addEventListener('close',()=>{d.remove();res(out)});
+  document.body.appendChild(d);sheetify(d);d.showModal();
+  const i=d.querySelector('#ask-i');if(i){i.focus();i.select()}})}
+function sheetIcons(d){d.querySelectorAll('.row:not([data-o]):not([data-l]):not([data-ic])').forEach(b=>{const t=b.textContent;b.dataset.ic=b.dataset.m?(b.dataset.m==='off'?'off':'clk'):/descarg/i.test(t)?'dl':/artista/i.test(t)?'usr':/deshacer|volver|separar/i.test(t)?'undo':'dot'})}
 
 /* ====== TANDA 2 · INVITACIÓN · PRESENCIA · PANEL ADMIN · PUBLICIDAD ====== */
 I.shield=P('M12 2 4 5v6c0 5.500 3.400 10.700 8 12 4.600-1.300 8-6.500 8-12V5l-8-3zm0 2.100 6 2.200V11c0 4.300-2.500 8.400-6 9.800C8.500 19.400 6 15.300 6 11V6.300l6-2.200z');
@@ -1702,7 +1764,7 @@ function askTele(){
  const d=document.createElement('dialog');d.id='tdlg';
  d.innerHTML=`<h3>Estadísticas de uso</h3><p class="mut" style="margin-bottom:10px">Para mejorar Sammelo, el administrador puede ver:</p><ul class="tl"><li>tu nombre de usuario y si estás conectado, navegando o escuchando;</li><li>tu país <b>aproximado</b> (solo 2 letras) y el tipo de dispositivo;</li><li>qué canciones escuchas.</li></ul><p class="hint" style="margin:10px 0 14px">No guardamos ni mostramos tu dirección IP, tu contraseña ni tu ubicación exacta. Para estimar el país, tu navegador consulta un servicio de Cloudflare, que ve tu IP como cualquier sitio web. Puedes cambiarlo cuando quieras en Perfil → Ajustes. Más detalles en la <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</p><div style="display:grid;gap:8px"><button class="btn" data-t="y">Aceptar</button><button class="btn ghost" data-t="n">Ahora no</button></div>`;
  d.onclick=e=>{const b=e.target.closest('[data-t]');if(!b)return;setTele(b.dataset.t);d.close()};
- d.onclose=()=>d.remove();document.body.appendChild(d);d.showModal()}
+ d.onclose=()=>d.remove();document.body.appendChild(d);sheetify(d,{lock:true});d.showModal()}
 
 /* ---------- Presencia: latido cada ~25 s + desconexión al cerrar ---------- */
 async function hb(){
@@ -1928,14 +1990,14 @@ async function admClick(e){
   if(error)return toast('No se pudo invitar: '+error.message);
   $('#inv-t').value='';toast(num(data)+(data===1?' invitación registrada.':' invitaciones registradas.')+(raw.length>ok.length?' Se ignoraron correos no válidos.':''));return admLoad()}
  if(a==='invdel'){
-  if(!confirm('¿Eliminar la invitación de '+id+'?'))return;
+  if(!await askSheet({title:'¿Eliminar la invitación?',text:String(id),ok:'Eliminar',danger:true}))return;
   const{error}=await sb.from('invites').delete().eq('email',id);
   if(error)return toast('No se pudo eliminar.');toast('Invitación eliminada.');return admLoad()}
  if(a==='uset'){
   const u=(adm.users||[]).find(x=>x.id===id);if(!u)return;
   const k=b.dataset.k,n={approved:!!u.approved,blocked:!!u.blocked,role:u.role==='admin'?'admin':'user'},nm=u.email||u.name||'';
   const msg={unapprove:'¿Quitarle el acceso a '+nm+'?',block:'¿Bloquear a '+nm+'?',promote:'¿Hacer administrador a '+nm+'? Podrá ver todas las estadísticas y usuarios.',demote:'¿Quitar el rol de administrador a '+nm+'?'}[k];
-  if(msg&&!confirm(msg))return;
+  if(msg&&!await askSheet({title:msg,ok:'Confirmar',danger:k==='block'||k==='unapprove'}))return;
   if(k==='approve'){n.approved=true;n.blocked=false}else if(k==='unapprove')n.approved=false;else if(k==='block')n.blocked=true;else if(k==='unblock')n.blocked=false;else if(k==='promote'){n.role='admin';n.approved=true}else if(k==='demote')n.role='user';
   const r=await admRpc('admin_set_user',{p_id:id,p_approved:n.approved,p_blocked:n.blocked,p_role:n.role});
   if(adm.err){toast(adm.err);adm.err='';return}
