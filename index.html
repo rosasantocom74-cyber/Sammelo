@@ -411,6 +411,72 @@ dialog::backdrop{background:var(--scrim)}dialog h3{margin-bottom:12px}
  nav button[aria-current=page] .ni{background:color-mix(in srgb,var(--g) 22%,transparent);transform:translateY(-1px) scale(1.04)}
  nav button:active .ni{transform:scale(.92)}
 }
+
+/* ===== inicio moderno ===== */
+.hm{position:relative;padding-bottom:18px;overflow:visible}
+.hm::before{content:"";position:absolute;left:0;right:0;top:0;height:280px;background:radial-gradient(120% 90% at 15% 0%,color-mix(in srgb,var(--g) 34%,transparent),transparent 70%);pointer-events:none;z-index:0}
+.hm>*{position:relative;z-index:1}
+.hk{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--gt);margin-bottom:6px}
+.hm h2{margin-bottom:6px}
+.hm h2 .gr{background:linear-gradient(90deg,var(--gt),color-mix(in srgb,var(--g) 55%,#fff));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hsub{color:var(--m);margin:0 0 16px;font-size:14px}
+.hm .ssw{max-width:520px}
+.hm input{height:50px;padding-left:48px;border:1px solid var(--hv);background:color-mix(in srgb,var(--fld) 75%,transparent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") no-repeat 17px center/20px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 8px 24px #0003}
+.hero{display:flex;align-items:center;gap:14px;margin:4px 24px 14px;padding:12px;border-radius:20px;cursor:pointer;max-width:640px;background:linear-gradient(110deg,color-mix(in srgb,var(--g) 28%,var(--p)),var(--p) 78%);border:1px solid var(--hv);box-shadow:0 14px 34px #0004;transition:transform .2s,box-shadow .2s}
+.hero:hover{transform:translateY(-2px);box-shadow:0 18px 40px #0005}
+.hero:active{transform:scale(.99)}
+.hero .art{width:72px;height:72px;flex:none;border-radius:14px;aspect-ratio:auto}
+.hero .art .ini svg{width:30px;height:30px;fill:currentColor}
+.hero .ht{flex:1;min-width:0}
+.hero small{display:block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gt)}
+.hero b{display:block;font-size:17px;margin:2px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hero .s{color:var(--m);font-size:13px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hero .hb{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--hv);color:var(--t);transition:transform .15s,background .15s}
+.hero .hb:hover{background:var(--hv3)}
+.hero .hb.pri{width:50px;height:50px;background:var(--g);color:#14102a;box-shadow:0 8px 20px color-mix(in srgb,var(--g) 45%,transparent)}
+.hero .hb svg{width:22px;height:22px;fill:currentColor}
+.qk{border-radius:12px;height:60px;border:1px solid var(--hv);transition:background .2s,transform .2s,box-shadow .2s}
+.qk:hover{transform:translateY(-1px);box-shadow:0 8px 20px #0003}
+.sec-h h3::before{content:"";display:inline-block;width:4px;height:18px;border-radius:3px;background:var(--g);margin-right:10px;vertical-align:-2px}
+.tile{border-radius:16px;transition:background .2s,transform .2s}
+.tile:hover{transform:translateY(-3px)}
+.art{border-radius:12px}
+.songs li{border-radius:12px}
+.songs li.on{background:color-mix(in srgb,var(--g) 14%,transparent)}
+.chip[aria-pressed=true]{background:var(--g);color:#14102a}
+#toast{transform:translate(-50%,10px);transition:opacity .25s,transform .25s;box-shadow:0 10px 30px #0006}
+#toast.show{transform:translate(-50%,0)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero,.quick,.sec{animation:rise .55s cubic-bezier(.2,.8,.2,1) both}
+.quick{animation-delay:.05s}.sec:nth-of-type(1){animation-delay:.1s}.sec:nth-of-type(2){animation-delay:.16s}.sec:nth-of-type(3){animation-delay:.22s}.sec:nth-of-type(n+4){animation-delay:.28s}
+.calm .hero,.calm .quick,.calm .sec{animation:none}
+@media(prefers-reduced-motion:reduce){.hero,.quick,.sec{animation:none}}
+@media(max-width:800px){.row-h{scrollbar-width:none}.row-h::-webkit-scrollbar{display:none}.hero{margin:4px 16px 14px}.hm h2{font-size:30px}}
+
+/* ===== carnet de fan ===== */
+.fanbox{margin:4px 24px 18px;max-width:420px}
+.fcnt{color:var(--m);font-size:14px;margin:0 0 10px}.fcnt b{color:var(--t);font-size:18px}
+.fcard{position:relative;aspect-ratio:1.62;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;overflow:hidden;isolation:isolate;background:linear-gradient(135deg,hsl(var(--h) 60% 38%),hsl(calc(var(--h) + 50) 65% 22%));box-shadow:0 18px 44px #0006,inset 0 1px 0 #ffffff33;text-align:left}
+.fcard::before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent,#ffffff2e,transparent 30%,#ffffff22,transparent 60%);animation:holo 7s linear infinite;z-index:-1}
+.fcard::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 0%,#ffffff2a,transparent 45%);pointer-events:none;z-index:-1}
+@keyframes holo{to{transform:rotate(1turn)}}
+.fc-top{display:flex;justify-content:space-between;font-size:10px;font-weight:800;letter-spacing:1.6px;opacity:.92}
+.fc-f{color:#ffe08a}
+.fc-nm{font-size:22px;font-weight:800;letter-spacing:-.3px;text-shadow:0 2px 10px #0006;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fc-no small{display:block;font-size:10px;letter-spacing:1.6px;font-weight:700;opacity:.8;margin-bottom:2px}
+.fc-no b{font-size:40px;font-weight:900;letter-spacing:2px;font-variant-numeric:tabular-nums;line-height:1}
+.fc-bt{display:flex;justify-content:space-between;align-items:flex-end;font-size:12px}
+.fc-t{padding:4px 12px;border-radius:999px;background:#0004;border:1px solid #ffffff44;font-weight:800;letter-spacing:.5px}
+.fcard.sm{aspect-ratio:1.4;padding:12px 14px;border-radius:14px;box-shadow:0 8px 20px #0005}
+.fcard.sm .fc-nm{font-size:15px}.fcard.sm .fc-no b{font-size:28px}
+.mfc{width:200px}
+.fprog{height:6px;border-radius:6px;background:var(--hv);overflow:hidden;margin:12px 0 6px}
+.fprog i{display:block;height:100%;background:var(--g);border-radius:6px;transition:width .6s}
+.fanbox .btn{margin-top:6px}
+.calm .fcard::before,.calm .fcard.sm::before{animation:none}
+@media(prefers-reduced-motion:reduce){.fcard::before{animation:none}}
+@media(max-width:800px){.fanbox{margin:4px 16px 18px}}
+.fcard .fc-no b{font-size:30px;letter-spacing:0;text-transform:capitalize;font-weight:800}
 </style>
 </head>
 <body>
@@ -770,6 +836,66 @@ const filt=l=>{const t=norm(q.trim());return srt(t?l.filter(s=>norm(s.title+' '+
 const playBar=l=>l.length?`<div class="bar"><button class="big" data-a="playall" aria-label="Reproducir todo">${I.play}</button></div>`:'';
 
 
+
+/* ====== CARNET DE FAN · coleccionar artistas ====== */
+const fans={ok:false,off:false,busy:false,uid:null,mine:new Map(),counts:new Map()};
+const TIERS=[[150,'Leyenda'],[50,'Superfán'],[10,'Fan'],[0,'Oyente']];
+const artPlays=c=>c.items.reduce((a,x)=>a+((stats.plays&&stats.plays[x.id])||0),0);
+const tierOf=n=>TIERS.find(t=>n>=t[0]);
+const nextTier=n=>{const i=TIERS.findIndex(t=>n>=t[0]);return i>0?TIERS[i-1]:null};
+async function fansLoad(force){
+ if(!me||!sb)return;
+ if(fans.uid!==me.id){fans.uid=me.id;fans.ok=false;fans.off=false;fans.mine=new Map();fans.counts=new Map()}
+ if(fans.off||fans.busy||(fans.ok&&!force))return;
+ fans.busy=true;
+ try{
+  const a=await sb.from('artist_fans').select('artist_key,fan_no,created_at');
+  const b=await sb.rpc('artist_fan_counts');
+  if(a.error||b.error){fans.off=true}
+  else{fans.mine=new Map((a.data||[]).map(r=>[r.artist_key,{no:r.fan_no,at:r.created_at}]));fans.counts=new Map((b.data||[]).map(r=>[r.artist_key,+r.fans]));fans.ok=true}
+ }catch(e){fans.off=true}
+ fans.busy=false;
+ if(fans.ok&&(view==='home'||(coll&&coll.kind==='artist')))render()}
+function fanBurst(el){
+ if(prefs.calm||!el||!el.animate)return;
+ const r=el.getBoundingClientRect(),cols=['#ffe08a','#ffffff','#9b8cff','#5eead4','#f9a8d4'];
+ for(let i=0;i<28;i++){
+  const d=document.createElement('i');
+  d.style.cssText=`position:fixed;z-index:30;left:${r.left+r.width/2}px;top:${r.top+r.height/2}px;width:8px;height:8px;border-radius:2px;pointer-events:none;background:${cols[i%5]}`;
+  document.body.appendChild(d);
+  const a=Math.random()*Math.PI*2,v=90+Math.random()*170;
+  d.animate([{transform:'translate(0,0) rotate(0)',opacity:1},{transform:`translate(${Math.cos(a)*v}px,${Math.sin(a)*v+90}px) rotate(${Math.random()*540}deg)`,opacity:0}],{duration:900+Math.random()*500,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>d.remove()}}
+function fanCard(c,m,sm){
+ const pl=artPlays(c),t=tierOf(pl);
+ if(sm)return `<div class="fcard sm" style="--h:${hue(c.name)}"><div class="fc-top"><span>FAN</span></div><div class="fc-nm">${esc(c.name)}</div><div class="fc-bt"><span class="fc-t">${t[1]}</span></div></div>`;
+ const f=new Date(m.at),desde=isNaN(f)?'hoy':f.toLocaleDateString('es',{month:'short',year:'numeric'}).replace('.','');
+ return `<div class="fcard" style="--h:${hue(c.name)}"><div class="fc-top"><span>SAMMELO · CARNET DE FAN</span></div><div class="fc-nm">${esc(c.name)}</div><div class="fc-no"><small>FAN DESDE</small><b>${esc(desde)}</b></div><div class="fc-bt"><span class="fc-t">${t[1]}</span><span>${pl} ${pl===1?'reproducción':'reproducciones'}</span></div></div>`}
+function fanBox(c){
+ if(!fans.ok||c.kind!=='artist')return '';
+ const m=fans.mine.get(c.key),cnt=fans.counts.get(c.key)||0;
+ const cn=`<p class="fcnt"><b>${cnt}</b> ${cnt===1?'coleccionista':'coleccionistas'}</p>`;
+ if(!m)return `<div class="fanbox">${cn}<button class="btn" data-a="fanjoin" data-fk="${esc(c.key)}">Coleccionar a ${esc(c.name)}</button><p class="hint">Tu carnet sube de nivel según lo que escuches: Oyente, Fan, Superfán y Leyenda. Todos son iguales: lo único que cuenta es tu música.</p></div>`;
+ const pl=artPlays(c),t=tierOf(pl),nx=nextTier(pl);
+ const pct=nx?Math.min(100,Math.round((pl-t[0])/(nx[0]-t[0])*100)):100;
+ return `<div class="fanbox">${cn}${fanCard(c,m)}<div class="fprog"><i style="width:${pct}%"></i></div><p class="hint">${nx?`Te faltan ${nx[0]-pl} reproducciones para ${nx[1]}`:'Nivel máximo alcanzado'}</p><button class="btn ghost" data-a="fanleave" data-fk="${esc(c.key)}">Dejar de coleccionar</button></div>`}
+function fanRow(ar){
+ if(!fans.ok||!fans.mine.size)return '';
+ const it=ar.filter(c=>fans.mine.has(c.key));if(!it.length)return '';
+ return sec('Tu colección',it.sort((a,b)=>artPlays(b)-artPlays(a)).map(c=>`<div class="tile mfc" tabindex="0" role="button" data-a="coll" data-k="${esc(rg(c))}" aria-label="${esc(c.name)}, carnet de fan">${fanCard(c,fans.mine.get(c.key),true)}</div>`).join(''))}
+async function fanJoin(key){
+ const c=coll;if(!c||c.key!==key)return;
+ const{data,error}=await sb.rpc('collect_artist',{p_key:key});
+ if(error)return toast('No se pudo coleccionar. Inténtalo de nuevo.');
+ const no=+data;fans.mine.set(key,{no,at:new Date().toISOString()});fans.counts.set(key,(fans.counts.get(key)||0)+1);
+ render();setTimeout(()=>fanBurst($('#view .fcard')),80);
+ try{navigator.vibrate&&navigator.vibrate([15,40,25])}catch(e){}
+ toast(`Ahora coleccionas a ${c.name}`);fansLoad(true)}
+async function fanLeave(key){
+ const c=coll;if(!c||c.key!==key)return;
+ if(!confirm(`¿Dejar de coleccionar a ${c.name}? Se quitará tu carnet.`))return;
+ const{error}=await sb.rpc('release_artist',{p_key:key});
+ if(error)return toast('No se pudo quitar. Inténtalo de nuevo.');
+ fans.mine.delete(key);fans.counts.set(key,Math.max(0,(fans.counts.get(key)||1)-1));render();fansLoad(true)}
 /* ====== MENÚ SÁNDWICH (barra inferior) ====== */
 const MENU_I='<svg viewBox="0 0 24 24"><path d="M4 6.5h16v2H4zm0 4.5h16v2H4zm0 4.5h10v2H4z"/></svg>';
 const MORE_V={pl:['Listas',()=>I.list],acc:['Perfil',()=>I.user],admin:['Admin',()=>I.shield]};
@@ -856,7 +982,7 @@ function smartSearch(inp,opt){
   else if(g==='song'){shAdd(inp.value);close();play(found,+r.dataset.i)}})}
 function render(){
  if(view==='admin'&&!isAdm())view='home';if(view!=='admin'||coll)admStop();
- $$('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===view?'page':'false'));syncMore();
+ $$('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===view?'page':'false'));syncMore();fansLoad();
  const m=$('#view');
  if(coll)collPage(m);
  else if(view==='home'){m.innerHTML=homeHTML();smartSearch($('#hq'),{home:true})}
@@ -937,6 +1063,12 @@ function tile(c){
 function songTile(s,l,i){
  return `<div class="tile" tabindex="0" role="button" data-a="psong" data-l="${l}" data-i="${i}" aria-label="Reproducir ${esc(s.title)}"><div>${cover([s],s.title,'single')}<span class="pl">${I.play}</span></div><b>${esc(s.title)}</b><span class="s">${esc(artistOf(s))}</span></div>`}
 const sec=(title,html,more)=>html?`<section class="sec"><div class="sec-h"><h3>${title}</h3>${more||''}</div><div class="row-h">${html}</div></section>`:'';
+
+const SHUF_I='<svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>';
+function heroHTML(rc){
+ const s=rc&&rc[0];
+ if(!s)return `<div class="hero" tabindex="0" role="button" data-a="surprise" aria-label="Sorpréndeme"><span class="art" style="background:${tone('sorpresa')}"><span class="ini">${SHUF_I}</span></span><div class="ht"><small>Para empezar</small><b>Sorpréndeme</b><span class="s">Música al azar de tu biblioteca</span></div><span class="hb pri">${I.play}</span></div>`;
+ return `<div class="hero" tabindex="0" role="button" data-a="psong" data-l="recent" data-i="0" aria-label="Continuar con ${esc(s.title)}">${cover([s],s.title,'single')}<div class="ht"><small>Continuar escuchando</small><b>${esc(s.title)}</b><span class="s">${esc(artistOf(s))}</span></div><button class="hb" data-a="surprise" aria-label="Sorpréndeme" title="Sorpréndeme">${SHUF_I}</button><span class="hb pri">${I.play}</span></div>`}
 function homeHTML(){
  if(!songs.length)return `<div class="hd"><h2>Inicio</h2></div><p class="mut mt">Aún no hay canciones en tu biblioteca.</p>`;
  const h=new Date().getHours(),g=h<12?'Buenos días':h<19?'Buenas tardes':'Buenas noches';
@@ -948,8 +1080,9 @@ function homeHTML(){
  ar.forEach(c=>{if(quick.length<6&&!quick.includes(c))quick.push(c)});
  const qk=quick.map(c=>{const k=rg(c);return `<div class="qk" tabindex="0" role="button" data-a="coll" data-k="${esc(k)}" aria-label="${esc(c.name)}">${cover(c.items,c.name,c.kind==='mix'?'mix':'single')}<b>${esc(c.name)}</b><button class="pl" data-a="pcoll" data-k="${esc(k)}" aria-label="Reproducir ${esc(c.name)}">${I.play}</button></div>`}).join('');
  const more=t=>`<button data-a="more" data-id="${t}">Ver todo</button>`;
- return `<div class="hd"><h2>${g}, ${esc(nm)}</h2><input id="hq" type="search" placeholder="¿Qué quieres escuchar?" aria-label="Buscar"> <button class="chip" data-a="surprise" style="margin-top:10px">${I.fast}<span>Sorpréndeme</span></button></div><div class="quick">${qk}</div>`
+ return `<div class="hd hm"><p class="hk">${esc(new Date().toLocaleDateString('es',{weekday:'long',day:'numeric',month:'long'}))}</p><h2>${g}, <span class="gr">${esc(nm)}</span></h2><p class="hsub">${plur(songs.length)} · ${ar.length} ${ar.length===1?'artista':'artistas'}</p><input id="hq" type="search" placeholder="¿Qué quieres escuchar?" aria-label="Buscar"></div>${heroHTML(rc)}<div class="quick">${qk}</div>`
   +sec('Seguir escuchando',hl.recent.map((s,i)=>songTile(s,'recent',i)).join(''))
+   +fanRow(ar)
   +sec('Hecho para ti',mx.map(c=>tile(c)).join(''))
   +sec('Tus artistas',ar.slice(0,16).map(c=>tile(c)).join(''),more('artists'))
   +sec('Álbumes',al.slice(0,16).map(c=>tile(c)).join(''),al.length?more('albums'):'')
@@ -965,7 +1098,7 @@ function openColl(k){const c=reg[k];if(!c)return;coll=c;curList=null;render();go
 function collPage(m){
  const c=coll,n=c.items.length,min=Math.round(c.items.reduce((a,s)=>a+(s.duration_seconds||0),0)/60);
  const lbl={artist:'Artista',album:'Álbum',mix:'Mix'}[c.kind]||'Colección';
- m.innerHTML=`<div class="dh" style="--c:hsl(${hue(c.name)} 45% 30%)">${cover(c.items,c.name,modeOf(c))}<div><small>${lbl}</small><h2>${esc(c.name)}</h2><p class="mut">${c.sub&&c.kind!=='artist'?esc(c.sub)+' · ':''}${plur(n)}${min?' · '+min+' min':''}</p></div></div><div class="bar"><button class="ib" data-a="back" aria-label="Volver">${I.back}</button><button class="big" data-a="playall" aria-label="Reproducir">${I.play}</button><button class="btn ghost" data-a="shufcoll">Aleatorio</button></div>${rows(c.items)}`}
+ m.innerHTML=`<div class="dh" style="--c:hsl(${hue(c.name)} 45% 30%)">${cover(c.items,c.name,modeOf(c))}<div><small>${lbl}</small><h2>${esc(c.name)}</h2><p class="mut">${c.sub&&c.kind!=='artist'?esc(c.sub)+' · ':''}${plur(n)}${min?' · '+min+' min':''}</p></div></div><div class="bar"><button class="ib" data-a="back" aria-label="Volver">${I.back}</button><button class="big" data-a="playall" aria-label="Reproducir">${I.play}</button><button class="btn ghost" data-a="shufcoll">Aleatorio</button></div>${fanBox(c)}${rows(c.items)}`}
 
 /* ====== PERFIL ====== */
 const COLORS=[['#9b8cff','Violeta'],['#5eead4','Turquesa'],['#7dd3fc','Cielo'],['#86efac','Verde'],['#fde68a','Dorado'],['#fdba74','Naranja'],['#f9a8d4','Rosa'],['#fca5a5','Coral']];
@@ -1394,6 +1527,8 @@ async function onMain(e){
   if(a==='playall')return shown.length&&play(shown,0);
   if(a==='reload'){loadedFor=null;const{data}=await sb.auth.getSession();shellOn=true;return init(data.session)}
   if(a==='tab'){libTab=id;return render()}
+  if(a==='fanjoin')return fanJoin(b.dataset.fk);
+  if(a==='fanleave')return fanLeave(b.dataset.fk);
   if(a==='coll')return openColl(b.dataset.k);
   if(a==='pcoll'){const c=reg[b.dataset.k];return c&&c.items.length&&play(c.items,0)}
   if(a==='psong'){const l=hl[b.dataset.l]||[];return l.length&&play(l,+b.dataset.i)}
