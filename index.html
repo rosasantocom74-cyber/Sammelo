@@ -477,6 +477,22 @@ dialog::backdrop{background:var(--scrim)}dialog h3{margin-bottom:12px}
 @media(prefers-reduced-motion:reduce){.fcard::before{animation:none}}
 @media(max-width:800px){.fanbox{margin:4px 16px 18px}}
 .fcard .fc-no b{font-size:30px;letter-spacing:0;text-transform:capitalize;font-weight:800}
+
+/* letra a la derecha de la portada */
+@media(min-width:801px){
+ #np.withly{grid-template-columns:minmax(260px,380px) minmax(0,1fr);column-gap:48px;row-gap:6px}
+ #np.withly>div:nth-of-type(2){display:contents}
+ #np.withly>div:first-child{grid-column:1}
+ #np.withly>div:nth-of-type(2)>*{grid-column:1}
+ #np.withly #lysec{grid-column:2;grid-row:1/span 14;position:sticky;top:0;align-self:start;padding-top:16px}
+ #np.withly .lyr{max-height:calc(100vh - var(--pl) - 150px);padding-right:8px}
+ #np.withly .ll{font-size:30px;margin-bottom:18px}
+}
+@media(max-width:800px){
+ #np.withly>div:nth-of-type(2){display:flex;flex-direction:column}
+ #np.withly #lysec{order:6}
+ #np.withly .tools,#np.withly #qsec{order:7}
+}
 </style>
 </head>
 <body>
@@ -800,7 +816,7 @@ async function getLyr(s){
  lyMem[s.id]=o;if(hit)kvSet('ly:'+s.id,o);
  return o}
 const parseLrc=t=>t.split('\n').map(l=>{const m=l.match(/^\[(\d+):(\d+(?:\.\d+)?)\]\s*(.*)$/);return m?{t:+m[1]*60+ +m[2],x:m[3]}:null}).filter(Boolean);
-function lyUI(){$('#lysec').hidden=!lyShow;$('#lyb').textContent=lyShow?'Ocultar letra':'Ver letra';npRender();if(lyShow){lyOn=-1;lyTick()}}
+function lyUI(){$('#lysec').hidden=!lyShow;$('#np').classList.toggle('withly',!!lyShow);$('#lyb').textContent=lyShow?'Ocultar letra':'Ver letra';npRender();if(lyShow){lyOn=-1;lyTick()}}
 async function lyrLoad(s){
  const ly=$('#ly');lyLines=[];lyOn=-1;lyOff=0;$('#adj').hidden=true;$('#le').innerHTML='';ly.scrollTop=0;
  try{lyOff=+localStorage.getItem('lo:'+s.id)||0}catch(e){}
